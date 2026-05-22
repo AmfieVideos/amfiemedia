@@ -1,0 +1,915 @@
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Abhaya+Libre:wght@700&family=Inter:wght@400;500&display=swap');
+
+/* =========================================
+   1. GLOBAL VARIABLES & RESET
+   ========================================= */
+:root {
+    --bg-color: #0a0a0a;
+    --text-color: #f5f5f5;
+    --accent-color: #555555;
+    --font-main: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-main);
+    line-height: 1.4; /* Reduced from 1.6 for a tighter look */
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Unifying all structural header tags to Abhaya Libre */
+h1, h2, h3, h4 {
+    font-family: 'Abhaya Libre', serif;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+}
+/* =========================================
+   2. NAVIGATION BAR
+   ========================================= */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2.5rem 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.logo {
+    display: flex;
+    align-items: center; 
+    gap: 1rem; /* Slightly increased gap to match the letter tracking */
+    font-family: 'Abhaya Libre', serif;
+    font-size: 2.2rem; 
+    font-weight: 700;
+    letter-spacing: 3px; /* NEW: Increases the space between the letters */
+    line-height: 1.1;
+}
+
+.logo img {
+    height: 2rem; 
+    width: auto;
+    display: block;
+}
+/* Removes default link styling from the logo container */
+.logo-link {
+    text-decoration: none;
+    color: inherit; /* Inherits the off-white color automatically */
+    display: inline-block;
+}
+nav {
+    display: flex;
+    gap: 2.5rem; /* Even spacing between links */
+}
+
+nav a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: var(--accent-color); /* Smooth fade when hovering */
+}
+
+/* =========================================
+   3. HERO SECTION
+   ========================================= */
+.hero {
+    padding: 8rem 5% 5rem;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 2rem;
+    letter-spacing: -1px; /* Gives headings a tighter, modern look */
+}
+
+.hero p {
+    font-size: 1.2rem;
+    color: #cccccc; /* Slightly dimmer than headings for contrast */
+    max-width: 700px;
+    margin-bottom: 3rem;
+}
+
+/* =========================================
+   4. BUTTONS & LINKS
+   ========================================= */
+.btn {
+    display: inline-block;
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border-bottom: 1px solid var(--accent-color);
+    padding-bottom: 5px;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    color: #ffffff;
+    border-bottom-color: #ffffff;
+}
+
+/* =========================================
+   5. SPLIT LAYOUT SECTIONS (About & Emotions)
+   ========================================= */
+
+.split-layout {
+    display: flex;
+    align-items: center;
+    gap: 6rem;
+    padding: 6rem 5%;
+    max-width: 1200px;
+    margin: 0 auto;
+    border-top: 1px solid #222;
+}
+.split-layout.reverse {
+    flex-direction: row-reverse;
+}
+
+.content-block {
+    flex: 1;
+}
+
+/* NEW: Styles the big quote inside the split layout */
+.content-block h1 {
+    font-size: 3.5rem; 
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 2rem;
+    letter-spacing: -1px;
+}
+
+.content-block h2 {
+    font-size: 3rem; 
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+}
+
+.content-block p {
+    font-size: 1.3rem; /* Bumping up the body text size */
+    color: #cccccc;
+    margin-bottom: 1.5rem;
+    max-width: 800px;
+    line-height: 1.4; /* Slightly tighter line height for a more cohesive look with the headings */
+}
+
+.image-block {
+    flex: 1;
+    position: relative;
+    z-index: 1;
+}
+
+
+
+
+/* =========================================
+   6. IMAGE & LAYOUT STYLING
+   ========================================= */
+/* This rule ensures images never break out of their containers */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 2px; /* Adds a very subtle, premium soft edge */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6); /* Adds deep atmospheric shadows behind the images */
+}
+
+/* =========================================
+   NEW HERO STRUCTURE (Stacked Layout with Overlay)
+   ========================================= */
+
+/* The overall container holding image + logo */
+.hero-image-container {
+    position: relative;  /* CRUCIAL: This makes this container the 'frame' for absolute elements inside it */
+    width: 100%;
+    height: 90vh; /* Optional: Sets height to 90% of the screen height to keep the text visible below */
+    overflow: hidden; /* Prevents the image from bursting out */
+}
+
+/* The background photograph */
+.hero-bg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This makes the photo cover the area without stretching */
+    display: block;
+    box-shadow: none; /* Overriding global image shadow for this header */
+    filter: brightness(0.7); /* Optional: slightly darkens the background photo to make the white logo pop */
+}
+
+/* The White Logo (layered on top) */
+.hero-logo-overlay {
+    position: absolute; /* CRUCIAL: Allows you to place it exactly where you want relative to its frame */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* These three lines lock the logo perfectly in the absolute center */
+    max-width: 500px; /* Adjust this to make the logo larger or smaller */
+    height: auto;
+    box-shadow: none; /* No shadow needed on the logo itself */
+    z-index: 10; /* Ensures the logo is on a layer HIGHER than the image */
+}
+
+/* --- Updated Text Section (Now below image) --- */
+.hero-text-content h1 {
+    font-size: 3.5rem; /* Bumping this up */
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 2rem;
+    letter-spacing: -1px;
+}
+
+.hero-text-content h1 {
+    font-size: 3rem;
+    font-weight: 400;
+    line-height: 1.2;
+    margin-bottom: 2rem;
+    letter-spacing: -1px;
+}
+
+.hero-text-content p {
+    font-size: 1.4rem; /* Making the intro paragraph bigger and more readable */
+    color: #cccccc;
+    max-width: 800px;
+    margin-bottom: 3rem;
+    line-height: 1.4;
+}
+
+/* Let's flip the Emotions section so the image is on the left for visual variety */
+.project-teaser {
+    flex-direction: row-reverse; 
+}
+/* =========================================
+   7. GALLERY PAGE STYLING (4-Column Overlay Layout)
+   ========================================= */
+.gallery-wrapper {
+    max-width: 1400px; /* Expanded slightly to comfortably fit 4 columns */
+    margin: 0 auto;
+    padding: 6rem 5%;
+}
+
+.gallery-intro {
+    margin-bottom: 5rem;
+    border-bottom: 1px solid #222;
+    padding-bottom: 3rem;
+}
+
+.gallery-intro h2 {
+    font-family: 'Abhaya Libre', serif;
+    font-size: 3.5rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    margin-bottom: 1.5rem;
+}
+
+.gallery-intro p {
+    font-size: 1.3rem;
+    color: #cccccc;
+    max-width: 800px;
+    line-height: 1.4;
+}
+
+/* 4-Column Layout */
+.gallery-grid {
+    display: grid;
+    /* This creates 4 equal columns */
+    grid-template-columns: repeat(4, 1fr); 
+    gap: 1.5rem; 
+    margin-top: 2rem;
+}
+
+
+.gallery-item {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.gallery-image-wrapper {
+    position: relative; /* Acts as the absolute anchor for the overlay script */
+    width: 100%;
+    aspect-ratio: 4 / 5; /* Clean vertical layout cuts */
+    overflow: hidden;
+}
+
+.gallery-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* The Black Overlay Square with 50% opacity */
+.gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.50); /* Black square at 50% background alpha scale */
+    display: flex;
+    align-items: center;    /* Vertically centers text */
+    justify-content: center; /* Horizontally centers text */
+    z-index: 2;
+    transition: background-color 0.4s ease;
+}
+
+.gallery-overlay h3 {
+    font-family: 'Abhaya Libre', serif;
+    font-size: 2.2rem; /* Large and highly legible text representation */
+    color: #ffffff;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-align: center;
+    padding: 0 1rem;
+}
+
+/* Interactive Hover States */
+.gallery-item:hover img {
+    transform: scale(1.05); /* Image zooms gently behind the mask */
+}
+
+.gallery-item:hover .gallery-overlay {
+    background-color: rgba(0, 0, 0, 0.35); /* Softly lightens the mask on hover to draw focus to the photo */
+}
+/* =========================================
+   8. MOBILE RESPONSIVE DESIGN
+   ========================================= */
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        padding: 1.5rem 5%;
+        gap: 1.5rem;
+    }
+    
+    nav {
+        gap: 1rem;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero-image-container {
+        height: 60vh;
+    }
+
+    .hero-logo-overlay {
+        max-width: 250px;
+    }
+
+    .hero-text-content {
+        padding: 4rem 5% 2rem;
+    }
+
+    .hero-text-content h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-text-content p {
+        font-size: 1.1rem;
+    }
+
+    /* Stack the split layouts perfectly on mobile */
+    /* Stack BOTH split layouts perfectly on mobile */
+    .split-layout, .split-layout.reverse {
+        flex-direction: column;
+        gap: 4rem;
+        padding: 4rem 5%;
+    }
+    /* Add this inside the mobile section */
+    .content-block h1 {
+        font-size: 2.2rem;
+    }
+
+    .content-block h2 {
+        font-size: 2.2rem;
+    }
+
+    .content-block p {
+        font-size: 1.1rem;
+    }
+
+    .image-block::before {
+        top: 15px; 
+        left: 15px; 
+    }
+    /* Responsive adjustment for Gallery items */
+    .gallery-intro h2 {
+        font-size: 2.8rem;
+    }
+
+   /* Mobile adjustments for the 4-Column Overlay layout */
+    .gallery-grid {
+        grid-template-columns: repeat(2, 1fr); /* Drops to 2 images per row on tablets/phones */
+        gap: 1rem;
+    }
+
+    .gallery-overlay h3 {
+        font-size: 1.6rem; /* Automatically scales text size down on mobile screen widths */
+    }
+    
+    .gallery-image-wrapper {
+        aspect-ratio: 3 / 4; /* Makes the pictures a tiny bit wider on mobile to maximize viewport width */
+    }
+}
+/* =========================================
+   9. INNER GALLERY SUBPAGES
+   ========================================= */
+.project-header {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 5% 2rem;
+}
+
+.back-link {
+    color: #666;
+    text-decoration: none;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.3s ease;
+    display: inline-block;
+    margin-bottom: 1.5rem;
+}
+
+.back-link:hover {
+    color: var(--text-color);
+}
+
+.project-header h1 {
+    font-family: 'Abhaya Libre', serif;
+    font-size: 4rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    letter-spacing: 1px;
+}
+
+.project-header .subtitle {
+    font-size: 1.3rem;
+    color: #888;
+}
+
+/* Bottom Grid for Additional Photos */
+.inner-gallery-section {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 5%;
+    border-top: 1px solid #222;
+}
+/* Styling for pages that are purely image grids without text stories */
+.standalone-gallery {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5% 6rem; /* Removes the top padding so it tucks neatly under the header */
+}
+
+.inner-gallery-section h2 {
+    font-family: 'Abhaya Libre', serif;
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin-bottom: 3rem;
+    letter-spacing: 1px;
+}
+
+.inner-gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.gallery-photo img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
+}
+/* =========================================
+   10. FULL-SCREEN IMAGE MODAL (LIGHTBOX)
+   ========================================= */
+/* The hidden background overlay */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 100; /* Forces it to sit on top of the navigation bar */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.92); /* Deep black with slight transparency */
+    backdrop-filter: blur(5px); /* Premium blur effect on the background */
+    align-items: center;
+    justify-content: center;
+}
+
+/* When Javascript triggers the modal to open */
+.modal.active {
+    display: flex; /* Flexbox centers the image perfectly */
+    animation: fadeIn 0.3s ease;
+}
+
+/* The actual image inside the overlay */
+.modal-content {
+    max-width: 90%;
+    max-height: 90vh; /* Prevents the image from being taller than the screen */
+    border-radius: 2px;
+    box-shadow: 0 10px 50px rgba(0,0,0,0.8);
+    object-fit: contain;
+}
+
+/* The 'X' Close Button */
+.close-modal {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    color: #f1f1f1;
+    font-size: 45px;
+    font-family: sans-serif;
+    font-weight: 300;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.close-modal:hover {
+    color: #888;
+}
+
+/* Tells the user that the images are clickable */
+.image-block img, .gallery-photo img {
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+/* =========================================
+   11. ABOUT PAGE STYLING
+   ========================================= */
+.services-section, .philosophy-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 6rem 5%;
+    border-top: 1px solid #222;
+}
+
+/* Update this block in style.css */
+.services-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-top: 3rem;
+    align-items: start; /* Ensures items align to the top of the grid cell */
+}
+
+.service-item {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Forces the card to take the full height of the row */
+}
+.service-item h3 {
+    margin-bottom: 1rem;
+    flex: 0 0 auto;
+}
+
+.service-item p {
+    flex: 1 0 auto; /* Ensures paragraph text fills the remaining space */
+    font-size: 1.1rem;
+    color: #cccccc;
+    line-height: 1.4;
+}
+
+
+.service-item p {
+    font-size: 1.1rem;
+    color: #cccccc;
+    line-height: 1.4;
+}
+
+.philosophy-section h2 {
+    font-family: 'Abhaya Libre', serif;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+}
+
+.philosophy-section p {
+    font-size: 1.3rem;
+    color: #cccccc;
+    line-height: 1.4;
+}
+
+/* Mobile responsive fix for the services grid */
+@media (max-width: 768px) {
+    .services-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================
+   12. CONTACT PAGE STYLING
+   ========================================= */
+.contact-wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 6rem 5%;
+}
+
+.contact-header {
+    margin-bottom: 4rem;
+}
+
+/* Container to lock text and icons on the same line */
+.title-with-socials {
+    display: flex;
+    align-items: center; /* Centers the icons vertically with the text */
+    gap: 2rem; /* Creates breathing room between text and the first icon */
+    margin-bottom: 0.5rem;
+}
+
+/* Removes default spacing so the alignment stays locked */
+.title-with-socials h1 {
+    margin: 0; 
+    line-height: 1;
+}
+
+/* Social Icon Formatting */
+.contact-social-icons {
+    display: flex;
+    gap: 1.2rem;
+    align-items: center;
+}
+
+.contact-social-icons a img {
+    width: 24px;
+    height: 24px;
+    filter: grayscale(100%) brightness(0.6);
+    box-shadow: none; /* Disables any global shadows pushing them out of place */
+    display: block; 
+    transition: all 0.3s ease;
+}
+
+.contact-social-icons a:hover img {
+    filter: grayscale(0%) brightness(1);
+    transform: translateY(-2px);
+}
+
+.contact-header .subtitle {
+    font-size: 1.3rem;
+    color: #888;
+    margin-top: 0.5rem;
+}
+
+/* Clean, fixed two-column layout targeting the correct HTML class */
+.contact-layout {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr; /* Sidebar is compact, form fields get prominence */
+    gap: 8rem;
+    margin-top: 4rem;
+}
+
+/* Sidebar Portrait & details */
+.sidebar-portrait img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    filter: grayscale(100%);
+    margin-bottom: 2rem;
+}
+
+.sidebar-details h3 {
+    font-family: 'Abhaya Libre', serif;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #fff;
+}
+
+.sidebar-details p {
+    color: #888;
+    margin-bottom: 0.5rem;
+}
+
+/* Minimalist Form Inputs */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #888;
+}
+
+.form-group input, 
+.form-group textarea {
+    background: transparent; 
+    border: none;
+    border-bottom: 1px solid #333; 
+    padding: 1rem 0;
+    color: #fff;
+    font-size: 1.1rem;
+    width: 100%;
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus, 
+.form-group textarea:focus {
+    border-bottom: 1px solid #fff;
+    outline: none;
+}
+
+/* Statement Call-to-Action button piece */
+button.btn {
+    background: #fff;
+    color: #000;
+    padding: 1.5rem 3rem;
+    margin-top: 2rem;
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 3px;
+    border: none;
+    cursor: pointer;
+    width: auto; 
+    transition: all 0.3s ease;
+}
+
+button.btn:hover {
+    background: #cccccc;
+    transform: translateY(-2px);
+}
+/* Styling for the AJAX form status message */
+.form-status {
+    margin-top: 1.5rem;
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+/* Mobile responsive fix */
+@media (max-width: 768px) {
+    .contact-content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+}
+/* =========================================
+   13. PROJECTS PAGE STYLING
+   ========================================= */
+.projects-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 5%;
+}
+
+.project-intro {
+    margin-bottom: 5rem;
+    text-align: center;
+}
+
+.project-intro h1 {
+    font-family: 'Abhaya Libre', serif;
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two massive side-by-side portals */
+    gap: 2rem;
+}
+
+.project-item {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.project-image-wrapper {
+    position: relative;
+    aspect-ratio: 16 / 9; /* Landscape format layout frame */
+    overflow: hidden;
+}
+
+.project-image-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.project-item:hover img {
+    transform: scale(1.05);
+}
+
+/* Completely centered, safe overlay design */
+.project-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 0 2rem;
+    box-sizing: border-box;
+}
+
+.project-overlay h3 {
+    font-family: 'Abhaya Libre', serif;
+    font-size: 2.2rem;
+    color: white;
+    margin: 0;
+    width: 100%;
+    line-height: 1.2;
+}
+
+/* Mobile responsive fixes */
+@media (max-width: 768px) {
+    .contact-layout {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    .project-overlay h3 {
+        font-size: 1.8rem;
+    }
+}
+/* =========================================
+   14. FOOTER STYLING
+   ========================================= */
+.site-footer {
+    padding: 4rem 5%;
+    border-top: 1px solid #222;
+    margin-top: 6rem;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.footer-links a {
+    color: #666;
+    text-decoration: none;
+    margin-left: 2rem;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #ffffff;
+}
+
+/* Mobile responsive fix */
+@media (max-width: 768px) {
+    .footer-content {
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+    }
+    
+    .footer-links a {
+        margin: 0 1rem;
+    }
+}
+/* Styling for footer social icons */
+.footer-icons {
+    display: flex;
+    gap: 1.5rem; /* Space between icons */
+}
+
+.footer-icons a img {
+    width: 24px;       /* Set your preferred icon size */
+    height: 24px;
+    filter: grayscale(100%) brightness(0.5); /* Makes them subtle/muted */
+    transition: all 0.3s ease;
+}
+
+.footer-icons a:hover img {
+    filter: grayscale(0%) brightness(1); /* Turns full color on hover */
+    transform: translateY(-3px); /* Subtle lift */
+}
+@media (max-width: 768px) {
+    .contact-layout {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+}
