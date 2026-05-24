@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalImg = document.getElementById("modal-img");
     const closeBtn = document.querySelector(".close-modal");
 
-    const images = document.querySelectorAll(".image-block img, .gallery-photo img");
+    const images = document.querySelectorAll(".image-block img, .gallery-photo img, .masonry-item img");
 
     images.forEach(img => {
         img.addEventListener("click", () => {

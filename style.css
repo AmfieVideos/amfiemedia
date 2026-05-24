@@ -580,8 +580,23 @@ button.btn:hover { background: #cccccc; }
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
 }
 
-.masonry-gallery:hover .masonry-item { filter: blur(3px) brightness(0.5); opacity: 0.8; transform: scale(0.98); }
-.masonry-gallery .masonry-item:hover { filter: blur(0px) brightness(1); opacity: 1; transform: scale(1.02); z-index: 2; }
+/* Only apply hover effects on devices with a mouse */
+@media (hover: hover) {
+/* Dim all items EXCEPT the one currently being hovered */
+    .masonry-gallery:has(.masonry-item:hover) .masonry-item:not(:hover) { 
+        filter: blur(3px) brightness(0.5); 
+        opacity: 0.8; 
+        transform: scale(0.98); 
+    }
+    
+    /* The hovered item stays fully bright and scales up */
+    .masonry-gallery .masonry-item:hover { 
+        filter: blur(0px) brightness(1); 
+        opacity: 1; 
+        transform: scale(1.02); 
+        z-index: 2; 
+    }
+}
 
 /* =========================================
    10. LIGHTBOX SYSTEM
