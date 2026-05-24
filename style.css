@@ -629,7 +629,7 @@ body.fade-out { opacity: 0; transition: opacity 0.4s ease; }
    13. MASTER RESPONSIVE MEDIA QUERIES
    ========================================= */
 @media (max-width: 900px) {
-    .masonry-gallery { column-count: 2; }
+    .masonry-gallery { column-count: 4; }
 }
 
 @media (max-width: 768px) {    
@@ -697,5 +697,5 @@ body.fade-out { opacity: 0; transition: opacity 0.4s ease; }
 }
 
 @media (max-width: 500px) {
-    .masonry-gallery { column-count: 1; }
+    .masonry-gallery { column-count: 4; }
 }
