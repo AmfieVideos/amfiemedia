@@ -338,6 +338,7 @@ img {
     margin: 0 auto;
     padding: 6rem 5% 2rem !important; /* Forces layout away from screen edges */
     box-sizing: border-box;
+    text-align: left; /* Locks the title, subtitle, and back button to the left */
 }
 
 /* Fixes the bright default purple color states on your back links */
@@ -461,6 +462,7 @@ button.btn:hover { background: #cccccc; }
 /* =========================================
    NEW: PROJECTS HUB PAGE (RESTORED)
    ========================================= */
+
 .projects-wrapper {
     max-width: 1200px;
     margin: 0 auto;
