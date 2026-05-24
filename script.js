@@ -14,12 +14,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const images = Array.from(document.querySelectorAll(".image-block img, .gallery-photo img, .masonry-item img"));
     let currentIndex = 0; // Tracks which image is currently open
 
-    // 1. OPEN MODAL & SET INDEX
+// 1. OPEN MODAL & SET INDEX
     images.forEach((img, index) => {
         img.addEventListener("click", () => {
             modal.classList.add("active"); 
             modalImg.src = img.src;     
-            currentIndex = index; // Remember exactly which image was clicked
+            currentIndex = index; 
+            document.body.classList.add("modal-open"); // Locks the background scroll
         });
     });
 
@@ -40,23 +41,28 @@ document.addEventListener('DOMContentLoaded', () => {
     if (nextBtn) nextBtn.addEventListener("click", showNext);
     if (prevBtn) prevBtn.addEventListener("click", showPrev);
 
-    // 4. CLOSE MODAL LOGIC
-    if (closeBtn) closeBtn.addEventListener("click", () => modal.classList.remove("active"));
+// 4. CLOSE MODAL LOGIC (Bundled into a clean function)
+    function closeModal() {
+        modal.classList.remove("active");
+        document.body.classList.remove("modal-open"); // Unlocks the background scroll
+    }
+
+    if (closeBtn) closeBtn.addEventListener("click", closeModal);
     if (modal) {
         modal.addEventListener("click", (e) => {
-            // Close if clicking the dark background, but NOT if clicking the image or arrows
-            if (e.target === modal) modal.classList.remove("active");
+            // Close if clicking the dark background
+            if (e.target === modal) closeModal();
         });
     }
     
     // 5. KEYBOARD CONTROLS (Desktop)
     document.addEventListener('keydown', (e) => {
         if (!modal || !modal.classList.contains("active")) return;
-        if (e.key === "Escape") modal.classList.remove("active");
+        if (e.key === "Escape") closeModal();
         if (e.key === "ArrowRight") showNext();
         if (e.key === "ArrowLeft") showPrev();
     });
-
+    
     // 6. SWIPE GESTURE LOGIC (Mobile/Tablet)
     let touchStartX = 0;
     let touchEndX = 0;
