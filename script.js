@@ -1,42 +1,84 @@
 // Wait for the website to fully load before running the script
 document.addEventListener('DOMContentLoaded', () => {
     
-    // =========================================
-    // 1. MODAL (LIGHTBOX) CODE
+// =========================================
+    // 1. MODAL (LIGHTBOX) WITH NAVIGATION
     // =========================================
     const modal = document.getElementById("image-modal");
     const modalImg = document.getElementById("modal-img");
     const closeBtn = document.querySelector(".close-modal");
+    const prevBtn = document.querySelector(".modal-prev");
+    const nextBtn = document.querySelector(".modal-next");
 
-    const images = document.querySelectorAll(".image-block img, .gallery-photo img, .masonry-item img");
+    // Grab all images that should open in the lightbox
+    const images = Array.from(document.querySelectorAll(".image-block img, .gallery-photo img, .masonry-item img"));
+    let currentIndex = 0; // Tracks which image is currently open
 
-    images.forEach(img => {
+    // 1. OPEN MODAL & SET INDEX
+    images.forEach((img, index) => {
         img.addEventListener("click", () => {
             modal.classList.add("active"); 
-            modalImg.src = img.src;        
+            modalImg.src = img.src;     
+            currentIndex = index; // Remember exactly which image was clicked
         });
     });
 
-    if (closeBtn) {
-        closeBtn.addEventListener("click", () => {
-            modal.classList.remove("active");
-        });
+    // 2. NAVIGATION FUNCTIONS
+    function showNext() {
+        // Adds 1, but loops back to 0 if at the end of the gallery
+        currentIndex = (currentIndex + 1) % images.length;
+        modalImg.src = images[currentIndex].src;
     }
 
+    function showPrev() {
+        // Subtracts 1, but loops to the end if at the beginning
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        modalImg.src = images[currentIndex].src;
+    }
+
+    // 3. ARROW CLICKS
+    if (nextBtn) nextBtn.addEventListener("click", showNext);
+    if (prevBtn) prevBtn.addEventListener("click", showPrev);
+
+    // 4. CLOSE MODAL LOGIC
+    if (closeBtn) closeBtn.addEventListener("click", () => modal.classList.remove("active"));
     if (modal) {
         modal.addEventListener("click", (e) => {
-            if (e.target === modal) {
-                modal.classList.remove("active");
-            }
+            // Close if clicking the dark background, but NOT if clicking the image or arrows
+            if (e.target === modal) modal.classList.remove("active");
         });
     }
     
+    // 5. KEYBOARD CONTROLS (Desktop)
     document.addEventListener('keydown', (e) => {
-        if (e.key === "Escape" && modal && modal.classList.contains("active")) {
-            modal.classList.remove("active");
-        }
+        if (!modal || !modal.classList.contains("active")) return;
+        if (e.key === "Escape") modal.classList.remove("active");
+        if (e.key === "ArrowRight") showNext();
+        if (e.key === "ArrowLeft") showPrev();
     });
 
+    // 6. SWIPE GESTURE LOGIC (Mobile/Tablet)
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    if (modal) {
+        // Record where the finger starts touching
+        modal.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        // Record where the finger lifts off
+        modal.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+    }
+
+    function handleSwipe() {
+        const swipeThreshold = 50; // You must swipe at least 50px for it to trigger
+        if (touchEndX < touchStartX - swipeThreshold) showNext(); // Swiped left
+        if (touchEndX > touchStartX + swipeThreshold) showPrev(); // Swiped right
+    }
     // =========================================
     // 2. SCROLL REVEAL ANIMATION (BULLETPROOF)
     // =========================================
