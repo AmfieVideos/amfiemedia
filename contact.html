@@ -72,23 +72,46 @@
         </div>
 
         <div class="form-container">
-            <form id="contact-form" action="https://formspree.io/f/xzdwdlra" method="POST" class="contact-form">
-                <div class="form-group">
-                    <input type="text" id="name" name="name" placeholder="Name" required>
+            <form id="inquiry-form" class="dynamic-form" action="https://formspree.io/f/xojbnwwz" method="POST">
+    
+                <div class="form-step active" id="step-1">
+                    <h2>What are we creating?</h2>
+                    <div class="radio-grid">
+                        <label class="custom-radio">
+                            <input type="radio" name="service" value="visual-identity" required>
+                            <span class="radio-box">Photography</span>
+                        </label>
+                        <label class="custom-radio">
+                            <input type="radio" name="service" value="ui-ux">
+                            <span class="radio-box">UI/UX & Web Design</span>
+                        </label>
+                        <label class="custom-radio">
+                            <input type="radio" name="service" value="photography">
+                            <span class="radio-box">Brand Strategy & Visual Identity</span>
+                        </label>
+                    </div>
+                    <button type="button" class="cta-btn next-btn" disabled>Next Step →</button>
                 </div>
-                <div class="form-group">
-                    <input type="text" id="phone" name="phone" placeholder="Phone">
+
+                <div class="form-step" id="step-2">
+                    <h2>Tell me a bit more.</h2>
+                    <textarea name="details" placeholder="Briefly describe the brief, timeline, or mood..." rows="4"></textarea>
+                    <div class="form-navigation">
+                        <button type="button" class="back-link prev-btn">← Back</button>
+                        <button type="button" class="cta-btn next-btn">Almost Done →</button>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <input type="email" id="email" name="email" placeholder="Email" required>
+
+                <div class="form-step" id="step-3">
+                    <h2>Where can I reach you?</h2>
+                    <input type="text" name="name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <div class="form-navigation">
+                        <button type="button" class="back-link prev-btn">← Back</button>
+                        <button type="submit" class="cta-btn submit-btn">Send Inquiry</button>
+                    </div>
+                    <p id="form-status" style="margin-top: 1rem; text-align: center;"></p>
                 </div>
-                <div class="form-group">
-                    <textarea id="message" name="message" rows="8" placeholder="Tell me about your project..." required></textarea>
-                </div>
-                
-                <button type="submit" id="submit-btn" class="btn">Send Inquiry</button>
-                
-                <p id="form-status" class="form-status"></p> 
             </form>
         </div>
         
@@ -118,9 +141,9 @@
         </div>
     </div>
 </footer>
-
+<script src="script.js"></script>
 <script>
-    var form = document.getElementById("contact-form");
+    var form = document.getElementById("inquiry-form");
     var button = document.getElementById("submit-btn");
     var status = document.getElementById("form-status");
 

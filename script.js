@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === "ArrowRight") showNext();
         if (e.key === "ArrowLeft") showPrev();
     });
-    
+
     // 6. SWIPE GESTURE LOGIC (Mobile/Tablet)
     let touchStartX = 0;
     let touchEndX = 0;
@@ -153,4 +153,52 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+
+
+    // =========================================
+    // 8. MULTI-STEP FORM LOGIC
+    // =========================================
+    const steps = document.querySelectorAll('.form-step');
+    const nextBtns = document.querySelectorAll('.next-btn');
+    const prevBtns = document.querySelectorAll('.prev-btn');
+    const serviceRadios = document.querySelectorAll('input[name="service"]');
+    let currentStep = 0;
+
+    // Enable the first Next button only after a service is selected
+    if (serviceRadios.length > 0) {
+        serviceRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                const firstNextBtn = steps[0].querySelector('.next-btn');
+                if(firstNextBtn) firstNextBtn.disabled = false;
+            });
+        });
+    }
+
+    function showStep(index) {
+        steps.forEach((step, i) => {
+            step.classList.toggle('active', i === index);
+        });
+    }
+
+    if (nextBtns.length > 0) {
+        nextBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (currentStep < steps.length - 1) {
+                    currentStep++;
+                    showStep(currentStep);
+                }
+            });
+        });
+    }
+
+    if (prevBtns.length > 0) {
+        prevBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (currentStep > 0) {
+                    currentStep--;
+                    showStep(currentStep);
+                }
+            });
+        });
+    }
 }); // <--- THIS IS THE MASTER CLOSING BRACKET. IT MUST BE THE VERY LAST LINE.

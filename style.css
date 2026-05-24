@@ -770,3 +770,113 @@ body.modal-open {
 #image-modal {
     overscroll-behavior: contain;
 }
+
+/* =========================================
+   DYNAMIC INQUIRY FORM
+   ========================================= */
+.dynamic-form {
+    max-width: 600px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.form-step {
+    display: none;
+    opacity: 0;
+    transform: translateX(20px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+
+.form-step.active {
+    display: block;
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Custom Radio Buttons */
+.radio-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.custom-radio input[type="radio"] {
+    display: none; 
+}
+
+.radio-box {
+    display: block;
+    padding: 1.5rem;
+    border: 1px solid var(--accent-color);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: border-color 0.3s ease, background 0.3s ease;
+}
+
+.custom-radio input[type="radio"]:checked + .radio-box {
+    border-color: var(--text-color);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Inputs & Navigation */
+.dynamic-form input, .dynamic-form textarea {
+    width: 100%;
+    padding: 1rem;
+    background: transparent;
+    border: 1px solid var(--accent-color);
+    color: var(--text-color);
+    margin-bottom: 1.5rem;
+    font-family: var(--font-main);
+    box-sizing: border-box;
+}
+
+.form-navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.next-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Overrides the back button to look like a clean text link */
+.back-link.prev-btn {
+    background: none;
+    border: none;
+    color: var(--accent-color);
+    cursor: pointer;
+    padding: 0;
+    font-size: 1rem;
+}
+
+.back-link.prev-btn:hover {
+    color: var(--text-color);
+}
+
+/* =========================================
+   FORM BUTTON HOVER STATES
+   ========================================= */
+.dynamic-form .cta-btn {
+    background-color: #fff;
+    color: #000;
+    cursor: pointer;
+}
+
+/* Only apply the hover effect if the button is NOT disabled */
+.dynamic-form .cta-btn:not(:disabled):hover {
+    background-color: transparent;
+    color: #fff;
+}
+
+/* Ensure the disabled button looks inactive */
+.dynamic-form .cta-btn:disabled {
+    background-color: transparent;
+    color: #555555;
+    border-color: #555555;
+    opacity: 0.5;
+}
