@@ -104,6 +104,9 @@ nav a:hover {
 /* =========================================
    4. BUTTONS & LINKS
    ========================================= */
+/* =========================================
+   BLADE EDGE BUTTON HOVER
+   ========================================= */
 .btn {
     display: inline-block;
     color: var(--text-color);
@@ -111,14 +114,31 @@ nav a:hover {
     font-size: 1rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    border-bottom: 1px solid var(--accent-color);
     padding-bottom: 5px;
-    transition: all 0.3s ease;
+    position: relative; /* Anchors the new underline */
+    transition: color 0.3s ease;
+    border-bottom: none; /* Removes the old static border */
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0); /* Starts invisible/shrunk to nothing */
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: #ffffff;
+    transform-origin: bottom center; /* Makes it expand from the middle outward */
+    transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1); /* A fast, sharp easing curve */
 }
 
 .btn:hover {
     color: #ffffff;
-    border-bottom-color: #ffffff;
+}
+
+.btn:hover::after {
+    transform: scaleX(1); /* Slices outward to full width */
 }
 
 /* =========================================
@@ -659,7 +679,7 @@ img {
 
 .contact-social-icons a:hover img {
     filter: grayscale(0%) brightness(1);
-    transform: translateY(-2px);
+    
 }
 
 .contact-header .subtitle {
@@ -743,7 +763,7 @@ button.btn {
 
 button.btn:hover {
     background: #cccccc;
-    transform: translateY(-2px);
+    
 }
 /* Styling for the AJAX form status message */
 .form-status {
@@ -807,7 +827,7 @@ button.btn:hover {
 }
 
 .project-item:hover img {
-    transform: scale(1.05);
+    transform: scale(1.02);
 }
 
 /* Completely centered, safe overlay design */
@@ -905,11 +925,360 @@ button.btn:hover {
 
 .footer-icons a:hover img {
     filter: grayscale(0%) brightness(1); /* Turns full color on hover */
-    transform: translateY(-3px); /* Subtle lift */
+    
 }
 @media (max-width: 768px) {
     .contact-layout {
         grid-template-columns: 1fr;
         gap: 3rem;
+    }
+}
+/* =========================================
+   15. MASONRY GALLERY LAYOUT
+   ========================================= */
+.masonry-gallery {
+    column-count: 4; /* Creates 4 vertical columns */
+    column-gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 5% 6rem; /* Matches your standalone-gallery padding */
+}
+
+.masonry-item {
+    break-inside: avoid; /* CRUCIAL: Prevents an image from being sliced in half across two columns */
+    margin-bottom: 1.5rem;
+    display: block;
+}
+
+.masonry-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 2px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.6); /* Matches your global image shadow */
+    transition: transform 0.3s ease;
+    cursor: pointer; /* Keeps the lightbox interactive feel */
+}
+
+.masonry-item:hover img {
+    transform: scale(1.02); /* Very subtle zoom effect on hover */
+}
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 900px) {
+    .masonry-gallery {
+        column-count: 2;
+    }
+}
+
+@media (max-width: 500px) {
+    .masonry-gallery {
+        column-count: 1;
+    }
+}
+/* =========================================
+   CAMERA FOCUS PULL (MASONRY GRID)
+   ========================================= */
+/* First, ensure the transition on the items covers the blur and brightness */
+.masonry-item {
+    transition: filter 0.4s ease, transform 0.4s ease, opacity 0.4s ease;
+}
+
+/* When the entire gallery is hovered, dim and slightly blur ALL images... */
+.masonry-gallery:hover .masonry-item {
+    filter: blur(3px) brightness(0.5);
+    opacity: 0.8;
+    transform: scale(0.98); /* Pushes them slightly into the background */
+}
+
+/* ...EXCEPT the exact image the user's mouse is currently resting on */
+.masonry-gallery .masonry-item:hover {
+    filter: blur(0px) brightness(1);
+    opacity: 1;
+    transform: scale(1.02); /* Pulls it forward into focus */
+    z-index: 2; /* Ensures it sits on top of the blurred images */
+}
+
+/* =========================================
+   HERO CALL TO ACTION BUTTONS
+   ========================================= */
+.hero-cta {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    padding: 4rem 5% 0; /* Creates breathing room directly below the hero photo */
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.cta-btn {
+    display: inline-block;
+    padding: 1.2rem 3rem;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 1px solid #fff; 
+}
+
+/* Solid high-contrast style for the main action */
+.cta-btn.primary {
+    background: #fff;
+    color: #000; 
+    border: 1px solid #fff; /* Border stays white to keep the shape on hover */
+}
+
+/* Inverts to a ghost button on hover */
+.cta-btn.primary:hover {
+    background: transparent;
+    color: #fff;
+    
+}
+
+/* Ghost outline style for the secondary action */
+.cta-btn.secondary {
+    background: #fff;
+    color: #000; 
+    border: 1px solid #fff;
+}
+
+/* Inverts to a solid high-contrast button on hover */
+.cta-btn.secondary:hover {
+    background: transparent;
+    color:#fff;
+
+}
+
+/* Mobile Responsive Adjustments */
+@media (max-width: 768px) {
+    .hero-cta {
+        flex-direction: column; /* Stacks the buttons vertically on phones */
+        padding: 3rem 5% 0;
+        gap: 1.5rem;
+    }
+    .cta-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+/* =========================================
+   CUSTOM SCROLLBAR
+   ========================================= */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color); /* Blends perfectly into your dark background */
+}
+
+::-webkit-scrollbar-thumb {
+    background: #333333; /* Dark grey thumb */
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555555; /* Slightly lighter when interacting */
+}
+/* =========================================
+   LOAD IN ANIMATIONS
+   ========================================= */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Applying the animation with slight delays for a cascading effect */
+.hero-image-container {
+    animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.hero-cta {
+    opacity: 0; /* Starts hidden */
+    animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation-delay: 0.3s; /* Waits for the image to start loading */
+}
+
+.split-layout h1 {
+    opacity: 0;
+    animation: fadeUp 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    animation-delay: 0.6s; /* Loads right after the buttons */
+}
+/* =========================================
+   SCROLL REVEAL CLASSES
+   ========================================= */
+.reveal-item {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.reveal-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =========================================
+   GLASS GLARE HOVER EFFECT
+   ========================================= */
+.project-image-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-25deg);
+    z-index: 3;
+    transition: left 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+    pointer-events: none;
+}
+
+.project-item:hover .project-image-wrapper::after {
+    left: 150%; /* Sweeps the light beam from left to right on hover */
+}
+/* =========================================
+   PAGE TRANSITIONS
+   ========================================= */
+body {
+    animation: fadeInPage 0.5s ease forwards;
+    opacity: 0; /* Starts invisible */
+}
+
+@keyframes fadeInPage {
+    to { opacity: 1; }
+}
+
+body.fade-out {
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+/* =========================================
+   STAGGERED NAVIGATION REVEAL
+   ========================================= */
+/* The keyframe that moves the element from above the screen down to its resting place */
+@keyframes dropDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Apply the initial hidden state and the animation to the logo and links */
+.logo-link, 
+nav a {
+    opacity: 0; 
+    /* The forwards property ensures it stays visible after the animation finishes */
+    animation: dropDown 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* 
+   The Stagger Effect:
+   We increase the delay by 0.1s for each subsequent element.
+   The logo drops first, followed by the links from left to right.
+*/
+.logo-link { 
+    animation-delay: 0.1s; 
+}
+
+nav a:nth-child(1) { 
+    animation-delay: 0.2s; 
+}
+
+nav a:nth-child(2) { 
+    animation-delay: 0.3s; 
+}
+
+nav a:nth-child(3) { 
+    animation-delay: 0.4s; 
+}
+
+nav a:nth-child(4) { 
+    animation-delay: 0.5s; 
+}
+
+/* If you ever add a 5th link to the nav, this has you covered */
+nav a:nth-child(5) { 
+    animation-delay: 0.6s; 
+}
+
+/* =========================================
+   16. 404 ERROR PAGE
+   ========================================= */
+
+.error-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 75vh; /* Increased from 65vh to give it more room to stretch downward */
+    margin-top: 6rem; /* Forces a solid gap between the navigation header and the content */
+    padding: 0 5%;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+.error-content {
+    max-width: 600px;
+    position: relative;
+}
+
+
+.error-code {
+    font-family: 'Inter', sans-serif; 
+    font-size: 10rem; /* Scaled down just a touch so it balances with the paragraph */
+    font-weight: 800;
+    line-height: 1; /* Reset to normal so it pushes the text below it down */
+    letter-spacing: -5px;
+    color: #1a1a1a; 
+    margin: 0 0 1rem 0; /* Creates breathing room between the numbers and the h2 */
+    
+    /* Removes the absolute positioning to stop the overlap */
+    position: relative; 
+    transform: none; 
+    left: auto;
+    top: auto;
+    z-index: 1;
+    
+    user-select: none; 
+}
+
+.error-content h2 {
+    font-family: 'Abhaya Libre', serif;
+    font-size: 3rem;
+    font-weight: 400;
+    margin-bottom: 1.5rem;
+    position: relative;
+}
+
+.error-content p {
+    font-size: 1.2rem;
+    color: #888;
+    margin-bottom: 3rem;
+    line-height: 1.5;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .error-code {
+        font-size: 8rem;
+        top: -30%;
+    }
+    .error-content h2 {
+        font-size: 2.2rem;
     }
 }

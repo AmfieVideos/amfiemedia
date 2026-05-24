@@ -41,3 +41,72 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// =========================================
+    // SCROLL REVEAL ANIMATION
+    // =========================================
+    const revealOptions = {
+        threshold: 0.15, // Triggers when 15% of the element is visible
+        rootMargin: "0px 0px -50px 0px" // Triggers slightly before it hits the bottom of the screen
+    };
+
+    const revealObserver = new IntersectionObserver(function(entries, observer) {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) {
+                return;
+            } else {
+                entry.target.classList.add("visible");
+                observer.unobserve(entry.target); // Stops animating once it has appeared
+            }
+        });
+    }, revealOptions);
+
+    const revealElements = document.querySelectorAll(".reveal-item");
+    revealElements.forEach(el => {
+        revealObserver.observe(el);
+    });
+
+   // =========================================
+    // MAGNETIC BUTTONS (FIXED)
+    // =========================================
+    const magneticBtns = document.querySelectorAll('.cta-btn');
+
+    magneticBtns.forEach(btn => {
+        btn.addEventListener('mousemove', function(e) {
+            const position = btn.getBoundingClientRect();
+            
+            // Fixed: Using clientX and clientY to match getBoundingClientRect
+            const x = e.clientX - position.left - position.width / 2;
+            const y = e.clientY - position.top - position.height / 2;
+            
+            btn.style.transform = `translate(${x * 0.3}px, ${y * 0.3}px)`;
+        });
+
+        btn.addEventListener('mouseout', function() {
+            btn.style.transform = 'translate(0px, 0px)';
+        });
+    });
+
+    // =========================================
+    // SMOOTH PAGE TRANSITIONS
+    // =========================================
+    const internalLinks = document.querySelectorAll('a[href^="([^"]+)html"], a.logo-link, nav a');
+
+    internalLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Ignore links that open in a new tab (like your footer social icons)
+            if (this.target === '_blank') return;
+            
+            e.preventDefault(); // Stop the instant jump
+            const destination = this.href;
+
+            document.body.classList.add('fade-out');
+
+            // Wait for the CSS fade-out to finish (400ms) before jumping
+            setTimeout(() => {
+                window.location.href = destination;
+            }, 400);
+        });
+    });
+
+    
