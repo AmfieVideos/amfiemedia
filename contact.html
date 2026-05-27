@@ -171,7 +171,7 @@
             if (response.ok) {
                 // Success!
                 statusMessage.innerHTML = "Message sent successfully. I will be in touch soon!";
-                statusMessage.style.color = "#4CAF50"; 
+                statusMessage.className = "form-success"; // APPLIES THE GREEN BORDER 
                 form.reset(); 
                 button.innerText = originalButtonText; 
             } else {
@@ -186,12 +186,12 @@
                 } catch (parseError) {
                     statusMessage.innerHTML = "Submission blocked. Please check your Formspree settings.";
                 }
-                statusMessage.style.color = "#f44336"; 
+                statusMessage.className = "form-error"; // APPLIES THE RED BORDER
                 button.innerText = originalButtonText;
             }
         } catch (networkError) {
             statusMessage.innerHTML = "Oops! A network error occurred.";
-            statusMessage.style.color = "#f44336";
+            statusMessage.className = "form-error"; // APPLIES THE RED BORDER
             button.innerText = originalButtonText;
         }
     }
