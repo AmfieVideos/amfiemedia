@@ -144,9 +144,9 @@
 <script src="script.js"></script>
 <script>
     var form = document.getElementById("inquiry-form");
-    // Using querySelector to find the button by its class name
     var button = document.querySelector(".submit-btn");
-    var status = document.getElementById("form-status");
+    // Renamed from 'status' to 'statusMessage' to avoid the global window conflict
+    var statusMessage = document.getElementById("form-status"); 
 
     async function handleSubmit(event) {
         // Stop the browser from leaving the page
@@ -170,8 +170,8 @@
 
             if (response.ok) {
                 // Success!
-                status.innerHTML = "Message sent successfully. I will be in touch soon!";
-                status.style.color = "#4CAF50"; 
+                statusMessage.innerHTML = "Message sent successfully. I will be in touch soon!";
+                statusMessage.style.color = "#4CAF50"; 
                 form.reset(); 
                 button.innerText = originalButtonText; 
             } else {
@@ -179,19 +179,19 @@
                 try {
                     const jsonData = await response.json();
                     if (jsonData && jsonData.errors) {
-                        status.innerHTML = jsonData.errors.map(error => error.message).join(", ");
+                        statusMessage.innerHTML = jsonData.errors.map(error => error.message).join(", ");
                     } else {
-                        status.innerHTML = "Oops! There was a problem submitting your form.";
+                        statusMessage.innerHTML = "Oops! There was a problem submitting your form.";
                     }
                 } catch (parseError) {
-                    status.innerHTML = "Submission blocked. Please check your Formspree settings.";
+                    statusMessage.innerHTML = "Submission blocked. Please check your Formspree settings.";
                 }
-                status.style.color = "#f44336"; 
+                statusMessage.style.color = "#f44336"; 
                 button.innerText = originalButtonText;
             }
         } catch (networkError) {
-            status.innerHTML = "Oops! A network error occurred.";
-            status.style.color = "#f44336";
+            statusMessage.innerHTML = "Oops! A network error occurred.";
+            statusMessage.style.color = "#f44336";
             button.innerText = originalButtonText;
         }
     }
