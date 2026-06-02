@@ -37,9 +37,16 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 2.5rem 5%;
+    padding: 1.5rem 5%; /* Slightly reduced padding so it's not too tall when sticky */
     max-width: 1400px;
     margin: 0 auto;
+
+    /* Sticky Rules */
+    position: -webkit-sticky; /* Safari support */
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Keeps it above images, heroes, and split sections */
+    background-color: var(--bg-color); /* Prevents content from bleeding through behind text */
 }
 
 .logo {
