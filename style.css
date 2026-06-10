@@ -916,14 +916,14 @@ body.modal-open {
 .blog-container {
     max-width: 1200px;
     margin: 0 auto;
-    /* Clean desktop safety padding below the fixed navigation bar */
+    /* Clean safety padding below your fixed navigation header */
     padding: 160px 20px 40px 20px; 
     box-sizing: border-box;
 }
 
-/* Specific class targeting to protect the rest of the page layout */
+/* Specific scoping to isolate header rules cleanly */
 main .blog-container .blog-header {
-    position: relative !important; /* Locks it to the page flow so it scrolls away naturally */
+    position: relative !important;
     display: flex !important;
     justify-content: space-between !important;
     align-items: flex-end !important;
@@ -949,11 +949,21 @@ main .blog-container .blog-header p {
     line-height: 1.4;
 }
 
+/* Forces the grid items to occupy their full layout width container */
 .blog-grid {
     display: flex;
     flex-direction: column;
-    gap: 6rem; /* Restores the clear breathing room between individual articles */
+    gap: 4rem; 
     width: 100%;
+}
+
+/* Forces individual posts to ignore home container constraints and stretch cleanly */
+.blog-grid .split-layout {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 6rem;
 }
 
 .blog-date {
@@ -965,10 +975,10 @@ main .blog-container .blog-header p {
     margin-bottom: 1.5rem;
 }
 
-/* Perfect mobile responsive structure */
+/* Perfect mobile responsive scaling */
 @media (max-width: 768px) {
     .blog-container {
-        padding-top: 180px; /* Extra clearance for the vertical mobile navigation header */
+        padding-top: 180px;
     }
     
     main .blog-container .blog-header {
@@ -984,5 +994,10 @@ main .blog-container .blog-header p {
     
     main .blog-container .blog-header h1 {
         font-size: 2.8rem;
+    }
+
+    .blog-grid .split-layout {
+        flex-direction: column;
+        gap: 4rem;
     }
 }
