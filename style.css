@@ -916,29 +916,31 @@ body.modal-open {
 .blog-container {
     max-width: 1200px;
     margin: 0 auto;
-    /* Pushes the blog content cleanly below your 100px fixed header layout */
-    padding: 120px 20px 40px 20px; 
+    /* Clean desktop safety padding below the fixed navigation bar */
+    padding: 160px 20px 40px 20px; 
     box-sizing: border-box;
 }
 
-.blog-header {
-    position: relative; /* Forces it to stay pinned to the page content, not the screen */
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+/* Specific class targeting to protect the rest of the page layout */
+main .blog-container .blog-header {
+    position: relative !important; /* Locks it to the page flow so it scrolls away naturally */
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-end !important;
     margin-bottom: 80px;
     border-bottom: 1px solid #222;
     padding-bottom: 2rem;
+    width: 100%;
 }
 
-.blog-header h1 {
-    font-size: 3.5rem; /* Matches your homepage H1 typography scale */
+main .blog-container .blog-header h1 {
+    font-size: 3.5rem;
     font-weight: 400;
     margin: 0;
     letter-spacing: 1px;
 }
 
-.blog-header p {
+main .blog-container .blog-header p {
     color: #888;
     font-size: 1.1rem;
     max-width: 450px;
@@ -950,7 +952,8 @@ body.modal-open {
 .blog-grid {
     display: flex;
     flex-direction: column;
-    gap: 6rem; /* Restores the deep editorial breathing room */
+    gap: 6rem; /* Restores the clear breathing room between individual articles */
+    width: 100%;
 }
 
 .blog-date {
@@ -962,24 +965,24 @@ body.modal-open {
     margin-bottom: 1.5rem;
 }
 
-/* Perfect mobile responsive adaptation */
+/* Perfect mobile responsive structure */
 @media (max-width: 768px) {
     .blog-container {
-        padding-top: 160px; /* Accounts for the stacked vertical mobile menu */
+        padding-top: 180px; /* Extra clearance for the vertical mobile navigation header */
     }
     
-    .blog-header {
-        flex-direction: column;
-        align-items: flex-start;
+    main .blog-container .blog-header {
+        flex-direction: column !important;
+        align-items: flex-start !important;
         gap: 1rem;
         margin-bottom: 40px;
     }
     
-    .blog-header p {
-        text-align: left;
+    main .blog-container .blog-header p {
+        text-align: left !important;
     }
     
-    .blog-header h1 {
+    main .blog-container .blog-header h1 {
         font-size: 2.8rem;
     }
 }
