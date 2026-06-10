@@ -37,13 +37,14 @@ h1, h2, h3, h4 {
 /* =========================================
    2. NAVIGATION BAR
    ========================================= */
-header {
+/* Change 'header' to 'body > header' so it only targets your top nav bar */
+body > header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem 5%;
-    width: 100%; /* Ensures it spans the full viewport width */
-    box-sizing: border-box; /* Keeps padding from pushing it past 100% width */
+    width: 100%;
+    box-sizing: border-box;
 
     /* Fixed Rules */
     position: fixed;
@@ -921,11 +922,12 @@ body.modal-open {
 }
 
 .blog-header {
+    position: relative; /* Forces it to stay pinned to the page content, not the screen */
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
     margin-bottom: 80px;
-    border-bottom: 1px solid #222; /* Matches your editorial section divider style */
+    border-bottom: 1px solid #222;
     padding-bottom: 2rem;
 }
 
