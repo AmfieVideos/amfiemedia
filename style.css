@@ -914,8 +914,8 @@ body.modal-open {
 /* --- Blog Section Tweaks --- */
 .blog-container {
     max-width: 1200px;
-    margin: 0 auto;
-    padding: 140px 20px 40px 20px; /* Accounts for fixed nav header clearance */
+    margin: 40px auto 40px auto; /* Leverages standard body margin flows instead */
+    padding: 0 20px; 
 }
 
 .blog-header {
@@ -945,4 +945,15 @@ body.modal-open {
     color: #888;
     display: block;
     margin-bottom: 10px;
+}
+
+/* Clear vertical height space for the expanded mobile menu */
+@media (max-width: 768px) {
+    .blog-container {
+        margin-top: 80px; 
+    }
+    
+    .blog-header {
+        margin-bottom: 40px;
+    }
 }
