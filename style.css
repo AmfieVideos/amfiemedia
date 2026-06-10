@@ -914,46 +914,70 @@ body.modal-open {
 /* --- Blog Section Tweaks --- */
 .blog-container {
     max-width: 1200px;
-    margin: 40px auto 40px auto; /* Leverages standard body margin flows instead */
-    padding: 0 20px; 
+    margin: 0 auto;
+    /* Pushes the blog content cleanly below your 100px fixed header layout */
+    padding: 120px 20px 40px 20px; 
+    box-sizing: border-box;
 }
 
 .blog-header {
-    text-align: center;
-    margin-bottom: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 80px;
+    border-bottom: 1px solid #222; /* Matches your editorial section divider style */
+    padding-bottom: 2rem;
 }
 
 .blog-header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 15px;
+    font-size: 3.5rem; /* Matches your homepage H1 typography scale */
+    font-weight: 400;
+    margin: 0;
+    letter-spacing: 1px;
 }
 
 .blog-header p {
-    color: #a0a0a0;
+    color: #888;
+    font-size: 1.1rem;
+    max-width: 450px;
+    text-align: right;
+    margin: 0;
+    line-height: 1.4;
 }
 
 .blog-grid {
     display: flex;
     flex-direction: column;
-    gap: 80px; /* Spacing between distinct articles */
+    gap: 6rem; /* Restores the deep editorial breathing room */
 }
 
 .blog-date {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    color: #888;
+    color: #666666;
     display: block;
-    margin-bottom: 10px;
+    margin-bottom: 1.5rem;
 }
 
-/* Clear vertical height space for the expanded mobile menu */
+/* Perfect mobile responsive adaptation */
 @media (max-width: 768px) {
     .blog-container {
-        margin-top: 80px; 
+        padding-top: 160px; /* Accounts for the stacked vertical mobile menu */
     }
     
     .blog-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
         margin-bottom: 40px;
+    }
+    
+    .blog-header p {
+        text-align: left;
+    }
+    
+    .blog-header h1 {
+        font-size: 2.8rem;
     }
 }
