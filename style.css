@@ -1038,3 +1038,67 @@ main .blog-container .blog-header p {
         font-size: 2.2rem;
     }
 }
+
+/* =========================================
+   14. DEDICATED 404 ERROR PAGE STYLES
+   ========================================= */
+.error-wrapper {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;     /* Centers everything vertically */
+    justify-content: center;  /* Centers everything horizontally */
+    padding: 100px 20px 40px 20px; 
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.error-content {
+    text-align: center;      /* Restores layout centering for titles and copy */
+    max-width: 650px;
+    width: 100%;
+}
+
+.error-code {
+    font-size: 8rem;        /* Dramatic, clean cinematic scale */
+    font-weight: 700;
+    margin: 0 0 0.5rem 0;
+    line-height: 1;
+    
+    /* Makes the 404 extremely faint, blending cleanly into your dark background */
+    color: rgba(255, 255, 255, 0.07); 
+    letter-spacing: 2px;
+}
+
+.error-content h2 {
+    font-size: 2.2rem;
+    margin-bottom: 1.2rem;
+    color: var(--text-color); /* Restores color consistency */
+}
+
+.error-content p {
+    font-size: 1.1rem;
+    color: #888888;          /* Clean, legible muted grey secondary text */
+    margin-bottom: 3rem;
+    line-height: 1.5;
+}
+
+/* Ensure your primary button component renders nicely centered */
+.error-content .cta-btn {
+    display: inline-block;
+    margin: 0 auto;
+}
+
+/* Flawless mobile responsive padding adjustments */
+@media (max-width: 768px) {
+    .error-wrapper {
+        padding-top: 180px;  /* Keeps content clear of stacked mobile menu links */
+    }
+    
+    .error-code {
+        font-size: 5.5rem;
+    }
+    
+    .error-content h2 {
+        font-size: 1.8rem;
+    }
+}
