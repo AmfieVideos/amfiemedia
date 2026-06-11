@@ -1102,3 +1102,124 @@ main .blog-container .blog-header p {
         font-size: 1.8rem;
     }
 }
+
+
+/* =========================================
+   15. SINGLE BLOG POST PAGES (METADATA + BTS)
+   ========================================= */
+.single-post-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 160px 20px 60px 20px;
+    box-sizing: border-box;
+}
+
+.post-page-header {
+    margin-top: 1.5rem;
+    margin-bottom: 4rem;
+    text-align: left;
+    border-bottom: 1px solid #1c1c1c;
+    padding-bottom: 2.5rem;
+}
+
+.post-page-header h1 {
+    font-size: 4rem;
+    font-weight: 400;
+    margin: 0 0 1rem 0;
+    letter-spacing: -1px;
+}
+
+/* Metadata formatting bar */
+.post-metadata {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #666666;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.meta-divider {
+    color: #333333;
+}
+
+.author-name {
+    color: var(--text-color); /* Keeps author prominent */
+}
+
+/* Body and Lead content parameters */
+.post-body-content {
+    max-width: 760px; /* Perfect reading length constraint */
+    margin: 0 auto 6rem auto;
+}
+
+.post-body-content p {
+    font-size: 1.15rem;
+    color: #cccccc;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+}
+
+/* Specialized Lead style engine configuration */
+.post-body-content .post-lead {
+    font-size: 1.4rem;
+    color: var(--text-color);
+    line-height: 1.5;
+    font-weight: 400;
+    margin-bottom: 3rem;
+}
+
+/* Behind the Scenes Grid Header separation styling */
+.bts-gallery-section {
+    border-top: 1px solid #1c1c1c;
+    padding-top: 5rem;
+    width: 100%;
+}
+
+.bts-gallery-section h2 {
+    font-size: 2.5rem;
+    font-weight: 400;
+    margin-bottom: 3.5rem;
+    letter-spacing: 1px;
+}
+
+/* Scopes your existing masonry padding specifically inside the blog layout flow */
+.bts-gallery-section .masonry-gallery {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Fluid design scaling responsiveness */
+@media (max-width: 768px) {
+    .single-post-container {
+        padding-top: 180px;
+    }
+
+    .post-page-header h1 {
+        font-size: 2.8rem;
+    }
+
+    .post-metadata {
+        font-size: 0.85rem;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    
+    .meta-divider {
+        display: none; /* Stacks components stack-cleanly on small mobile widths */
+    }
+    
+    .post-metadata span {
+        display: inline-block;
+        margin-right: 1rem;
+    }
+
+    .post-body-content .post-lead {
+        font-size: 1.25rem;
+    }
+    
+    .bts-gallery-section {
+        padding-top: 3.5rem;
+    }
+}
