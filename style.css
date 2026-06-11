@@ -974,6 +974,14 @@ main .blog-container .blog-header p {
     display: block;
     margin-bottom: 1.5rem;
 }
+/* Removes the top border from the very first post, but leaves it on the following ones */
+.blog-grid .split-layout {
+    border-top: none !important;
+}
+
+.blog-grid .split-layout + .split-layout {
+    border-top: 1px solid #222 !important; /* Only puts a line between individual posts */
+}
 
 /* Perfect mobile responsive scaling */
 @media (max-width: 768px) {
