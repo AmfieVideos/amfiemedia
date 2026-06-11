@@ -914,20 +914,19 @@ body.modal-open {
 
 /* --- Blog Section Tweaks --- */
 .blog-container {
-    max-width: 1200px;
+    max-width: 900px; /* Constrains readability nicely for a single column flow */
     margin: 0 auto;
-    /* Clean safety padding below your fixed navigation header */
     padding: 160px 20px 40px 20px; 
     box-sizing: border-box;
 }
 
-/* Specific scoping to isolate header rules cleanly */
+/* Specific scoping for the archive section header */
 main .blog-container .blog-header {
     position: relative !important;
     display: flex !important;
     justify-content: space-between !important;
     align-items: flex-end !important;
-    margin-bottom: 80px;
+    margin-bottom: 60px;
     border-bottom: 1px solid #222;
     padding-bottom: 2rem;
     width: 100%;
@@ -949,21 +948,55 @@ main .blog-container .blog-header p {
     line-height: 1.4;
 }
 
-/* Forces the grid items to occupy their full layout width container */
+/* Vertical Stacking Feed Engine */
 .blog-grid {
     display: flex;
     flex-direction: column;
-    gap: 4rem; 
+    gap: 6rem; /* Generous breathing room between posts */
     width: 100%;
 }
 
-/* Forces individual posts to ignore home container constraints and stretch cleanly */
-.blog-grid .split-layout {
+/* Single Post Architecture */
+.blog-post-card {
+    display: flex;
+    flex-direction: column;
     width: 100%;
     box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    gap: 6rem;
+    border-top: none !important; /* Strips away default section layout borders */
+}
+
+.blog-post-image {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Cinematic canvas orientation */
+    overflow: hidden;
+    margin-bottom: 2rem;
+}
+
+.blog-post-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Hover expansion to match your portfolio cards */
+.blog-post-card:hover .blog-post-image img {
+    transform: scale(1.02);
+}
+
+.blog-post-content h2 {
+    font-size: 2.8rem;
+    font-weight: 400;
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.blog-post-content p {
+    font-size: 1.2rem;
+    color: #cccccc;
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+    max-width: 100%;
 }
 
 .blog-date {
@@ -972,18 +1005,15 @@ main .blog-container .blog-header p {
     letter-spacing: 1px;
     color: #666666;
     display: block;
-    margin-bottom: 1.5rem;
-}
-/* Removes the top border from the very first post, but leaves it on the following ones */
-.blog-grid .split-layout {
-    border-top: none !important;
 }
 
-.blog-grid .split-layout + .split-layout {
-    border-top: 1px solid #222 !important; /* Only puts a line between individual posts */
+/* Add a clean editorial divider line between posts */
+.blog-post-card + .blog-post-card {
+    border-top: 1px solid #1c1c1c !important;
+    padding-top: 4rem;
 }
 
-/* Perfect mobile responsive scaling */
+/* Flawless responsive adjustments for tablet and mobile devices */
 @media (max-width: 768px) {
     .blog-container {
         padding-top: 180px;
@@ -1004,8 +1034,7 @@ main .blog-container .blog-header p {
         font-size: 2.8rem;
     }
 
-    .blog-grid .split-layout {
-        flex-direction: column;
-        gap: 4rem;
+    .blog-post-content h2 {
+        font-size: 2.2rem;
     }
 }
