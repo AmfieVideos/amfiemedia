@@ -1,0 +1,99 @@
+World Lore: The Sundered Crust & The Umbral Frontier
+A comprehensive compendium documenting the history, ecology, mechanics, ancient civilizations, settlements, and bestiary of the light-starved world.
+1. World Overview & The Cataclysm
+Three generations ago, the sky fractured and collapsed inward during a cataclysmic extraction overload, permanently extinguishing natural orbital sunlight. The surface was left trapped in perpetual, freezing twilight, while true radiant illumination collapsed into the deep bedrock of the planet.
+In this era, illumination is not merely electromagnetic radiation; it exists as dense, physical states of luminescent fluid and mineral distillates known collectively as Light-Marrow. Without containment and sustained heat, these distillates calcify into brittle glass. Where light completely recedes, the Living Gloom settles—an inverted, high-pressure atmospheric vapor that crushes lung capacity, petrifies organic material, and suffocates unprotected life.
+2. Distillates of Light-Marrow
+Distillate / Flux
+	Color & Viscosity
+	Primary Properties & Utility
+	Behavior / Risk
+ 
+	Amber Marrow
+	Dense, molten-gold honey syrup
+	Radiates intense, dry hearth-heat; powers industrial forge engines, thermal conduits, and prevents frostbite.
+	Sluggish flow; calcifies into inert, solid resin under extreme cold.
+	Stellar Pitch
+	Volatile, cold-burning violet distillate
+	Resists gravity; high-output kinetic propellant; provides explosive kinetic shockwaves for munitions.
+	Highly unstable; shatters into razor-sharp crystal shrapnel if improperly catalyzed.
+	Verdant Flux
+	Emerald stabilizing solvent
+	Stabilizes deep frontier drilling rigs; cures into pliant, impact-resistant structural membranes.
+	Neutralizes corrosive subterranean gas pockets; hardens upon prolonged atmospheric exposure.
+	Solar Marrow
+	Hyper-compressed white-violet radiance
+	Supercritical solar energy locked within ancient titan crucibles and the True Sun-Well.
+	Fires devastating purge beams capable of piercing miles of solid mountain crust.
+	3. Ancient Civilizations: The Zenith Order
+Before the cataclysm, the Zenith Order ruled as an empire of scholar-engineers and astronomers. They mastered light physics, building cyclopean astrolabes, mountain observatories, and deep subterranean refiners to extract and condense orbital energy directly into the planetary crust.
+* The Sunken Scriptorium: An ancient gothic archive and observatory buried beneath the Ashfang Ridge, housing calcified astronomer codices, silver notched coordinate cylinders, and astrolabe daises.
+* The Glacial Core Chamber: A sacred cathedral beneath the northern ice shelf containing the Resonance Heart—a suspended, wagon-sized crystal geode used to regulate planetary seismic frequencies.
+* Bio-Mechanical Titans: 40-foot monolithic sentinels like the Obsidian Patriarch, sculpted from volcanic obsidian glass and cast iron, built to safeguard the True Sun-Well and command radial ranks of clockwork automata.
+4. Major Factions & Settlements
+Faction / Settlement
+	Region / Biome
+	Role & Culture
+	Notable Technology & Infrastructure
+ 
+	Crucible-Vat Seven
+	Sunken Caldera (Upper Basalt Tier)
+	Suspended subterranean industrial foundry city hanging over roaring magma chasms.
+	Amber marrow flues, counterweight lifts, and thermal radiator catwalk networks.
+	Rift-Frontier Outriders
+	Eastern Lowland Passes & Bastion Pine-Watch
+	Militarized border wardens securing trade routes and transport convoys.
+	Pitch-coated pine stockades, twin perimeter ballistas, and armored supply wagons carrying Verdant Flux.
+	Crust-Strider Guilds
+	Southern Pine Plateaus & High Ridges
+	Nomadic trappers, mountain guides, and relic salvagers.
+	Pneumatic harpoon rigs, ice crampons, and acoustic surveyor charts.
+	Umbral Scavengers
+	Deep Subterranean Bedrock Vaults
+	Solitary keepers harvesting raw illumination and reclaiming forgotten technology.
+	Mechanical shutter-lenses, Lucid Lanterns, Stalker's Recurves, and bonded beast triads.
+	5. Gear, Weaponry & Acoustic Engineering
+Survival in the deep crust relies heavily on acoustic resonance, thermal retention, and pneumatic tools:
+* Mechanical Shutter-Lens & Surveyor Monocular: Multi-layered brass iris dials that calibrate across visual, thermal, and acoustic spectrums to track heat drafts and dense mineral veins.
+* Stalker's Recurve Bow & Infused Bodkins: Composite blackened spring-steel and whalebone bow, firing fluted bodkin arrows charged with kinetic Stellar Pitch or incendiary Amber Marrow.
+* Resonance Pike: An eight-foot petrified Iron-Oak shaft tipped with star-fall broadhead steel and an acoustic tuning pommel.
+* Shadow-Silk Grappling Rig: Belt-mounted pneumatic winches firing tungsten prongs spooled with hundreds of feet of high-tensile, silent shadow-silk line.
+* Frost-Tempered Violet Silica Armor: Concave breastplates that channel radiant marrow heat inward to vitals while deflecting freezing drafts and blunt impacts.
+6. Bestiary: Companions & Hostile Fauna
+Entity
+	Classification
+	Habitat
+	Key Abilities & Tactical Profile
+ 
+	Chime Drake
+	Bonded Companion (Acoustic Scout)
+	High Vent & Subterranean Shafts
+	Hound-sized reptile with translucent crystal quills; emits sonar pings for echolocation, structural mapping, and harmonic disruption.
+	Frost-Strider Elk
+	Bonded Mount (Overland Heavy)
+	Southern Pine Plateaus
+	Eight-foot alpha cervid with broad snowshoe hooves; traverses deep snowdrifts and scree with high gear-carrying capacity.
+	Iron-Scale Burrowing Drake
+	Bonded Companion (Kinetic Defense)
+	Sunken Slate Quarries
+	Armored quadruped with gunmetal lamellar scales; spade-shaped claws churn stone, detect ore, and trigger defensive earth ruptures.
+	Glass Crawlers
+	Hostile Beast (Pack Predator)
+	Ruined Observatory Domes
+	Translucent silica arachnids with razor forelegs; aggressively drawn to leaking violet Stellar Pitch.
+	Gloom Wyrm
+	Hostile Apex Predator
+	Basalt Causeway & Magma Gantries
+	Eyeless, light-absorbing serpentine predator hunting via sensitive thermal pits; vulnerable to high-heat magnesium flares.
+	Clockwork Sentry Golems
+	Ancient Automata
+	Upper Refineries & Caldera Rim
+	Nine-foot bipedal bronze automatons with cyclopean amber searchlights and fragile rear steam regulators.
+	Gloom-Stalkers
+	Hostile Pack Hunter
+	Eastern Lowland Passes
+	Blind quadruped shadow beasts hunting via thermal drafts and acoustic footsteps across freezing timberlines.
+	The Obsidian Patriarch
+	Titan-Class World Encounter
+	Abyssal Throne of the Sunken Caldera
+	Forty-foot bio-mechanical colossus of black obsidian glass, commanding sentry legions and firing cataclysmic solar purge beams.
