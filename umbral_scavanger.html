@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Umbral Scavenger — The Sunken Scriptorium</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0c10'/%3E%3Ccircle cx='32' cy='32' r='24' fill='none' stroke='%23a9793a' stroke-width='1.5' opacity='0.6'/%3E%3Ccircle cx='32' cy='32' r='15' fill='%2314171f' stroke='%23a9793a' stroke-width='2'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23e8a94a' opacity='0.3'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23e8a94a'/%3E%3C/svg%3E">
-<link rel="manifest" href="Umbral_Scavanger_assets/manifest.json">
 <meta name="theme-color" content="#0a0c10">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -233,112 +232,226 @@
 
   /* ---------- Status bar ---------- */
   .statusbar{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:18px;
-    background:linear-gradient(180deg, var(--panel-2), var(--panel));
-    border:1px solid #2a2f3b;
-    border-radius:10px;
-    padding:14px 18px;
-    margin-bottom:22px;
-    position:sticky;
-    top:12px;
-    z-index:10;
-    box-shadow:0 8px 24px rgba(0,0,0,0.45);
+    display:grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 20px;
+    background: linear-gradient(180deg, var(--panel-2), var(--panel));
+    border: 1.5px solid #2a2f3b;
+    border-radius: 12px;
+    padding: 14px 22px;
+    margin-bottom: 22px;
+    position: sticky;
+    top: 12px;
+    z-index: 10;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .status-vitals {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    padding-right: 20px;
+  }
+
+  .status-main {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .status-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .status-progression {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .xp-bar-wrap {
+    width: 100px;
+    height: 4px;
+    background: rgba(139,122,209,0.15);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  }
+  .xp-bar-fill {
+    height: 100%;
+    background: var(--violet);
+    box-shadow: 0 0 8px var(--violet);
+    transition: width 0.3s ease;
+  }
+
+  .status-glints {
+    color: var(--amber);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+  }
+
+  .status-inventory-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: var(--stone);
+    font-size: 12px;
+  }
+
+  .status-ampoule-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 10px;
+    background: rgba(0,0,0,0.2);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .inv-summary {
+    display: flex;
+    gap: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+  }
+
+  .inv-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.05em;
+    color: var(--brass-bright);
+    border: 1px solid rgba(169, 121, 58, 0.3);
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: rgba(169, 121, 58, 0.05);
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+  }
+  .tag:hover {
+    color: var(--parchment);
+    border-color: var(--amber);
+    background: rgba(232, 169, 74, 0.15);
+    box-shadow: 0 0 10px rgba(232, 169, 74, 0.2);
   }
 
   /* Codex Dropdown */
-  .codex-wrap{position:relative;}
-  .codex-btn{
-    background:var(--panel-2);
-    border:1.5px solid var(--brass);
-    color:var(--brass-bright);
-    font-family:'Cinzel', serif;
-    font-size:12px;
-    letter-spacing:0.1em;
-    padding:8px 14px;
-    border-radius:4px;
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    transition:all 0.15s ease;
+  .codex-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
   }
-  .codex-btn:hover{background:var(--brass); color:var(--void);}
-  .codex-dropdown{
-    position:absolute;
-    top:calc(100% + 8px);
-    right:0;
-    background:var(--panel);
-    border:1.5px solid var(--brass);
-    border-radius:4px;
-    width:160px;
-    display:none;
-    flex-direction:column;
-    z-index:100;
-    box-shadow:0 10px 30px rgba(0,0,0,0.6);
+
+  .companion-mini-stack {
+    display: flex;
+    gap: 4px;
   }
-  .codex-dropdown.open{display:flex;}
-  .codex-opt{
-    background:none;
-    border:none;
-    border-bottom:1px solid rgba(169,121,58,0.2);
-    color:var(--parchment);
-    padding:12px 16px;
-    text-align:left;
-    font-family:'IBM Plex Mono', monospace;
-    font-size:11px;
-    text-transform:uppercase;
-    cursor:pointer;
-    transition:all 0.1s ease;
+  .comp-icon-mini {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 1px solid var(--violet-dim);
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(139,122,209,0.1);
+    color: var(--violet);
   }
-  .codex-opt:last-child{border-bottom:none;}
-  .codex-opt:hover{background:rgba(169,121,58,0.1); color:var(--brass-bright);}
-  .gauge{flex-shrink:0;width:58px;height:58px;position:relative;}
-  .gauge svg{width:100%;height:100%;display:block;}
-  .gauge-label{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:9px;
-    letter-spacing:0.12em;
-    color:var(--stone);
-    text-transform:uppercase;
-    position:absolute;
-    bottom:-16px;
-    left:50%;
-    transform:translateX(-50%);
-    white-space:nowrap;
+  .comp-icon-mini svg { width: 12px; height: 12px; stroke-width: 2; }
+  .comp-icon-mini.mount { border-color: var(--copper); color: var(--copper); background: rgba(184,92,56,0.1); }
+
+  .gauge {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    position: relative;
+    margin: 0 auto;
   }
-  .status-mid{flex:1;min-width:0;}
-  .charge-pct{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:12.5px;
-    color:var(--amber);
-    margin-bottom:4px;
-    display:flex;
-    gap:16px;
-    flex-wrap:wrap;
+  .gauge svg {
+    width: 48px;
+    height: 48px;
+    display: block;
   }
-  .charge-pct span{display:inline-flex;align-items:center;gap:5px;}
-  .stat-mini-icon{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.8;flex-shrink:0;}
-  .charge-pct .comp-count{color:var(--violet);}
-  .ampoules{display:flex;gap:6px;align-items:center;}
-  .ampoule{width:14px;height:20px;border:1.5px solid var(--violet-dim);border-radius:2px 2px 6px 6px;position:relative;background:rgba(139,122,209,0.06);}
-  .ampoule.stellar{background:linear-gradient(180deg, var(--violet), var(--violet-dim));border-color:var(--violet);box-shadow:0 0 8px rgba(139,122,209,0.6);}
-  .ampoule.amber{background:linear-gradient(180deg, var(--amber), var(--amber-dim));border-color:var(--amber);box-shadow:0 0 8px rgba(232,169,74,0.6);}
-  .ampoule.solar{background:linear-gradient(180deg, #fff, var(--violet));border-color:#fff;box-shadow:0 0 12px rgba(255,255,255,0.8);}
-  .inv-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
-  .tag{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:9.5px;
-    letter-spacing:0.04em;
-    color:var(--brass-bright);
-    border:1px solid var(--amber-dim);
-    padding:3px 7px;
-    border-radius:20px;
-    background:rgba(232,169,74,0.06);
-    white-space:nowrap;
+  .gauge-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    color: var(--stone);
+    text-transform: uppercase;
+    position: absolute;
+    bottom: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
   }
+
+  .codex-btn {
+    background: var(--panel-2);
+    border: 1.5px solid var(--brass);
+    color: var(--brass-bright);
+    font-family: 'Cinzel', serif;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.15s ease;
+  }
+  .codex-btn:hover { background: var(--brass); color: var(--void); }
+
+  .codex-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    background: var(--panel);
+    border: 1.5px solid var(--brass);
+    border-radius: 4px;
+    width: 140px;
+    display: none;
+    flex-direction: column;
+    z-index: 100;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  }
+  .codex-dropdown.open { display: flex; }
+
+  .codex-opt {
+    background: none;
+    border: none;
+    border-bottom: 1px solid rgba(169,121,58,0.2);
+    color: var(--parchment);
+    padding: 10px 14px;
+    text-align: left;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.1s ease;
+  }
+  .codex-opt:last-child { border-bottom: none; }
+  .codex-opt:hover { background: rgba(169,121,58,0.1); color: var(--brass-bright); }
+
 
   /* ---------- Story text ---------- */
   .story-card{
@@ -676,7 +789,24 @@
       gap:16px;
     }
     .sidebar-label{display:none;}
-    .statusbar{gap:12px;padding:12px 14px;flex-wrap:wrap;}
+    .statusbar{
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      padding: 10px 14px;
+    }
+    .status-vitals {
+      padding-right: 12px;
+    }
+    .codex-wrap {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      padding-top: 8px;
+    }
+    .status-row { gap: 10px; }
+    .xp-bar-wrap { width: 60px; }
     .story-card{padding:20px 18px;}
   }
 
@@ -770,9 +900,6 @@
 <script>
 /* ============================= CONTENT REFERENCE DATA ============================= */
 
-const ASSET_DIR = 'Umbral_Scavanger_assets/';
-const assetPath = (fileName) => `${ASSET_DIR}${fileName}`;
-
 const CODEX_DATA = {
   beasts: {
     title: 'Codex: Bestiary',
@@ -833,6 +960,7 @@ const COMPANION_INFO = {
 const MAP_LOCATIONS = [
   { flag:null, name:'Scriptorium Threshold', target:'start' },
   { flag:'visitedDesk', name:'The Desk', target:'desk' },
+  { flag:'visitedArchive', name:'Forbidden Archive', target:'forbidden_archive' },
   { flag:'visitedDome', name:'The Ruined Dome', target:'dome_scout' },
   { flag:'visitedFurnace', name:'The Furnace Core', target:'furnace_core' },
   { flag:'visitedHighVent', name:'The High Vent', target:'high_vent_ascent' },
@@ -842,8 +970,10 @@ const MAP_LOCATIONS = [
   { flag:'visitedPlateaus', name:'Pine Plateaus', target:'southern_pine_plateaus' },
   { flag:'visitedOverlook', name:'Glacial Overlook', target:'glacial_overlook' },
   { flag:'visitedCaldera', name:'Sunken Caldera', target:'caldera_entry' },
+  { flag:'visitedFoundry', name:'Foundry City', target:'foundry_city' },
   { flag:'visitedRefinery', name:'Ancient Refinery', target:'refinery_infiltration' },
   { flag:'visitedThrone', name:'Obsidian Throne', target:'titan_descent' },
+  { flag:'visitedMarshes', name:'Lowland Marshes', target:'lowland_marshes' },
 ];
 
 /* ============================= STATE & PERSISTENCE ============================= */
@@ -855,24 +985,50 @@ const getSaveKey = (slot) => `umbral_scavenger_save_slot_${slot}`;
 
 const initialState = () => ({
   charge: 100,
-  marrow: [], // ['stellar', 'amber', 'solar']
-  marrowCap: 2,
+  health: 100,
+  glints: 50,
+  level: 1,
+  xp: 0,
+  xpToNext: 100,
+  perkPoints: 0,
+  perks: [],
+  marrow: ['stellar', 'stellar', 'amber'],
+  marrowCap: 4,
+  beltLimit: 4,
+  reputation: {
+    guild: 0,   // Crust-Strider Guild
+    outriders: 0, // Rift-Frontier Outriders
+    zenith: 0    // Zenith Order / Aethelgard
+  },
+  equipment: {
+    head: null,
+    torso: 'Wool Coat',
+    feet: 'Sturdy Boots',
+    trinket: null
+  },
   inventory: {
-    arrows: 0,
+    arrows: 10,
     kineticArrows: 0,
     thermalArrows: 0,
     grappleBolts: 0,
     shadowSilk: 0,
-    flares: 0
+    flares: 0,
+    saltPork: 2,
+    rawMeat: 0,
+    herbs: 0,
+    salt: 0,
+    scrapMetal: 0,
+    solarMarrow: 0
   },
   flags: {},
+  log: [], // Lore Log
   companions: [],
   skills: { STR:1, INT:1, CHA:1, AGI:1 },
   skillPoints: 6,
-  character: null, // 'male' or 'female'
-  mount: null, // 'elk'
+  character: null,
+  mount: null,
   activePopup: null,
-  activeCodexDetail: null, // {category, index}
+  activeCodexDetail: null,
   codexOpen: false,
   node: 'title'
 });
@@ -940,22 +1096,24 @@ function strE(s, base){ return { charge: -scale(base, s.skills.STR) }; }
 function intE(s, base){ return { charge: -scale(base, s.skills.INT) }; }
 function chaE(s, base){ return { charge: -scale(base, s.skills.CHA) }; }
 
+function combatScale(base, strVal){ return Math.max(5, base - (strVal-1)*4); }
+
 const STAT_ICONS = {
-  STR: `<svg viewBox="0 0 24 24"><path d="M12 2v4M12 18v4M4.9 4.9l2.8 2.8M16.3 16.3l2.8 2.8M2 12h4M18 12h4M4.9 19.1l2.8-2.8M16.3 7.7l2.8-2.8" stroke="var(--copper)"/><circle cx="12" cy="12" r="3" fill="var(--iron)"/></svg>`, // Piston/Gear head
-  INT: `<svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4" stroke="var(--brass)"/><path d="M12 3a7 7 0 0 0-7 7c0 2.5 2 4.5 2 7h10s2-4.5 2-7a7 7 0 0 0-7-7z" fill="rgba(139,122,209,0.1)" stroke="var(--violet)"/><path d="M12 7v4M10 9h4" stroke="var(--violet)" stroke-width="1"/></svg>`, // Vacuum Tube
-  CHA: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" stroke="var(--bronze)"/><path d="M12 3v18M3 12h18" stroke="var(--bronze)"/><circle cx="12" cy="12" r="3" fill="var(--copper)"/></svg>`, // Control Valve
-  AGI: `<svg viewBox="0 0 24 24"><path d="M7 21c0-4 10-4 10 0M7 17c0-4 10-4 10 0M7 13c0-4 10-4 10 0" stroke="var(--copper)" fill="none"/><path d="M12 3v6" stroke="var(--iron)"/></svg>`, // Compression Spring
+  STR: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>`, // Power bars / Strength
+  INT: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>`, // Info / Intelligence
+  CHA: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`, // Heart / Charisma
+  AGI: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`, // Lightning / Agility
 };
 
 const ZONE_ICONS = {
-  threshold: `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3"/></svg>`,
-  desk: `<svg viewBox="0 0 24 24"><rect x="3" y="14" width="18" height="7" rx="1"/><path d="M5 14V9a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v5"/><path d="M9 18h6"/></svg>`,
-  dome: `<svg viewBox="0 0 24 24"><path d="M4 15a8 8 0 0 1 16 0"/><path d="M2 15h20M12 4v4M8 7l1.5 1.5M16 7l-1.5 1.5"/></svg>`,
-  flue: `<svg viewBox="0 0 24 24"><path d="M12 3c2 3-2 4 0 7s-2 4 0 7"/><path d="M7 3c2 3-2 4 0 7s-2 4 0 7" opacity="0.5"/></svg>`,
-  root: `<svg viewBox="0 0 24 24"><path d="M12 3v7"/><path d="M12 10c-3 0-4 2-4 5M12 10c3 0 4 2 4 5M8 15c-1.5 1-2 3-2 5M16 15c1.5 1 2 3 2 5"/></svg>`,
-  archive: `<svg viewBox="0 0 24 24"><path d="M4 19c2-1.5 4-1.5 6 0 2-1.5 4-1.5 6 0V6c-2-1.5-4-1.5-6 0-2-1.5-4-1.5-6 0v13z"/></svg>`,
-  moth: `<svg viewBox="0 0 24 24"><path d="M12 6v13"/><path d="M12 9c-2-4-8-4-9 0 1 4 6 4 9 1M12 9c2-4 8-4 9 0-1 4-6 4-9 1"/></svg>`,
-  caldera: `<svg viewBox="0 0 24 24"><path d="M12 2c1 3-2 3-2 6a2 2 0 0 0 4 0c0-1-1-1.5-1-3 2 1 3 4 3 6a6 6 0 0 1-12 0c0-4 3-6 4-9 1 1 1.5 2 1.5 3 0 1.5-1.5 2-1.5-3z"/></svg>`,
+  threshold: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+  desk: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>`,
+  dome: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 0-10 10c0 5.52 4.48 10 10 10s10-4.48 10-10A10 10 0 0 0 12 2z"/><path d="M12 6v12M6 12h12"/></svg>`,
+  flue: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 2v7a4 4 0 0 0 8 0V2M5 20h14a2 2 0 0 0 2-2v-5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2z"/></svg>`,
+  root: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>`,
+  archive: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15z"/></svg>`,
+  moth: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M2 12h20L12 2l-10 10z"/></svg>`,
+  caldera: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 22h20L12 2zM12 18l-2-2 2-2 2 2-2 2z"/></svg>`,
 };
 
 function zoneOf(id){
@@ -986,6 +1144,23 @@ const STORY = {
       { label: 'Ascend the spiral staircase toward the dome.', next:'dome_intro', effect: s=>agiE(s,8) },
       { label: 'Examine the drainage flue and sealed door.', next:'flue_scout_early', effect: s=>agiE(s,6) },
       { label: 'Hand-crank the Lucid Lantern to steady its charge.', next:'start', effect: {charge: 10} },
+      { label: 'Use a Grappling Bolt to reach the High Gallery.', next:'high_gallery', effect: s => {
+          if (s.inventory.grappleBolts > 0) return { addInv: { grappleBolts: -1 } };
+          return { health: -10 }; // Fall damage if tried without bolt? No, let's just show it if they have it.
+      }, condition: s => s.inventory.grappleBolts > 0 }
+    ]
+  },
+
+  high_gallery: {
+    eyebrow: 'Scriptorium High Gallery',
+    bg: 'Sriptorium 9x16.png',
+    text: [
+      `You fire a grappling bolt into the dark rafters and haul yourself up. The air is thinner here, but the shelves are untouched by the damp.`,
+      `You find a cache of <strong>Preserved Marrow</strong> and some <strong>Frost Herbs</strong> tucked away in a scholar's nook.`
+    ],
+    choices: [
+      { label: 'Collect the supplies and rappel down.', next:'start', setFlags:['lootedHighGallery'], effect: { charge: 20, addInv: { herbs: 2 } }, condition: s=>!s.flags.lootedHighGallery },
+      { label: 'Rappel back down to the floor.', next:'start', effect: {} }
     ]
   },
 
@@ -998,9 +1173,10 @@ const STORY = {
         `The massive oak desk is half-buried under calcified journals. On its surface, pinned beneath a rusty surveyor's compass, lies an untarnished <strong>silver cylinder</strong>.`,
         `Beneath the pinned papers, you find desperate gouges made by a steel quill:`,
         `<em>"...the Amber Flue bleeds hot, but its balance demands weight. Align the core to the zenith mark before breaking the seal. Do not allow the Glass Crawlers to smell open marrow."</em>`,
-        `The desk has a locked center drawer with a keyway shaped like a split wedge.`
+        `The desk has a locked center drawer with a keyway shaped like a split wedge.`,
+        `In a small ceramic bowl on the desk, you find a handful of coarse <strong>Rock Salt</strong>.`
       ];
-      if (state.flags.hasCylinder && state.flags.hasWedgeKey) {
+      if (state.flags.hasCylinder && state.flags.hasWedgeKey && state.flags.hasSalt) {
           return [
               `The desk stands silent now, its secrets and tools already claimed. The journals remain calcified, their knowledge locked away by time.`,
               `The space where the cylinder once lay is empty, and the center drawer hangs slightly ajar.`
@@ -1015,6 +1191,9 @@ const STORY = {
         }
         if (!state.flags.hasWedgeKey) {
             c.push({ label: 'Try to force the drawer open.', next:'desk_force', effect: s=>strE(s,10) });
+        }
+        if (!state.flags.hasSalt) {
+            c.push({ label: 'Collect the Rock Salt.', next:'desk', setFlags:['hasSalt'], effect:{addInv:{salt:2}} });
         }
         c.push({ label: 'Return to the Threshold.', next:'start', effect: {} });
         return c;
@@ -1071,12 +1250,27 @@ const STORY = {
       if (state.flags.hasCylinder) {
           c.push({ label: 'Fit the silver cylinder into the socket and align to "Zenith".', next:'dome_activate', effect: s=>intE(s,8) });
       }
-      if (!state.flags.harvestedStellarEarly) {
+      if (!state.flags.harvestedStellarEarly && state.marrow.length < state.marrowCap) {
           c.push({ label: 'Try to harvest a sample of Stellar Pitch first.', next:'dome_harvest_early', setFlags:['harvestedStellarEarly'], effect: s=>agiE(s,12) });
+      }
+      if (state.inventory.grappleBolts > 0 && !state.flags.domeRingScouted) {
+          c.push({ label: 'Grapple to the Outer Ring for a better vantage point.', next:'dome_outer_ring', setFlags:['domeRingScouted'], effect: { addInv: { grappleBolts: -1 } } });
       }
       c.push({ label: 'Retreat back to the Threshold.', next:'start', effect:{} });
       return c;
     }
+  },
+
+  dome_outer_ring: {
+      eyebrow: 'Observatory Outer Ring',
+      bg: 'Ruined Dome 9x16.png',
+      text: [
+          `From this height, you can see the crawler's patrol patterns clearly. You also spot a glint of metal in a jammed telescope gear.`,
+          `You salvage some <strong>Scrap Metal</strong> and get a clear acoustic ping of the area.`
+      ],
+      choices: [
+          { label: 'Descend back to the platform.', next:'dome_approach', effect: { addInv: { scrapMetal: 1 }, charge: 5 } }
+      ]
   },
 
   dome_harvest_early: {
@@ -1101,7 +1295,9 @@ const STORY = {
       `Deprived of their open drip, the three Glass Crawlers let out a harmonic shriek. Their bodies turn opaque with aggression. They swivel toward you.`
     ],
     choices: [
-      { label: 'Stand your ground and fight the lead crawler.', next:'dome_combat_1', setFlags:['metCrawler'], effect: s=>strE(s,15) },
+      { label: 'Stand your ground and fight the lead crawler.', next:'dome_combat_1', setFlags:['metCrawler'], effect: s=> {
+          return { health: -combatScale(25, s.skills.STR), xp: 40 };
+      } },
       { label: 'Don\'t risk a direct fight—flee straight for the stairs.', next:'start', effect: s=>agiE(s,10) }
     ]
   },
@@ -1115,8 +1311,18 @@ const STORY = {
       `The remaining two crawlers drop from the rafters, cutting off your path to the stairs.`
     ],
     choices: [
-        { label: 'Use the astrolabe as cover to isolate them.', next:'dome_combat_2', effect: s=>agiE(s,12), addMarrow: 'stellar' },
-        { label: 'Shatter the floor tiles to send one falling below.', next:'dome_combat_2', effect: s=>agiE(s,10), addMarrow: 'stellar' }
+        { label: 'Use the astrolabe as cover to isolate them.', next:'dome_combat_2', effect: s=> {
+            let eff = agiE(s,12);
+            eff.addMarrow = 'stellar';
+            eff.xp = 30;
+            return eff;
+        } },
+        { label: 'Shatter the floor tiles to send one falling below.', next:'dome_combat_2', effect: s=> {
+            let eff = agiE(s,10);
+            eff.addMarrow = 'stellar';
+            eff.xp = 30;
+            return eff;
+        } }
     ]
   },
 
@@ -1150,10 +1356,43 @@ const STORY = {
         if (!state.flags.hasSilicaCore) {
             c.push({ label: 'Take the Silica Core and Mandibles.', next:'scriptorium_salvage', setFlags:['hasSilicaCore','hasMandibles','killedCrawler'], effect:{} });
         }
+        if (state.flags.hasUmbralEdge && !state.flags.visitedArchive) {
+            c.push({ label: 'Use the Umbral Edge to cut through the reinforced seal behind the shelves.', next:'forbidden_archive', setFlags:['visitedArchive'], effect: s=>strE(s,5) });
+        }
         c.push({ label: 'Approach the Amber Flue door.', next:'amber_flue_entry', effect:{} });
-        c.push({ label: 'Scan the shelves for other salvage.', next:'scriptorium_salvage', effect: s=>intE(s,5) });
+        c.push({ label: 'Scan the shelves for other salvage.', next:'scriptorium_kaelen_1', effect: s=>intE(s,5), condition: s=>!s.flags.metKaelen1 });
         return c;
     }
+  },
+
+  scriptorium_kaelen_1: {
+      eyebrow: 'A Shadow in the Stacks',
+      bg: 'Sriptorium 9x16.png',
+      text: [
+          `As you reach for a calcified scroll, a boot-heel clicks against the stone behind you. You spin, knife drawn.`,
+          `Leaning against a basalt pillar is another scavenger. He wears a cowl of Gloom-Worm hide and carries a twin-barreled harpoon caster.`,
+          `"Easy, keeper," he rasps. "I'm not here for your scraps. My name is <strong>Kaelen</strong>. I'm tracking something bigger—the kind of light that doesn't just fill a lantern, but restarts a world."`,
+          `He eyes your Lucid Lantern. "Yours is running thin. Don't let the deep take you before we meet again."`,
+          `With a fluid motion, he fires a grapple and vanishes into the dark rafters.`
+      ],
+      choices: [
+          { label: 'Return to your task.', next:'scriptorium_salvage', setFlags:['metKaelen1'], effect:{} }
+      ]
+  },
+
+  forbidden_archive: {
+    eyebrow: 'The Forbidden Archive',
+    bg: 'Sriptorium 9x16.png',
+    text: [
+      `The seal shears apart like wet parchment. Beyond lies a chamber untouched by the Living Gloom. High-density amber glass tubes pulse with a rhythmic, golden light.`,
+      `At the center sits a <strong>Zenith Astrolabe</strong>—not one for looking at stars, but one for controlling them.`,
+      `The logs here contain a terrifying truth: The Cataclysm wasn't an accident. The Zenith Order <em>stole</em> the sun, bottling its essence into the planetary core to power their immortality.`
+    ],
+    choices: [
+      { label: 'Download the Solar Schematics into your Topograph.', next:'scriptorium_salvage', setFlags:['hasSolarSchematics', 'log:The Zenith Order stole the sun and bottled it in the planetary core to achieve immortality.'], effect: s=>intE(s,10), condition: s=>!s.flags.hasSolarSchematics },
+      { label: 'Search for high-tier medical supplies.', next:'forbidden_archive', setFlags:['lootedArchive'], effect: {addInv:{herbs:4}, health:20}, condition: s=>!s.flags.lootedArchive },
+      { label: 'Return to the scriptorium floor.', next:'scriptorium_salvage', effect: {} }
+    ]
   },
 
   amber_flue_entry: {
@@ -1170,6 +1409,7 @@ const STORY = {
     choices: state => {
         const effect = state.flags.harvestedAmber ? {} : {addMarrow: 'amber'};
         return [
+          { label: 'Return to the Scriptorium.', next:'scriptorium_salvage', effect: {} },
           { label: 'Climb the High Vent maintenance shaft.', next:'high_vent_ascent', setFlags:['visitedHighVent','harvestedAmber'], effect: Object.assign({}, effect, agiE(state, 8)) },
           { label: 'Follow the main conduit to the Furnace Core.', next:'furnace_core', setFlags:['visitedFurnace','harvestedAmber'], effect: Object.assign({}, effect, agiE(state, 5)) },
           { label: 'Hand-crank your lantern in the warmth.', next:'amber_flue_entry', effect: {charge: 10} }
@@ -1250,7 +1490,7 @@ const STORY = {
             c.push({ label: 'Climb to the ledge and check the lockbox.', next:'high_vent_cache', effect: s=>agiE(s,6) });
         }
         if (state.flags.hasUmbralEdge) {
-            c.push({ label: 'Use your superheated blade to clear the Root Choke.', next:'high_vent_chime_drake', effect: s=>strE(s,8) });
+            c.push({ label: 'Use your superheated blade to clear the Root Choke.', next:'drake_tame_intro', effect: s=>strE(s,8) });
         }
         c.push({ label: 'Descend back to the conduit.', next:'amber_flue_entry', effect: {} });
         return c;
@@ -1295,10 +1535,17 @@ const STORY = {
       ],
       choices: state => {
           const c = [];
-          if (state.marrow.includes('amber')) {
-              c.push({ label: 'Coax the predator with Amber Marrow and salt-pork.', next: s => s.skills.CHA >= 2 ? 'drake_bond' : 'drake_tame_fail', effect: s=>chaE(s,5) });
+          if (state.marrow.includes('amber') && state.inventory.saltPork > 0) {
+              c.push({ label: 'Coax the predator with Amber Marrow and salt-pork.', next: s => s.skills.CHA >= 2 ? 'drake_bond' : 'drake_tame_fail', effect: s => {
+                  let eff = chaE(s,5);
+                  eff.addInv = { saltPork: -1 };
+                  eff.xp = 50;
+                  return eff;
+              }});
           }
-          c.push({ label: 'Slay the beast with a precision strike.', next:'caldera_entry', setFlags:['drakeKilled'], effect: s=>strE(s,12) });
+          c.push({ label: 'Slay the beast with a precision strike.', next:'mountain_surface', setFlags:['drakeKilled','visitedSurface'], effect: s=> {
+              return { charge: -combatScale(15, s.skills.STR), xp: 60 };
+          } });
           c.push({ label: 'Back away slowly, avoiding its territory.', next:'high_vent_ascent', effect:{} });
           return c;
       }
@@ -1313,7 +1560,7 @@ const STORY = {
       ],
       choices: [
           { label: 'Retreat before the shaft collapses.', next:'high_vent_ascent', effect:{} },
-          { label: 'Slay the beast before it pulses again.', next:'caldera_entry', setFlags:['drakeKilled'], effect: s=>strE(s,15) }
+          { label: 'Slay the beast before it pulses again.', next:'mountain_surface', setFlags:['drakeKilled','visitedSurface'], effect: s=>strE(s,15) }
       ]
   },
 
@@ -1420,10 +1667,26 @@ const STORY = {
       `Unstable crevasses cut deep into the shelf, venting supercooled violet mist. Through your monocular, you spot a pack of pale, blind <strong>Frost-Stalkers</strong> prowling the lower levels.`
     ],
     choices: [
-      { label: 'Traverse the wind-carved granite ridge (High Route).', next:'glacial_spire', setFlags:['visitedGlacialSpire'], effect: s=>agiE(state, 15) },
-      { label: 'Attempt to sneak through the crevasse bed (Low Route).', next:'glacial_spire', setFlags:['visitedGlacialSpire'], effect: s=>agiE(state, 20) },
+      { label: 'Traverse the wind-carved granite ridge (High Route).', next:'black_ice_shelf_kaelen', setFlags:['visitedGlacialSpire'], effect: s=>agiE(state, 15) },
+      { label: 'Attempt to sneak through the crevasse bed (Low Route).', next:'black_ice_shelf_kaelen', setFlags:['visitedGlacialSpire'], effect: s=>agiE(state, 20) },
+      { label: 'Zip-line across the Abyssal Crevasse.', next:'black_ice_shelf_kaelen', setFlags:['visitedGlacialSpire','usedZipline'], effect: s => {
+          return { charge: -5, addInv: { grappleBolts: -1 } };
+      }, condition: s => s.inventory.grappleBolts > 0 },
       { label: 'Wait for a break in the wind to conserve energy.', next:'black_ice_shelf', effect: {charge: 5} }
     ]
+  },
+
+  black_ice_shelf_kaelen: {
+      eyebrow: 'Race Across the Ice',
+      bg: 'The Black Ice Shelf 9x16.png',
+      text: [
+          `You spot a flare in the distance. It's Kaelen. He's already halfway to the Glacial Spire, his elk mount leaving deep tracks in the frost.`,
+          `"Too slow, keeper!" he shouts over the wind. "The Spire is hatching, and I'm first in line for the harvest!"`
+      ],
+      choices: [
+          { label: 'Push yourself to catch up.', next:'glacial_spire', effect: { charge: -10, health: -5 } },
+          { label: 'Let him go and conserve your strength.', next:'glacial_spire', effect: {} }
+      ]
   },
 
   glacial_spire: {
@@ -1492,15 +1755,32 @@ const STORY = {
           { label: 'Climb toward the sharp pinnacles of the Glacial Overlook.', next:'glacial_overlook', setFlags:['visitedOverlook'], effect: s=>agiE(s,15) }
         ];
 
-        if (state.mount !== 'elk' && state.flags.metElk && !state.flags.elkKilled) {
-            c.push({ label: 'Mount your Frost-Strider Elk.', next:'southern_pine_plateaus', setFlags:['mount:elk'], effect:{} });
-        } else if (!state.flags.metElk && !state.flags.elkKilled) {
-            c.push({ label: 'Try to tame the wild Elk with salt-pork and heat.', next: s => s.skills.CHA >= 2 ? 'southern_pine_plateaus_elk' : 'elk_tame_fail', setFlags:['metElk'], effect: s=>chaE(s,15) });
-            c.push({ label: 'Face the Elk in combat for its rare hide.', next:'lowland_pass', setFlags:['metElk','elkKilled'], effect: s=>strE(s,20) });
+        if (state.inventory.grappleBolts > 0) {
+            c.push({ label: 'Grapple to a Surveyor\'s Perch in the pines.', next:'pine_perch', effect: { addInv: { grappleBolts: -1 } } });
         }
 
-        c.push({ label: 'Hunt for game to replenish your rations.', next:'southern_pine_plateaus', effect: s=>agiE(s,15) });
-        c.push({ label: 'Rest in a sheltered grove.', next:'southern_pine_plateaus', effect: {charge: 20} });
+        if (state.mount !== 'elk' && state.flags.metElk && !state.flags.elkKilled) {
+            c.push({ label: 'Mount your Frost-Strider Elk.', next:'southern_pine_plateaus', setFlags:['mount:elk'], effect:{} });
+          } else if (!state.flags.metElk && !state.flags.elkKilled) {
+            if (state.inventory.saltPork > 0) {
+                c.push({ label: 'Try to tame the wild Elk with salt-pork and heat.', next: s => s.skills.CHA >= 2 ? 'southern_pine_plateaus_elk' : 'elk_tame_fail', setFlags:['metElk'], effect: s => {
+                    let eff = chaE(s,15);
+                    eff.addInv = { saltPork: -1 };
+                    eff.xp = 120;
+                    return eff;
+                }});
+            }
+            c.push({ label: 'Face the Elk in combat for its rare hide.', next:'lowland_pass', setFlags:['metElk','elkKilled'], effect: s=> {
+                return { health: -combatScale(50, s.skills.STR), xp: 200, addInv: { rawMeat: 3 } };
+            } });
+        }
+
+        c.push({ label: 'Hunt for game and forage for Frost Herbs.', next:'southern_pine_plateaus', effect: s => {
+            let eff = agiE(s,15);
+            eff.addInv = { rawMeat: 1, herbs: 1 };
+            return eff;
+        }});
+        c.push({ label: 'Rest in a sheltered grove.', next:'southern_pine_plateaus', effect: {charge: 20, health: 10} });
         return c;
     }
   },
@@ -1584,14 +1864,25 @@ const STORY = {
       ]
   },
 
+  pine_perch: {
+      eyebrow: 'Surveyor\'s Perch',
+      bg: 'The Southern Pine Plateaus 9x16.png',
+      text: [
+          `You sit perched on a platform built high into a thousand-year-old pine. From here, the gloom feels distant.`,
+          `You find a leather satchel containing <strong>Dried Rations</strong> and a <strong>Silver-Spool</strong> of shadow-silk.`
+      ],
+      choices: [
+          { label: 'Descend and continue your journey.', next:'southern_pine_plateaus', effect: { health: 20, addInv: { shadowSilk: 50 } } }
+      ]
+  },
+
   lowland_pass: {
     eyebrow: 'The Eastern Lowland Pass',
     bg: 'The Eastern Lowland Pass & Timberlines 9x16.png',
     text: state => {
         const lines = [
           `The pass opens into a broad valley. The air is thick and heavy, and the timberlines give way to the lowland marshes.`,
-          `In the long shadows of the timberline, you catch the glowing heat pits of <strong>Gloom-Stalkers</strong>—blind quadruped shadow beasts tracking your footsteps.`,
-          `You have reached the edge of the known territories. Your journey from the deep crust has brought you to a new horizon.`
+          `High on a cliff overlooking the pass sits <strong>Outrider Fort Ironhead</strong>, its bronze searchlights cutting through the mist.`
         ];
         if (state.mount === 'falcon') {
             lines.push(`From your high vantage point on the <strong>Falcon</strong>, you soar over the most dangerous thickets, avoiding direct contact with the stalkers.`);
@@ -1603,13 +1894,15 @@ const STORY = {
     choices: state => {
         const c = [];
 
+        c.push({ label: 'Approach the Outrider Fort.', next:'outrider_fort', effect: s=>agiE(s,5) });
+        c.push({ label: 'Venture into the Lowland Marshes.', next:'lowland_marshes', setFlags:['visitedMarshes'], effect: s=>agiE(s,10) });
+
         // General choices
-        c.push({ label: 'Nock a thermal arrow to deter the Stalkers and seek a settlement.', next:'ending_lowlands', setFlags:['metGloomStalker'], effect: Object.assign({}, agiE(state, 10)) });
+        c.push({ label: 'Seek a settlement in the Marshes.', next:'ending_lowlands', setFlags:['metGloomStalker'], effect: Object.assign({}, agiE(state, 10)) });
         c.push({ label: 'Set up a permanent camp and map the pass.', next:'ending_keeper', setFlags:['metGloomStalker'], effect:{} });
 
-        // Mount-specific choices
         if (state.mount === 'falcon') {
-            c.push({ label: 'Use the Falcon\'s wing-buffet to disperse the Gloom-Stalkers.', next:'ending_lowlands', setFlags:['metGloomStalker','usedFalcon'], effect: {charge: -5} }); // Faster/Less energy
+            c.push({ label: 'Use the Falcon\'s wing-buffet to disperse the Gloom-Stalkers.', next:'ending_lowlands', setFlags:['metGloomStalker','usedFalcon'], effect: {charge: -5} });
         }
 
         if (state.mount === 'elk') {
@@ -1620,10 +1913,184 @@ const STORY = {
             c.push({ label: 'Use the Burrowing Drake to find an underground bypass.', next:'ending_lowlands', setFlags:['metGloomStalker','usedBypass'], effect:{} });
         }
 
-        c.push({ label: 'Study the unique flora of the timberline.', next:'lowland_pass', effect: s=>intE(s,5) });
-
         return c;
     }
+  },
+
+  outrider_fort: {
+      eyebrow: 'Fort Ironhead',
+      bg: 'The Eastern Lowland Pass & Timberlines 9x16.png',
+      text: [
+          `The fort is a grim structure of reinforced granite and steam-pipes. Outriders in heavy plate armor patrol the ramparts.`,
+          `"Halt, scavenger. Fort Ironhead is for those who serve the Ridge. What's your business?"`
+      ],
+      choices: [
+          { label: 'Offer to scout the Marshes for them.', next:'outrider_scout_quest', effect: { rep: { outriders: 10 } } },
+          { label: 'Visit the Armory.', next:'outrider_armory', effect: {} },
+          { label: 'Return to the Pass.', next:'lowland_pass', effect: {} }
+      ]
+  },
+
+  outrider_armory: {
+      eyebrow: 'Ironhead Armory',
+      bg: 'The Eastern Lowland Pass & Timberlines 9x16.png',
+      text: [
+          `The Quartermaster grunts. "Reputation isn't free. Earn our trust, and I'll give you the heavy gear."`
+      ],
+      choices: [
+          { label: 'Buy Outrider Plate (100 Glints, 20 Rep).', next:'outrider_armory', condition: s => s.glints >= 100 && s.reputation.outriders >= 20 && s.equipment.torso !== 'Outrider Plate', effect: s => {
+              s.equipment.torso = 'Outrider Plate';
+              return { glints: -100 };
+          } },
+          { label: 'Buy Heavy Bolts x5 (40 Glints).', next:'outrider_armory', condition: s => s.glints >= 40, effect: s => {
+              return { addInv: { kineticArrows: 5 }, glints: -40 };
+          } },
+          { label: 'Return to Fort Gate.', next:'outrider_fort', effect: {} }
+      ]
+  },
+
+  outrider_scout_quest: {
+      eyebrow: 'Scouting the Black Water',
+      bg: 'The Eastern Lowland Pass & Timberlines 9x16.png',
+      text: [
+          `You spend hours mapping the corrosive channels of the marshes. The mist is thick, but your Topograph records every shift.`,
+          `You return with valuable data on Gloom-Stalker nesting sites.`
+      ],
+      choices: [
+          { label: 'Hand over the data.', next:'outrider_fort', setFlags:['scoutedMarshes'], effect: { rep: { outriders: 15 }, xp: 60, health: -15 } }
+      ]
+  },
+
+  lowland_marshes: {
+    eyebrow: 'The Lowland Marshes',
+    bg: 'The Eastern Lowland Pass & Timberlines 9x16.png',
+    text: [
+      `A vast, misty wetland where the Living Gloom settles like heavy fog. Bioluminescent lilies provide the only light, their roots tangled in the iron-rich silt.`,
+      `Strange humming sounds drift through the mist—the calls of <strong>Marsh-Skimmers</strong>.`,
+      `<em>Warning: The mist here is corrosive. Without a protective mask or quick movement, your health will drain.</em>`
+    ],
+    choices: [
+      { label: 'Enter the trade town of Marsh-Haven.', next:'marsh_haven', setFlags:['visitedMarshes'], effect:{ health: -5 } },
+      { label: 'Follow the SKimmer calls toward the Glimmer Forest.', next:'glimmer_forest', effect: s=> {
+          let eff = agiE(s,12);
+          eff.health = -10;
+          return eff;
+      } },
+      { label: 'Harvest Marsh Lilies for medicine.', next:'lowland_marshes', effect: {addInv:{herbs:2}, charge:-5, health: -5} },
+      { label: 'Return to the Pass.', next:'lowland_pass', effect: {} }
+    ]
+  },
+
+  marsh_haven: {
+      eyebrow: 'Marsh-Haven Trade Town',
+      bg: 'The Eastern Lowland Pass & Timberlines 9x16.png',
+      text: [
+          `Marsh-Haven is built on stilts above the black water. It is a rough town of trappers, skimmer-pilots, and herbalists.`,
+          `The smell of salt and drying herbs is everywhere.`
+      ],
+      choices: [
+          { label: 'Visit the Herbalist Shop.', next:'marsh_haven_shop', effect:{} },
+          { label: 'Inquire about local rumors at the Salty Skimmer.', next:'marsh_haven_rumors', effect: s=>chaE(s,5) },
+          { label: 'Leave Marsh-Haven and head back to the marshes.', next:'lowland_marshes', effect:{} }
+      ]
+  },
+
+  marsh_haven_shop: {
+      eyebrow: 'The Herbalist\'s Nook',
+      bg: 'The Eastern Lowland Pass & Timberlines 9x16.png',
+      text: [
+          `An old woman with skin like cracked parchment eyes your lantern. "A scavenger, eh? Need something to keep the gloom-rot away?"`
+      ],
+      choices: [
+          { label: 'Buy Healing Salve (30 Glints).', next:'marsh_haven_shop', effect: s => s.glints >= 30 ? { health: 30, glints: -30 } : {} },
+          { label: 'Buy Frost Herbs (10 Glints).', next:'marsh_haven_shop', effect: s => s.glints >= 10 ? { addInv: { herbs: 1 }, glints: -10 } : {} },
+          { label: 'Sell Marsh Lilies (+12 Glints).', next:'marsh_haven_shop', effect: s => s.inventory.herbs >= 1 ? { addInv: { herbs: -1 }, glints: 12 } : {} },
+          { label: 'Return to town square.', next:'marsh_haven', effect:{} }
+      ]
+  },
+
+  marsh_haven_rumors: {
+      eyebrow: 'The Salty Skimmer',
+      bg: 'The Eastern Lowland Pass & Timberlines 9x16.png',
+      text: [
+          `"They say the Zenith City—Aethelgard—is still lit by the old sun," a pilot whispers. "But you need a sky-license to enter. Or a lot of Glints to bribe the guards."`
+      ],
+      choices: [
+          { label: 'Return to town square.', next:'marsh_haven', effect:{} }
+      ]
+  },
+
+  glimmer_forest: {
+    eyebrow: 'The Glimmer Forest',
+    bg: 'The Southern Pine Plateaus 9x16.png',
+    text: [
+      `Trees here don't have leaves, but translucent crystal needles that trap the indigo twilight. The ground is a carpet of soft, glowing moss.`,
+      `Beyond the trees, the sprawling towers of <strong>Aethelgard</strong>, the City of Eternal Light, reach for the stars.`
+    ],
+    choices: [
+      { label: 'Approach the gates of Aethelgard.', next:'aethelgard_gates', effect: s=>agiE(s,10) },
+      { label: 'Restart the Heart of the World (Requires Solar Schematics).', next:'ending_rebirth', condition: s=>s.flags.hasSolarSchematics, effect: {} },
+      { label: 'Search the moss for rare minerals.', next:'glimmer_forest', setFlags:['lootedMoss'], effect: {addInv:{salt:2}, charge:-5}, condition: s=>!s.flags.lootedMoss },
+      { label: 'Return to the Marshes.', next:'lowland_marshes', effect: {} }
+    ]
+  },
+
+  aethelgard_gates: {
+      eyebrow: 'Aethelgard Gates',
+      bg: 'Background 9x16.png',
+      text: [
+          `Massive gates of white-gold iron block the way. Sentry golems with polished brass armor stand guard.`,
+          `"State your business, scavenger. No one enters Aethelgard without a license... or a significant contribution to the city's maintenance."`
+      ],
+      choices: [
+          { label: 'Bribe the guards (100 Glints).', next:'aethelgard_plaza', condition: s => s.glints >= 100, effect: { glints: -100, xp: 30 } },
+          { label: 'Show your Zenith Solar Schematics.', next:'aethelgard_plaza', condition: s => s.flags.hasSolarSchematics, effect: { charge: 20, xp: 50 } },
+          { label: 'Retreat back to the forest.', next:'glimmer_forest', effect:{} }
+      ]
+  },
+
+  aethelgard_plaza: {
+      eyebrow: 'Aethelgard — Sky Plaza',
+      bg: 'Background 9x16.png',
+      text: [
+          `Aethelgard is a marvel of the old world. Buildings of crystal and light float above the ground. The streets are clean, and the air feels warm—almost like real sunlight.`,
+          `This is the last true bastion of civilization.`
+      ],
+      choices: [
+          { label: 'Visit the Zenith Emporium.', next:'aethelgard_shop', effect:{} },
+          { label: 'Go to the Central Spire.', next:'ending_rebirth', effect:{} },
+          { label: 'Return to the Gates.', next:'aethelgard_gates', effect:{} }
+      ]
+  },
+
+  aethelgard_shop: {
+      eyebrow: 'Zenith Emporium',
+      bg: 'Background 9x16.png',
+      text: [
+          `A merchant in silk robes bows. "Welcome, honored guest. We have only the finest distillates and gear."`
+      ],
+      choices: [
+          { label: 'Buy Pure Solar Marrow (150 Glints).', next:'aethelgard_shop', effect: s => s.glints >= 150 ? { addInv: { solarMarrow: 1 }, glints: -150 } : {} },
+          { label: 'Buy High-Grade Kinetic Arrows x5 (50 Glints).', next:'aethelgard_shop', effect: s => s.glints >= 50 ? { addInv: { kineticArrows: 5 }, glints: -50 } : {} },
+          { label: 'Buy Zenith Lens Trinket (200 Glints, 30 Zenith Rep).', next:'aethelgard_shop', condition: s => s.glints >= 200 && s.reputation.zenith >= 30 && s.equipment.trinket !== 'Zenith Lens', effect: s => {
+              s.equipment.trinket = 'Zenith Lens';
+              return { glints: -200 };
+          } },
+          { label: 'Expand Belt Capacity (150 Glints).', next:'aethelgard_shop', effect: s => s.glints >= 150 ? { belt: 1, glints: -150 } : {} },
+          { label: 'Crafted Glass Ampoule (100 Glints).', next:'aethelgard_shop', effect: s => (s.glints >= 100 && s.marrowCap < s.beltLimit) ? { cap: 1, glints: -100 } : {} },
+          { label: 'Return to Sky Plaza.', next:'aethelgard_plaza', effect:{} }
+      ]
+  },
+
+  ending_rebirth: {
+      ending:true, good:true,
+      title:'Dawn of the Rebirth',
+      bg: 'Background 9x16.png',
+      text: [
+          `From the top of the white glass spire, you use the Solar Schematics to pulse a command through the planetary network.`,
+          `The Titan below responds. A pillar of pure sunlight erupts from the mountain, piercing the indigo sky and shattering the veil of the Cataclysm.`,
+          `For the first time in three generations, true dawn breaks over the Ashfang Ridge. You are the architect of a new age.`
+      ]
   },
 
   lowland_pass_salvage: {
@@ -1669,10 +2136,97 @@ const STORY = {
     choices: [
       { label: 'Ascend the Basalt Causeway to scout for a weapon.', next:'basalt_causeway', effect: s=>agiE(s,10) },
       { label: 'Wade along the River of Smoldering Glass.', next:'river_of_glass', effect: s=>agiE(s,15) },
+      { label: 'Visit the Foundry City (Refinery-Vat Seven).', next:'foundry_city', setFlags:['visitedFoundry'], effect: s=>agiE(s,5) },
       { label: 'Approach the central Obsidian Spire.', next:'obsidian_spire_exterior', effect: s=>agiE(s,12) },
       { label: 'Explore the Sunken Slate Quarries.', next:'slate_quarries', setFlags:['visitedQuarries'], effect: s=>agiE(s,12) },
       { label: 'Crank your lantern by the volcanic heat.', next:'caldera_entry', effect: {charge: 10} }
     ]
+  },
+
+  foundry_city: {
+    eyebrow: 'Foundry City — Vat Seven',
+    bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+    text: [
+      `A sprawling industrial settlement built into the walls of a massive brass vat. The air is thick with the scent of ozone, hot metal, and roasting meat.`,
+      `Bridges of scrap-iron span the marrow-rivers below. This is the heart of the <strong>Crust-Strider Guilds</strong>.`
+    ],
+    choices: [
+      { label: 'Enter the Guild Hall to find work.', next:'foundry_guild_hall', effect:{} },
+      { label: 'Visit the High-Tier Forge.', next:'foundry_forge', effect:{} },
+      { label: 'Trade at the Market Bazaar.', next:'foundry_market', effect:{} },
+      { label: 'Return to the Caldera hub.', next:'caldera_entry', effect:{} }
+    ]
+  },
+
+  foundry_guild_hall: {
+      eyebrow: 'Crust-Strider Guild Hall',
+      bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+      text: [
+          `The hall is crowded with scavengers sharing maps and stories. A Guild Warden approaches you.`,
+          `"You look like you've seen the deep vaults, scavenger. We have a <strong>Marrow-Leak</strong> in the lower plumbing. Clear it, and we'll reward you with star-fall steel."`
+      ],
+      choices: state => {
+          const c = [];
+          if (!state.flags.leakCleared) {
+              c.push({ label: 'Accept the contract to clear the Marrow-Leak.', next:'foundry_quest_leak', effect: s=>agiE(s,10) });
+          }
+          c.push({ label: 'Decline and leave the hall.', next:'foundry_city', effect:{ xp: 5 } });
+          return c;
+      }
+  },
+
+  foundry_quest_leak: {
+      eyebrow: 'The Marrow-Leak',
+      bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+      text: [
+          `You descend into the steaming crawlspaces. A high-pressure pipe of violet Stellar Pitch has burst, attracting a swarm of Glass Crawlers.`,
+          `The air is toxic and the crawlers are aggressive.`
+      ],
+      choices: [
+          { label: 'Use a Kinetic Arrow to seal the pipe.', next:'foundry_city', setFlags:['leakCleared', 'log:Sealed the marrow-leak in Vat Seven. The Guild Warden was impressed.'], effect: s => {
+              return { addInv: { scrapMetal: 5, salt: 2 }, glints: 50, health: -10, xp: 100, rep: { guild: 20 } };
+          } },
+          { label: 'Fight the swarm manually.', next:'foundry_city', setFlags:['leakCleared', 'log:Fought off a swarm of crawlers to clear the leak. My blade was stained with violet.'], effect: s => {
+              return { addInv: { scrapMetal: 5, salt: 2, rawMeat: 2 }, glints: 75, health: -combatScale(40, s.skills.STR), xp: 150, rep: { guild: 30 } };
+          } }
+      ]
+  },
+
+  foundry_forge: {
+      eyebrow: 'The Master Forge',
+      bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+      text: [
+          `A massive hydraulic hammer strikes a white-hot ingot. The Master Smith eyes your gear.`,
+          `"I can reinforce your belt for more pockets, or forge you a better bow if you have the materials."`
+      ],
+      choices: state => {
+          const c = [];
+          if (state.flags.hasBow && !state.flags.hasSunBurstBow && state.inventory.scrapMetal >= 10 && state.flags.hasSilicaCore) {
+              c.push({ label: 'Upgrade to Sun-Burst Recurve (10 Scrap, Silica Core).', next:'foundry_city', setFlags:['hasSunBurstBow'], effect: { addInv: { scrapMetal: -10 } } });
+          }
+          if (state.beltLimit < 6 && state.inventory.scrapMetal >= 5 && state.inventory.shadowSilk >= 50) {
+              c.push({ label: 'Reinforce Belt (+1 Slot: 5 Scrap, 50 Shadow-Silk).', next:'foundry_city', effect: { belt: 1, addInv: { scrapMetal: -5, shadowSilk: -50 } } });
+          }
+          c.push({ label: 'Leave the forge.', next:'foundry_city', effect:{} });
+          return c;
+      }
+  },
+
+  foundry_market: {
+      eyebrow: 'Market Bazaar',
+      bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+      text: [
+          `Vendors sell everything from preserved salt-pork to illegal Zenith maps. The air is loud with the clatter of <strong>Glints</strong>—the standard currency of the deep.`,
+          `A shady dealer in the corner whispers: "Missing a <strong>Silica Core</strong>? I've got one salvaged from a high-vent drone. Costs a pretty penny, though."`
+      ],
+      choices: [
+          { label: 'Buy Salt-pork (15 Glints).', next:'foundry_market', effect: s => s.glints >= 15 ? { addInv: { saltPork: 1 }, glints: -15 } : {} },
+          { label: 'Buy Shadow-Silk (10 Glints).', next:'foundry_market', effect: s => s.glints >= 10 ? { addInv: { shadowSilk: 50 }, glints: -10 } : {} },
+          { label: 'Buy Silica Core (80 Glints).', next:'foundry_market', condition: s => s.glints >= 80 && !s.flags.hasSilicaCore, effect: { glints: -80 }, setFlags: ['hasSilicaCore'] },
+          { label: 'Sell Scrap Metal (+20 Glints).', next:'foundry_market', effect: s => s.inventory.scrapMetal >= 1 ? { addInv: { scrapMetal: -1 }, glints: 20 } : {} },
+          { label: 'Sell Raw Meat (+15 Glints).', next:'foundry_market', effect: s => s.inventory.rawMeat >= 1 ? { addInv: { rawMeat: -1 }, glints: 15 } : {} },
+          { label: 'Leave the bazaar.', next:'foundry_city', effect:{} }
+      ]
   },
 
   river_of_glass: {
@@ -1713,9 +2267,19 @@ const STORY = {
     ],
     choices: state => {
         const c = [
-          { label: 'Attempt to bond with the aggressive Burrower.', next: s => s.skills.CHA >= 3 ? 'slate_quarries_bond' : 'slate_quarries_bond_fail', setFlags:['metBurrower'], effect: s=>chaE(s,10) },
-          { label: 'Defend yourself and slay the beast.', next:'caldera_entry', setFlags:['metBurrower','burrowerKilled'], effect: s=>strE(s,15) },
-          { label: 'Use the Chime Drake to distract it while you search for ore.', next:'slate_quarries_ore', setFlags:['metBurrower'], effect: s=>chaE(s,8) },
+          { label: 'Attempt to bond with the aggressive Burrower.', next: s => s.skills.CHA >= 3 ? 'slate_quarries_bond' : 'slate_quarries_bond_fail', setFlags:['metBurrower'], effect: s=> {
+              let eff = chaE(s,10);
+              eff.xp = 80;
+              return eff;
+          } },
+          { label: 'Defend yourself and slay the beast.', next:'caldera_entry', setFlags:['metBurrower','burrowerKilled'], effect: s=> {
+              return { health: -combatScale(30, s.skills.STR), xp: 100 };
+          } },
+          { label: 'Use the Chime Drake to distract it while you search for ore.', next:'slate_quarries_ore', setFlags:['metBurrower'], effect: s=> {
+              let eff = chaE(s,8);
+              eff.xp = 40;
+              return eff;
+          } },
           { label: 'Return to the Caldera entrance.', next:'caldera_entry', effect:{} }
         ];
         return c;
@@ -1803,6 +2367,8 @@ const STORY = {
           const c = [];
           if (!state.flags.hasBow) {
               c.push({ label: 'Take the gear and prime your arrows.', next:'mining_cage_get_bow', setFlags:['hasBow'], effect:{addInv:{arrows:12}} });
+          } else if (!state.flags.foundExtraArrows) {
+              c.push({ label: 'Search the back of the cage for more arrows.', next:'mining_cage_get_bow', setFlags:['foundExtraArrows'], effect:{addInv:{arrows:8}} });
           }
           c.push({ label: 'Advance to the Ancient Refinery.', next:'refinery_infiltration', setFlags:['visitedRefinery'], effect:{} });
           return c;
@@ -1842,7 +2408,7 @@ const STORY = {
           `A cloud of white steam vents violently as the automaton colapses silently. The path to the hatch is clear.`
       ],
       choices: [
-          { label: 'Salvage parts from the golem and enter the hatch.', next:'refinery_control_room', setFlags:['hasDynamoCore','hasValveCap','metGolem','disabledGolem'], effect:{} }
+          { label: 'Salvage parts from the golem and enter the hatch.', next:'refinery_control_room', setFlags:['hasDynamoCore','hasValveCap','metGolem','disabledGolem'], effect:{addInv:{scrapMetal:2}} }
       ]
   },
 
@@ -1922,17 +2488,45 @@ const STORY = {
       bg: 'The Sunken Caldera & Abyssal Throne 9x16.png',
       text: [
           `The surface is warm and vibrates with a tectonic pulse. The iris portal contains the <strong>Apex Marrow Crucible</strong>.`,
-          `You can siphon Solar Marrow or attempt to interface with the titan\'s synaptic cables using your Valve-Cap.`
+          `Suddenly, a harpoon bolt thuds into the obsidian inches from your hand. Kaelen is here, perched on the titan's ear-plate.`,
+          `"Step back, keeper. This Solar Marrow is worth enough to buy my own city. I'm not letting a Scriptorium rat take it."`
       ],
       choices: state => {
           const c = [];
-          if (!state.flags.awakenedTitan) {
-              c.push({ label: 'Siphon 2 ampoules of Pure Solar Marrow and interface with the cables.', next:'final_command', setFlags:['metTitan','awakenedTitan'], effect:{addInv:{solarMarrow:2}} });
-          } else {
-              c.push({ label: 'Return to command.', next:'final_command', effect:{} });
+          c.push({ label: 'Fight Kaelen for the Marrow.', next:'kaelen_fight', effect: s=>strE(s,20) });
+          if (state.skills.CHA >= 4) {
+              c.push({ label: 'Convince Kaelen to team up.', next:'kaelen_ally', effect: s=>chaE(s,15) });
+          }
+          if (state.flags.hasSolarSchematics) {
+              c.push({ label: 'Show him the Zenith Schematics: "The Titan is a cage, Kaelen. Help me break it."', next:'kaelen_ally', effect: s=>chaE(s,5) });
           }
           return c;
       }
+  },
+
+  kaelen_fight: {
+      eyebrow: 'Duel of the Scavengers',
+      bg: 'The Sunken Caldera & Abyssal Throne 9x16.png',
+      text: [
+          `Steel clashes against hide. Kaelen is fast, but your time in the deep has made you relentless. You drive him to the edge of the brow.`,
+          `"Fine!" he spits, blood on his lip. "Take the light. The gloom will have you soon enough." He grapples away into the darkness.`
+      ],
+      choices: [
+          { label: 'Siphon the Solar Marrow and interface using the Valve-Cap.', next:'final_command', setFlags:['metTitan','awakenedTitan','kaelenDefeated'], condition: s=>s.flags.hasValveCap, effect:{addInv:{solarMarrow:2}} },
+          { label: 'Try to force the interface without the Valve-Cap.', next:'titan_descent', effect: { health: -50, charge: -20 } }
+      ]
+  },
+
+  kaelen_ally: {
+      eyebrow: 'An Unlikely Pact',
+      bg: 'The Sunken Caldera & Abyssal Throne 9x16.png',
+      text: [
+          `Kaelen lowers his weapon. "A cage? So the Zenith bastards lied to us all. Fine. We do this together. You take the cables, I'll guard the perimeter."`,
+          `With Kaelen's help, the titan awakens with a roar that shakes the planet's core.`
+      ],
+      choices: [
+          { label: 'Take control of the titan.', next:'final_command', setFlags:['metTitan','awakenedTitan','kaelenAllied', 'log:Allied with Kaelen at the Titan Throne. We will break the Zenith cage together.'], effect:{addInv:{solarMarrow:2}, xp: 100} }
+      ]
   },
 
   final_command: {
@@ -1961,6 +2555,7 @@ const STORY = {
     ],
     choices: [
       { label: 'Continue your descent toward the Southern Pine Plateaus.', next:'southern_pine_plateaus', setFlags:['visitedPlateaus'], effect:{} },
+      { label: 'Step out onto the peak and claim your destiny.', next:'ending_surface', effect:{} },
       { label: 'Observe the world from the titan\'s height.', next:'titan_surface_ascent', effect: s=>intE(s,5) }
     ]
   },
@@ -1984,6 +2579,16 @@ const STORY = {
       `Somewhere above, another scavenger will find your cold gear and try to finish what you started.`
     ]
   },
+
+  blood_ending: {
+    ending:true, good:false, forced:true,
+    title:'Claimed by the Deep',
+    bg: 'The Black Ice Shelf 9x16.png',
+    text: [
+      `The cold and the wounds become too much to bear. Your strength fails, and your vision blurs into the indigo twilight.`,
+      `You have given everything to the deep, and the deep has finally claimed you.`
+    ]
+  },
 };
 
 function companionLine(s){
@@ -2004,6 +2609,9 @@ function resolveNext(choice, s){
 function resolveLabel(choice, s){
   return typeof choice.label === 'function' ? choice.label(s) : choice.label;
 }
+function resolveCondition(choice, s){
+  return typeof choice.condition === 'function' ? choice.condition(s) : (choice.condition !== undefined ? choice.condition : true);
+}
 function resolveEffect(effect, s){
   return typeof effect === 'function' ? effect(s) : effect;
 }
@@ -2014,10 +2622,60 @@ function resolveFlags(flags, s){
 function applyEffect(effectRaw, s){
   const eff = resolveEffect(effectRaw, s);
   if(!eff) return;
-  if(s.flags.hasLumicEmitter) {
-      if(eff.charge && eff.charge < 0) eff.charge = Math.round(eff.charge / 3);
+
+  // Global modifiers
+  let chargeDampening = 1;
+  let healthDampening = 1;
+  let glintBonus = 1;
+
+  if(s.flags.hasLumicEmitter) chargeDampening = 3;
+  if(s.flags.hasProtectionBalm) healthDampening = 2;
+
+  // Perk bonuses
+  if(s.perks.includes('iron_lungs')) healthDampening += 0.3;
+  if(s.perks.includes('scavenger_eye')) glintBonus = 1.5;
+  if(s.perks.includes('shadow_step') && eff.charge && eff.charge < 0) {
+      chargeDampening += 0.1;
   }
+
+  // Equipment bonuses
+  if(s.equipment.torso === 'Outrider Plate') healthDampening += 0.5;
+  if(s.equipment.trinket === 'Zenith Lens') chargeDampening += 1;
+
+  if(eff.charge && eff.charge < 0) {
+      if (s.perks.includes('marrow_well') && eff.charge > 0) eff.charge *= 1.5;
+      eff.charge = Math.round(eff.charge / chargeDampening);
+  }
+  if(eff.health && eff.health < 0) {
+      eff.health = Math.round(eff.health / healthDampening);
+  }
+
   if(eff.charge) s.charge = Math.max(0, Math.min(100, s.charge + eff.charge));
+  if(eff.health) s.health = Math.max(0, Math.min(100, s.health + eff.health));
+  if(eff.glints) {
+      let g = eff.glints;
+      if (g > 0) g = Math.round(g * glintBonus);
+      s.glints = Math.max(0, s.glints + g);
+  }
+  if(eff.rep) {
+      Object.keys(eff.rep).forEach(k => {
+          s.reputation[k] = Math.max(-100, Math.min(100, s.reputation[k] + eff.rep[k]));
+      });
+  }
+  if(eff.xp) {
+      s.xp += eff.xp;
+      while(s.xp >= s.xpToNext) {
+          s.level++;
+          s.xp -= s.xpToNext;
+          s.xpToNext = Math.round(s.xpToNext * 1.3);
+          s.skillPoints += 2;
+          if (s.level % 3 === 0) s.perkPoints += 1;
+          const msg = `Level Up! Reached Level ${s.level}. Gained 2 Skill Points${s.level % 3 === 0 ? ' and 1 Perk Point' : ''}.`;
+          if(!s.log.includes(msg)) s.log.unshift(msg);
+      }
+  }
+  if(eff.cap) s.marrowCap = Math.min(s.beltLimit, s.marrowCap + eff.cap);
+  if(eff.belt) s.beltLimit = Math.min(6, s.beltLimit + eff.belt);
   if(eff.addMarrow) {
     if (s.marrow.length < s.marrowCap) s.marrow.push(eff.addMarrow);
   }
@@ -2030,7 +2688,6 @@ function applyEffect(effectRaw, s){
           s.inventory[k] = (s.inventory[k] || 0) + eff.addInv[k];
       });
   }
-  if(eff.cap) s.marrowCap += eff.cap;
 }
 
 function applyFlags(flagsRaw, s){
@@ -2043,6 +2700,9 @@ function applyFlags(flagsRaw, s){
     } else if(f.indexOf('mount:') === 0){
       const id = f.split(':')[1];
       s.mount = id;
+    } else if(f.indexOf('log:') === 0){
+      const text = f.substring(4);
+      if(!s.log.includes(text)) s.log.unshift(text);
     } else {
       s.flags[f] = true;
     }
@@ -2062,8 +2722,8 @@ function teleportTo(nodeId) {
 function choose(choice){
   applyEffect(choice.effect, state);
   applyFlags(choice.setFlags, state);
-  if(state.charge <= 0){
-    state.node = 'dark_ending';
+  if(state.charge <= 0 || state.health <= 0){
+    state.node = state.health <= 0 ? 'blood_ending' : 'dark_ending';
   } else {
     state.node = resolveNext(choice, state);
   }
@@ -2128,7 +2788,8 @@ function adjustSkill(key, delta){
 
 function confirmCreation(){
   if(state.skillPoints > 0) return;
-  state.marrowCap = 2 + (state.skills.STR >= 4 ? 1 : 0);
+  state.marrowCap = 4 + (state.skills.STR >= 4 ? 1 : 0);
+  state.beltLimit = state.marrowCap;
   state.node = 'start';
   saveGame();
   render();
@@ -2160,9 +2821,15 @@ function openPopup(type){ state.activePopup = type; render(); }
 function closePopup(){ state.activePopup = null; render(); }
 
 function markVisited(id){
-  if(id === 'desk') state.flags.visitedDesk = true;
-  else if(id.indexOf('dome') === 0) state.flags.visitedDome = true;
-  else if(id === 'caldera_entry') state.flags.visitedCaldera = true;
+  if(id === 'desk' && !state.flags.visitedDesk) { state.flags.visitedDesk = true; applyEffect({xp: 10}, state); }
+  else if(id.indexOf('dome') === 0 && !state.flags.visitedDome) { state.flags.visitedDome = true; applyEffect({xp: 15}, state); }
+  else if(id === 'caldera_entry' && !state.flags.visitedCaldera) { state.flags.visitedCaldera = true; applyEffect({xp: 20}, state); }
+  else if(id === 'foundry_city' && !state.flags.visitedFoundry) { state.flags.visitedFoundry = true; applyEffect({xp: 25}, state); }
+  else if(id === 'marsh_haven' && !state.flags.visitedMarshHaven) { state.flags.visitedMarshHaven = true; applyEffect({xp: 25}, state); }
+  else if(id === 'aethelgard_plaza' && !state.flags.visitedAethelgard) {
+      state.flags.visitedAethelgard = true;
+      applyEffect({xp: 50, log: 'Reached Aethelgard, the City of Eternal Light. Its beauty is breathtaking.'}, state);
+  }
 }
 
 /* ---------- Rendering ---------- */
@@ -2214,9 +2881,10 @@ function renderStatusBar(){
   if(state.flags.hasDynamoCore) tags.push('Dynamo Core');
   if(state.flags.hasValveCap) tags.push('Valve Cap');
 
-  const ampoules = Array.from({length: state.marrowCap}, (_,i)=>{
+  const ampoules = Array.from({length: state.beltLimit}, (_,i)=>{
     const type = state.marrow[i];
-    let cls = '';
+    const hasAmpoule = i < state.marrowCap;
+    let cls = hasAmpoule ? '' : 'locked';
     if (type === 'stellar') cls = 'stellar';
     if (type === 'amber') cls = 'amber';
     if (type === 'solar') cls = 'solar';
@@ -2230,26 +2898,62 @@ function renderStatusBar(){
   if(state.inventory.grappleBolts) invSummary.push(`⚓ ${state.inventory.grappleBolts}`);
   if(state.inventory.flares) invSummary.push(`✨ ${state.inventory.flares}`);
 
-  const dropletIcon = `<svg viewBox="0 0 24 24" class="stat-mini-icon"><path d="M12 3c3 4 6 8 6 11.5A6 6 0 0 1 6 14.5C6 11 9 7 12 3z"/></svg>`;
-  const pawIcon = `<svg viewBox="0 0 24 24" class="stat-mini-icon"><circle cx="12" cy="15" r="3.2"/><circle cx="6" cy="7" r="1.7"/><circle cx="18" cy="7" r="1.7"/><circle cx="9.5" cy="4.5" r="1.7"/><circle cx="14.5" cy="4.5" r="1.7"/></svg>`;
-  const mountIcon = `<svg viewBox="0 0 24 24" class="stat-mini-icon" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 18c0-4 4-7 8-7s8 3 8 7"/><path d="M12 11V3"/><path d="M9 3h6"/></svg>`;
+  const dropletIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stat-mini-icon"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>`;
+  const pawIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stat-mini-icon"><path d="M12 15.5l-3.2 1.9 1-3.6-2.8-2.4 3.7-.3 1.3-3.4 1.3 3.4 3.7.3-2.8 2.4 1 3.6z"/></svg>`;
+  const mountIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stat-mini-icon"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>`;
+  const heartIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stat-mini-icon" style="color:var(--danger);"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+  const glintIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stat-mini-icon" style="color:var(--amber);"><circle cx="12" cy="12" r="8"/><path d="M12 16V8M8 12h8"/></svg>`;
+  const beltIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stat-mini-icon" style="color:var(--bronze);"><rect x="3" y="10" width="18" height="4"/><path d="M8 10v4M16 10v4"/></svg>`;
+  const xpIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stat-mini-icon" style="color:var(--violet);"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`;
+
+  const xpPct = (state.xp / state.xpToNext) * 100;
 
   return `
   <div class="statusbar">
-    <div class="gauge">${lanternSVG(state.charge)}<div class="gauge-label">Lantern</div></div>
-
-    <div class="status-mid">
-      <div class="charge-pct">
-        <span>${dropletIcon} ${state.marrow.length}/${state.marrowCap}</span>
-        <span class="comp-count">${pawIcon} ${state.companions.length}/2</span>
-        ${state.mount ? `<span class="comp-count" style="color:var(--copper);">${mountIcon} 1/1</span>` : ''}
-        ${invSummary.length ? `<span style="font-size:10px; color:var(--stone); margin-left:10px;">${invSummary.join(' ')}</span>` : ''}
-      </div>
-      <div class="ampoules">${ampoules}</div>
-      ${tags.length ? `<div class="inv-tags">${tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>` : ''}
+    <!-- Vital Gauges -->
+    <div class="status-vitals">
+        <div class="gauge">${lanternSVG(state.charge)}<div class="gauge-label">Lantern</div></div>
+        <div style="font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--danger); display:flex; align-items:center; gap:6px; margin-top:12px; background:rgba(0,0,0,0.2); padding:2px 8px; border-radius:10px;">
+            ${heartIcon} ${state.health}%
+        </div>
     </div>
 
+    <!-- Main Data -->
+    <div class="status-main">
+        <!-- Row 1: Progression -->
+        <div class="status-row">
+            <div class="status-progression">
+                <span style="color:var(--violet); font-weight:600;">LVL ${state.level}</span>
+                <div class="xp-bar-wrap" title="${state.xp}/${state.xpToNext} XP">
+                    <div class="xp-bar-fill" style="width:${xpPct}%"></div>
+                </div>
+            </div>
+            <div class="status-glints">
+                ${glintIcon} ${state.glints}
+            </div>
+        </div>
+
+        <!-- Row 2: Capacity & Inventory -->
+        <div class="status-row">
+            <div class="status-ampoule-group">
+                <span style="font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--violet);">${dropletIcon} ${state.marrow.length}/${state.marrowCap}</span>
+                <div class="ampoules">${ampoules}</div>
+            </div>
+            <div class="inv-summary">
+                ${invSummary.join('<span style="color:rgba(255,255,255,0.1);">|</span>')}
+            </div>
+        </div>
+
+        <!-- Row 3: Quest Tags -->
+        ${tags.length ? `<div class="inv-tags">${tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>` : ''}
+    </div>
+
+    <!-- Side Actions -->
     <div class="codex-wrap">
+      <div class="companion-mini-stack" style="margin-bottom:8px;">
+          ${state.mount ? `<div class="comp-icon-mini mount" title="Mount Attached">${mountIcon}</div>` : ''}
+          ${state.companions.map(() => `<div class="comp-icon-mini" title="Companion Active">${pawIcon}</div>`).join('')}
+      </div>
       <button class="codex-btn" onclick="toggleCodex()">
         CODEX <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
       </button>
@@ -2263,10 +2967,13 @@ function renderStatusBar(){
 }
 
 const ICONS = {
-  items: `<svg viewBox="0 0 24 24"><path d="M4 10v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V10M8 10V7a4 4 0 0 1 8 0v3" stroke="var(--bronze)" fill="none"/><path d="M9 14h6" stroke="var(--copper)"/></svg>`, // Satchel
-  skills: `<svg viewBox="0 0 24 24"><circle cx="9" cy="9" r="5" stroke="var(--brass)" fill="none"/><circle cx="15" cy="15" r="5" stroke="var(--copper)" fill="none"/><path d="M12 12l1 1" stroke="var(--iron)"/></svg>`, // Interlocking Gears
-  companions: `<svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" fill="none" stroke="var(--copper)"/><path d="M12 13v3M10 14.5h4" stroke="var(--copper)"/></svg>`, // Clockwork Heart
-  map: `<svg viewBox="0 0 24 24"><path d="M4 4h16v16H4z" stroke="var(--bronze)" fill="none"/><path d="M12 4v16M4 12h16" stroke="var(--iron)"/><circle cx="12" cy="12" r="3" stroke="var(--brass)" fill="none"/></svg>`, // Sextant/Chart
+  items: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v3m18 0v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8m18 0H3m4 4h10"/></svg>`,
+  skills: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>`,
+  companions: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>`,
+  map: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 15 22 23 18 23 2 15 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="15" y1="6" x2="15" y2="22"/></svg>`,
+  craft: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>`,
+  log: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15z"/></svg>`,
+  factions: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>`,
 };
 
 function renderSidebar(){
@@ -2275,6 +2982,9 @@ function renderSidebar(){
     <button class="sidebar-btn" onclick="openPopup('items')" aria-label="Items">${ICONS.items}<span class="sidebar-label">Items</span></button>
     <button class="sidebar-btn" onclick="openPopup('skills')" aria-label="Skills">${ICONS.skills}<span class="sidebar-label">Skills</span></button>
     <button class="sidebar-btn" onclick="openPopup('companions')" aria-label="Companions">${ICONS.companions}${state.companions.length ? `<span class="sidebar-badge">${state.companions.length}</span>` : ''}<span class="sidebar-label">Companions</span></button>
+    <button class="sidebar-btn" onclick="openPopup('craft')" aria-label="Crafting">${ICONS.craft}<span class="sidebar-label">Crafting</span></button>
+    <button class="sidebar-btn" onclick="openPopup('factions')" aria-label="Factions">${ICONS.factions}<span class="sidebar-label">Factions</span></button>
+    <button class="sidebar-btn" onclick="openPopup('log')" aria-label="Journal">${ICONS.log}<span class="sidebar-label">Journal</span></button>
     <button class="sidebar-btn" onclick="openPopup('map')" aria-label="Map">${ICONS.map}<span class="sidebar-label">Map</span></button>
   </div>`;
 }
@@ -2285,36 +2995,156 @@ function renderItemsPopup(){
     { name:'Lucid Lantern', desc: state.flags.hasLumicEmitter ? 'Equipped with a self-sustaining Lumic Core-Emitter. Constant daylight-grade beam.' : 'Hand-cranked, running on pale-blue charge.' },
     { name:'Shutter-lens Apparatus', desc: state.flags.hasMonocular ? 'Enhanced with a Surveyor\'s Monocular attachment. Tracks thermal and structural density.' : 'Mounted over one eye. Filters spectrum shifts.' },
   ];
+
+  const equipLines = Object.keys(state.equipment).map(slot => {
+      const item = state.equipment[slot];
+      return `<div class="popup-item"><div class="popup-item-name" style="color:var(--amber); font-size:12px;">${slot.toUpperCase()}: ${item || 'Empty'}</div></div>`;
+  }).join('');
+
+  // Quest Items
   if(state.flags.hasCylinder) items.push({ name:'Silver Cylinder', desc:'A cold, untarnished keyed release core.' });
   if(state.flags.hasWedgeKey) items.push({ name:'Wedge Key', desc:'Cut in the shape of a split wedge.' });
-  if(state.flags.hasBow) items.push({ name:'Stalker\'s Recurve', desc:'Spring-steel and whalebone bow. Silent and deadly.' });
+  if(state.flags.hasBow) items.push({ name:'Stalker\'s Bow', desc: state.flags.hasSunBurstBow ? 'Sun-Burst Recurve: Arrows bloom with daylight.' : 'Spring-steel and whalebone bow. Silent and deadly.' });
   if(state.flags.hasSilicaCore) items.push({ name:'Silica Core', desc:'A salvaged optical focusing prism.' });
+  if(state.flags.hasMandibles) items.push({ name:'Mandibles', desc:'Silica pincers from a Glass Crawler.' });
   if(state.flags.hasDynamoCore) items.push({ name:'Dynamo Core', desc:'A pressurized gyroscopic flywheel.' });
   if(state.flags.hasValveCap) items.push({ name:'Valve Cap', desc:'A concentrated plug of high-density Amber Glass.' });
 
+  // Consumables & Materials
+  if(state.inventory.saltPork) items.push({ name:`Salt-pork (${state.inventory.saltPork})`, desc:'Preserved meat. Used for taming beasts and emergency recovery.' });
+  if(state.inventory.rawMeat) items.push({ name:`Raw Game (${state.inventory.rawMeat})`, desc:'Tough mountain meat. Needs fire or salt.' });
+  if(state.inventory.herbs) items.push({ name:`Frost Herbs (${state.inventory.herbs})`, desc:'Resilient alpine flora. Smells of pine and mint.' });
+  if(state.inventory.salt) items.push({ name:`Rock Salt (${state.inventory.salt})`, desc:'Mineral deposits from the deep veins.' });
+  if(state.inventory.scrapMetal) items.push({ name:`Scrap Metal (${state.inventory.scrapMetal})`, desc:'Oxidized iron and bronze from the refinery.' });
+
+  // Ammo
+  if(state.inventory.arrows) items.push({ name:`Bodkin Arrows (${state.inventory.arrows})`, desc:'Fluted steel points for the Stalker\'s Bow.' });
+  if(state.inventory.kineticArrows) items.push({ name:`Kinetic Bolts (${state.inventory.kineticArrows})`, desc:'Impact-heavy rods that release a violent shockwave.' });
+  if(state.inventory.thermalArrows) items.push({ name:`Thermal Shafts (${state.inventory.thermalArrows})`, desc:'Arrows that bleed intense heat upon impact.' });
+  if(state.inventory.grappleBolts) items.push({ name:`Grapple Bolts (${state.inventory.grappleBolts})`, desc:'Pneumatic winches for vertical traversal.' });
+  if(state.inventory.flares) items.push({ name:`Magnesium Flares (${state.inventory.flares})`, desc:'Blinds beasts and reveals hidden thermal pits.' });
+  if(state.inventory.solarMarrow) items.push({ name:`Pure Solar Marrow (${state.inventory.solarMarrow})`, desc:'Hyper-compressed white radiance. The pinnacle of light energy.' });
+
+  // Ampoules
+  const ampouleSummary = state.marrow.length > 0
+    ? state.marrow.map(m => m.charAt(0).toUpperCase() + m.slice(1)).join(', ')
+    : 'None filled';
+
   return `
-  <div class="popup-title">Carried Items</div>
-  <div class="popup-sub">Gear and salvage from the deep</div>
-  ${items.map(i=>`<div class="popup-item"><div class="popup-item-name">${i.name}</div><div class="popup-item-desc">${i.desc}</div></div>`).join('')}
+  <div class="popup-title">Gear & Equipment</div>
+  <div class="popup-sub">Your current loadout</div>
+  <div style="border-bottom: 2px solid var(--iron); padding-bottom: 10px; margin-bottom: 10px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px;">
+    ${equipLines}
+  </div>
+
+  <div class="popup-sub" style="color:var(--violet);">Filled Ampoules (${state.marrow.length}/${state.marrowCap})</div>
+  <div class="popup-item">
+    <div class="popup-item-desc">${ampouleSummary}</div>
+  </div>
+
+  <div class="popup-sub">Inventory</div>
+  <div style="max-height: 250px; overflow-y: auto; padding-right: 5px;">
+    ${items.map(i=>`<div class="popup-item"><div class="popup-item-name">${i.name}</div><div class="popup-item-desc">${i.desc}</div></div>`).join('')}
+  </div>
   `;
 }
+
+function renderFactionsPopup() {
+    const factions = [
+        { id: 'guild', name: 'Crust-Strider Guild', desc: 'Nomadic guides and trappers. They value survival expertise.' },
+        { id: 'outriders', name: 'Rift-Frontier Outriders', desc: 'Militarized border wardens. They value strength and defense.' },
+        { id: 'zenith', name: 'Zenith Order', desc: 'The remnant elite. They value technology and Solar Marrow.' }
+    ];
+
+    return `
+    <div class="popup-title">Faction Reputation</div>
+    <div class="popup-sub">Your standing among the powers that be</div>
+    <div style="margin-top:10px;">
+        ${factions.map(f => {
+            const val = state.reputation[f.id];
+            let rank = 'Neutral';
+            let color = 'var(--stone)';
+            if(val >= 20) { rank = 'Friendly'; color = 'var(--amber)'; }
+            if(val >= 50) { rank = 'Honored'; color = 'var(--brass-bright)'; }
+            if(val >= 80) { rank = 'Exalted'; color = 'var(--solar)'; }
+            if(val < 0) { rank = 'Suspicious'; color = 'var(--danger)'; }
+            if(val <= -40) { rank = 'Hostile'; color = 'var(--danger-bright)'; }
+
+            return `
+            <div class="popup-item">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div class="popup-item-name">${f.name}</div>
+                    <div style="font-family:'IBM Plex Mono', monospace; font-size:11px; color:${color};">${rank} (${val})</div>
+                </div>
+                <div class="skill-bar" style="height:4px; margin-top:5px;"><div class="skill-bar-fill" style="width:${(val+100)/200*100}%; background:${color};"></div></div>
+                <div class="popup-item-desc">${f.desc}</div>
+            </div>`;
+        }).join('')}
+    </div>
+    `;
+}
+
+const PERK_INFO = {
+    'scavenger_eye': { name: 'Scavenger\'s Eye', desc: 'Find 50% more Glints and materials from all sources.' },
+    'iron_lungs': { name: 'Iron Lungs', desc: 'Reduces health damage from environmental hazards by 30%.' },
+    'marrow_well': { name: 'Marrow Well', desc: 'Cranking your lantern provides 50% more charge.' },
+    'beast_whisperer': { name: 'Beast Whisperer', desc: 'Bonding with companions costs no Glints or items.' },
+    'shadow_step': { name: 'Shadow Step', desc: 'Agility-based actions cost 50% less Lantern Charge.' }
+};
 
 function renderSkillsPopup(){
   const rows = ['STR','INT','CHA','AGI'].map(k=>{
     const info = SKILL_INFO[k];
     const v = state.skills[k];
+    const canUpgrade = state.skillPoints > 0 && v < 5;
     return `
     <div class="skill-row">
-      <div class="skill-top"><span class="skill-name"><span class="skill-icon">${STAT_ICONS[k]}</span>${info.name.toUpperCase()}</span><span class="skill-val">${v} / 5</span></div>
+      <div class="skill-top">
+        <span class="skill-name"><span class="skill-icon">${STAT_ICONS[k]}</span>${info.name.toUpperCase()}</span>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <span class="skill-val">${v} / 5</span>
+            ${canUpgrade ? `<button class="stat-btn" style="width:20px; height:20px; font-size:12px;" onclick="adjustSkill('${k}',1)">+</button>` : ''}
+        </div>
+      </div>
       <div class="skill-bar"><div class="skill-bar-fill" style="width:${v/5*100}%"></div></div>
       <div class="skill-desc">${info.desc}</div>
     </div>`;
   }).join('');
+
+  const perks = Object.keys(PERK_INFO).map(id => {
+      const p = PERK_INFO[id];
+      const owned = state.perks.includes(id);
+      const canBuy = state.perkPoints > 0 && !owned;
+      return `
+        <div class="popup-item" style="opacity: ${owned ? 1 : (canBuy ? 0.8 : 0.4)}">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="popup-item-name" style="${owned ? 'color:var(--amber);' : ''}">${p.name} ${owned ? '✓' : ''}</div>
+                ${canBuy ? `<button class="codex-btn" style="padding:4px 8px; font-size:10px;" onclick="buyPerk('${id}')">UNLOCK</button>` : ''}
+            </div>
+            <div class="popup-item-desc">${p.desc}</div>
+        </div>
+      `;
+  }).join('');
+
   return `
-  <div class="popup-title">Your Abilities</div>
-  <div class="popup-sub">Set at the start of the descent</div>
-  ${rows}
+  <div class="popup-title">Abilities & Perks</div>
+  <div class="popup-sub">Level: ${state.level} | ${state.skillPoints} Skill Points | ${state.perkPoints} Perk Points</div>
+  <div style="max-height: 400px; overflow-y: auto;">
+      <div class="popup-sub" style="margin-top:10px;">Attributes</div>
+      ${rows}
+      <div class="popup-sub" style="margin-top:20px;">Special Perks</div>
+      ${perks}
+  </div>
   `;
+}
+
+function buyPerk(id) {
+    if (state.perkPoints > 0 && !state.perks.includes(id)) {
+        state.perkPoints--;
+        state.perks.push(id);
+        render();
+        saveGame();
+    }
 }
 
 function renderCompanionsPopup(){
@@ -2367,7 +3197,7 @@ function renderCodexPopup(category){
         <button class="popup-close" onclick="closeCodexDetail()" style="left:16px; right:auto;">&larr;</button>
         <div class="popup-title" style="margin-top:20px;">${item.name}</div>
         <div class="popup-sub">${data.title}</div>
-        ${item.img ? `<img src="${assetPath(item.img)}" class="codex-detail-img" alt="${item.name}">` : ''}
+        ${item.img ? `<img src="${item.img}" class="codex-detail-img" alt="${item.name}">` : ''}
         <div class="popup-item-desc" style="font-size:16px;">${item.desc}</div>
       `;
   }
@@ -2398,6 +3228,112 @@ function renderCodexPopup(category){
   `;
 }
 
+function craftItem(recipeId) {
+    const s = state;
+    let xpGain = 10;
+    if (recipeId === 'cooked_meat') {
+        if (s.inventory.rawMeat >= 1) {
+            s.inventory.rawMeat--;
+            s.health = Math.min(100, s.health + 15);
+        }
+    } else if (recipeId === 'healing_salve') {
+        if (s.inventory.herbs >= 2) {
+            s.inventory.herbs -= 2;
+            s.health = Math.min(100, s.health + 30);
+            xpGain = 20;
+        }
+    } else if (recipeId === 'salt_pork') {
+        if (s.inventory.rawMeat >= 1 && s.inventory.salt >= 1) {
+            s.inventory.rawMeat--;
+            s.inventory.salt--;
+            s.inventory.saltPork++;
+            xpGain = 15;
+        }
+    } else if (recipeId === 'arrows') {
+        if (s.inventory.scrapMetal >= 1) {
+            s.inventory.scrapMetal--;
+            s.inventory.arrows += 5;
+        }
+    } else if (recipeId === 'grapple_bolt') {
+        if (s.inventory.scrapMetal >= 1 && s.inventory.shadowSilk >= 20) {
+            s.inventory.scrapMetal--;
+            s.inventory.shadowSilk -= 20;
+            s.inventory.grappleBolts++;
+            xpGain = 25;
+        }
+    } else if (recipeId === 'glass_ampoule') {
+        if (s.inventory.scrapMetal >= 1 && s.flags.hasSilicaCore && s.marrowCap < s.beltLimit) {
+            s.inventory.scrapMetal--;
+            s.marrowCap++;
+            xpGain = 50;
+        }
+    } else if (recipeId === 'marrow_infusion') {
+        const idx = s.marrow.indexOf('amber');
+        if (idx > -1) {
+            s.marrow.splice(idx, 1);
+            s.charge = Math.min(100, s.charge + 10);
+        }
+    } else if (recipeId === 'protection_balm') {
+        if (s.inventory.herbs >= 1 && s.inventory.salt >= 1) {
+            s.inventory.herbs--;
+            s.inventory.salt--;
+            s.flags.hasProtectionBalm = true;
+            xpGain = 40;
+        }
+    }
+    applyEffect({xp: xpGain}, s);
+    saveGame();
+    render();
+}
+
+function renderCraftingPopup() {
+    const s = state;
+    const recipes = [
+        { id: 'cooked_meat', name: 'Cooked Meat', req: '1 Raw Game', result: '+15 Health', can: s.inventory.rawMeat >= 1 },
+        { id: 'healing_salve', name: 'Healing Salve', req: '2 Frost Herbs', result: '+30 Health', can: s.inventory.herbs >= 2 },
+        { id: 'salt_pork', name: 'Salt-pork', req: '1 Raw Game, 1 Salt', result: '1 Salt-pork (for Taming)', can: s.inventory.rawMeat >= 1 && s.inventory.salt >= 1 },
+        { id: 'arrows', name: 'Steel Arrows', req: '1 Scrap Metal', result: '5 Arrows', can: s.inventory.scrapMetal >= 1 },
+        { id: 'grapple_bolt', name: 'Grapple Bolt', req: '1 Scrap Metal, 20 Shadow-Silk', result: '1 Grappling Bolt', can: s.inventory.scrapMetal >= 1 && s.inventory.shadowSilk >= 20 },
+        { id: 'glass_ampoule', name: 'Glass Ampoule', req: '1 Scrap Metal (Requires Silica Core)', result: '+1 Ampoule Slot', can: s.inventory.scrapMetal >= 1 && s.flags.hasSilicaCore && s.marrowCap < s.beltLimit },
+        { id: 'protection_balm', name: 'Protection Balm', req: '1 Herb, 1 Salt', result: 'Prevents Gloom-Rot', can: s.inventory.herbs >= 1 && s.inventory.salt >= 1 && !s.flags.hasProtectionBalm },
+        { id: 'marrow_infusion', name: 'Marrow Infusion', req: '1 Amber Marrow', result: '+10 Charge', can: s.marrow.includes('amber') },
+    ];
+
+    return `
+    <div class="popup-title">Crafting & Cooking</div>
+    <div class="popup-sub">Convert raw materials into survival tools</div>
+    <div style="display:flex; flex-direction:column; gap:8px; margin-top:10px;">
+        ${recipes.map(r => `
+            <div class="popup-item" style="display:flex; justify-content:space-between; align-items:center; opacity: ${r.can ? 1 : 0.4};">
+                <div>
+                    <div class="popup-item-name">${r.name}</div>
+                    <div class="popup-item-desc">${r.req} &rarr; <em>${r.result}</em></div>
+                </div>
+                <button class="codex-btn" style="padding:4px 10px; font-size:10px;"
+                    onclick="craftItem('${r.id}')" ${r.can ? '' : 'disabled'}>
+                    ${r.id === 'cooked_meat' ? 'COOK' : 'CRAFT'}
+                </button>
+            </div>
+        `).join('')}
+    </div>
+    `;
+}
+
+function renderLogPopup() {
+    return `
+    <div class="popup-title">Scavenger's Journal</div>
+    <div class="popup-sub">Recorded thoughts and discoveries</div>
+    <div style="margin-top:10px; border-top: 1px solid var(--iron);">
+        ${state.log.length === 0 ? `<div class="companion-empty" style="padding-top:20px;">No entries yet. Discover lore or reach major milestones to record them here.</div>` :
+          state.log.map(entry => `
+            <div class="popup-item">
+                <div class="popup-item-desc" style="color:var(--parchment); line-height:1.4;">${entry}</div>
+            </div>
+          `).join('')}
+    </div>
+    `;
+}
+
 function renderPopup(){
   if(!state.activePopup) return '';
   let content = '';
@@ -2408,6 +3344,9 @@ function renderPopup(){
   else if(state.activePopup === 'skills') content = renderSkillsPopup();
   else if(state.activePopup === 'companions') content = renderCompanionsPopup();
   else if(state.activePopup === 'map') content = renderMapPopup();
+  else if(state.activePopup === 'craft') content = renderCraftingPopup();
+  else if(state.activePopup === 'log') content = renderLogPopup();
+  else if(state.activePopup === 'factions') content = renderFactionsPopup();
   return `
   <div class="popup-backdrop" id="popup-backdrop">
     <div class="popup-panel">
@@ -2422,7 +3361,7 @@ function render(){
   const fullBg = document.getElementById('fullscreen-bg');
 
   if(state.node === 'character_selection'){
-      fullBg.style.backgroundImage = `url('${assetPath('Background 9x16.png')}')`;
+      fullBg.style.backgroundImage = "url('Background 9x16.png')";
       app.innerHTML = `
         <div class="title-screen creation-screen">
           <div class="glyphline">Identity</div>
@@ -2430,11 +3369,11 @@ function render(){
           <div class="creation-sub">Choose the face that will brave the dark.</div>
           <div class="char-select-wrap">
             <div class="char-card" onclick="chooseCharacter('male')">
-              <img src="${assetPath('Male Character.png')}" alt="Male">
+              <img src="Male Character.png" alt="Male">
               <div class="name">Male</div>
             </div>
             <div class="char-card" onclick="chooseCharacter('female')">
-              <img src="${assetPath('Female Character.png')}" alt="Female">
+              <img src="Female Character.png" alt="Female">
               <div class="name">Female</div>
             </div>
           </div>
@@ -2445,7 +3384,7 @@ function render(){
   }
 
   if(state.node === 'slot_selection'){
-    fullBg.style.backgroundImage = `url('${assetPath('Background 9x16.png')}')`;
+    fullBg.style.backgroundImage = "url('Background 9x16.png')";
     const slots = [1,2,3].map(slot => {
       const summary = getSlotSummary(slot);
       return `
@@ -2476,7 +3415,7 @@ function render(){
   }
 
   if(state.node === 'title'){
-    fullBg.style.backgroundImage = `url('${assetPath('Background 9x16.png')}')`;
+    fullBg.style.backgroundImage = "url('Background 9x16.png')";
     app.innerHTML = `
     <div class="title-screen">
       <svg class="title-backdrop" viewBox="0 0 520 340" xmlns="http://www.w3.org/2000/svg">
@@ -2534,7 +3473,7 @@ function render(){
   }
 
   if(state.node === 'creation'){
-    fullBg.style.backgroundImage = `url('${assetPath('Background 9x16.png')}')`;
+    fullBg.style.backgroundImage = "url('Background 9x16.png')";
     const s = state.skills;
     const remaining = state.skillPoints;
     const rows = ['STR','INT','CHA','AGI'].map(k=>{
@@ -2566,7 +3505,7 @@ function render(){
   markVisited(state.node);
 
   if (node.bg) {
-    fullBg.style.backgroundImage = `url('${assetPath(node.bg)}')`;
+    fullBg.style.backgroundImage = `url('${node.bg}')`;
   }
 
   if(node.ending){
@@ -2589,7 +3528,7 @@ function render(){
     return;
   }
 
-  const choices = resolveChoices(node, state);
+  const choices = resolveChoices(node, state).filter(c => resolveCondition(c, state));
   const paras = typeof node.text === 'function' ? node.text(state) : node.text;
 
   app.innerHTML = `
@@ -2625,14 +3564,6 @@ function wireUp(choices){
 }
 
 render();
-
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register(`${ASSET_DIR}sw.js`)
-      .then(reg => console.log('Service Worker registered', reg))
-      .catch(err => console.log('Service Worker registration failed', err));
-  });
-}
 </script>
 </body>
 </html>
