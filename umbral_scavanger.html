@@ -900,34 +900,43 @@
 <script>
 /* ============================= CONTENT REFERENCE DATA ============================= */
 
+const ASSET_DIR = 'Umbral_Scavanger_assets/';
+function getAsset(path) {
+  if (!path) return '';
+  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:') || path.startsWith(ASSET_DIR)) {
+    return path;
+  }
+  return ASSET_DIR + path;
+}
+
 const CODEX_DATA = {
   beasts: {
     title: 'Codex: Bestiary',
     items: [
-      { name: 'Glass Crawler', requiredFlag: 'metCrawler', desc: 'Hostile silica arachnids with razor forelegs; aggressively drawn to leaking violet Stellar Pitch.', img: 'Glass Crawler.png' },
-      { name: 'Chime Drake', requiredFlag: 'metDrake', desc: 'A rare subterranean predator that can be bonded through warmth and harmony. Bonded Chime Drakes act as acoustic scouts.', img: 'Chime Drake.png' },
-      { name: 'Gloom Wyrm', requiredFlag: 'metWyrm', desc: 'Hostile apex predator; eyeless and light-absorbing, hunting via sensitive thermal pits.', img: 'Gloom Wyrm.png' },
-      { name: 'Sentry Golem', requiredFlag: 'metGolem', desc: 'Hostile clockwork automata; nine-foot bipedal bronze sentries with cyclopean searchlights.', img: 'Clockwork Sentry Golems.png' },
-      { name: 'Obsidian Patriarch', requiredFlag: 'metTitan', desc: 'Titan-class bio-mechanical colossus; commanding sentry legions and firing solar purge beams.', img: 'The Obsidian Patriarch.png' },
-      { name: 'Frost-Stalkers', requiredFlag: 'visitedIceShelf', desc: 'Hostile quadruped shadow beasts hunting via thermal drafts across the Black Ice Shelf.', img: 'Frost-Stalkers.png' },
-      { name: 'Frost-Strider Elk', requiredFlag: 'metElk', desc: 'A majestic alpha cervid of the high plateaus. While territorial and dangerous if provoked, it can be tamed as a mountain mount.', img: 'The Frost-Strider Elk.png' },
-      { name: 'Burrowing Drake', requiredFlag: 'metBurrower', desc: 'A territorial predator of the quarries that can be bonded as a kinetic defender. Features armored scales and spade-shaped claws.', img: 'The Iron-Scale Burrowing Drake.png' },
-      { name: 'Gloom-Stalkers', requiredFlag: 'metGloomStalker', desc: 'Hostile pack hunters; blind quadruped shadow beasts tracking footsteps via thermal drafts.', img: 'Gloom-Stalkers.png' },
-      { name: 'Tempest-Vane Falcon', requiredFlag: 'metFalcon', desc: 'Colossal avian predator (26ft wingspan). Roosts atop lightning rods, riding thermal updrafts. Plumage resists rime; wing-buffets can generate shockwaves to disperse gas or swarms. Synchronizes with Chime Drakes for echolocation in blizzards.', img: 'The Tempest-Vane Falcon.png' }
+      { name: 'Glass Crawler', requiredFlag: 'metCrawler', desc: 'Hostile silica arachnids with razor forelegs; aggressively drawn to leaking violet Stellar Pitch.', img: ASSET_DIR + 'Glass Crawler.png' },
+      { name: 'Chime Drake', requiredFlag: 'metDrake', desc: 'A rare subterranean predator that can be bonded through warmth and harmony. Bonded Chime Drakes act as acoustic scouts.', img: ASSET_DIR + 'Chime Drake.png' },
+      { name: 'Gloom Wyrm', requiredFlag: 'metWyrm', desc: 'Hostile apex predator; eyeless and light-absorbing, hunting via sensitive thermal pits.', img: ASSET_DIR + 'Gloom Wyrm.png' },
+      { name: 'Sentry Golem', requiredFlag: 'metGolem', desc: 'Hostile clockwork automata; nine-foot bipedal bronze sentries with cyclopean searchlights.', img: ASSET_DIR + 'Clockwork Sentry Golems.png' },
+      { name: 'Obsidian Patriarch', requiredFlag: 'metTitan', desc: 'Titan-class bio-mechanical colossus; commanding sentry legions and firing solar purge beams.', img: ASSET_DIR + 'The Obsidian Patriarch.png' },
+      { name: 'Frost-Stalkers', requiredFlag: 'visitedIceShelf', desc: 'Hostile quadruped shadow beasts hunting via thermal drafts across the Black Ice Shelf.', img: ASSET_DIR + 'Frost-Stalkers.png' },
+      { name: 'Frost-Strider Elk', requiredFlag: 'metElk', desc: 'A majestic alpha cervid of the high plateaus. While territorial and dangerous if provoked, it can be tamed as a mountain mount.', img: ASSET_DIR + 'The Frost-Strider Elk.png' },
+      { name: 'Burrowing Drake', requiredFlag: 'metBurrower', desc: 'A territorial predator of the quarries that can be bonded as a kinetic defender. Features armored scales and spade-shaped claws.', img: ASSET_DIR + 'The Iron-Scale Burrowing Drake.png' },
+      { name: 'Gloom-Stalkers', requiredFlag: 'metGloomStalker', desc: 'Hostile pack hunters; blind quadruped shadow beasts tracking footsteps via thermal drafts.', img: ASSET_DIR + 'Gloom-Stalkers.png' },
+      { name: 'Tempest-Vane Falcon', requiredFlag: 'metFalcon', desc: 'Colossal avian predator (26ft wingspan). Roosts atop lightning rods, riding thermal updrafts. Plumage resists rime; wing-buffets can generate shockwaves to disperse gas or swarms. Synchronizes with Chime Drakes for echolocation in blizzards.', img: ASSET_DIR + 'The Tempest-Vane Falcon.png' }
     ]
   },
   items: {
     title: 'Codex: Gear & Alchemy',
     items: [
-      { name: 'Amber Marrow', requiredFlag: 'harvestedAmber', desc: 'Dense, molten-gold honey syrup. Radiates intense hearth-heat; powers industrial forge engines.', img: 'Amber Flue 9x16.png' },
-      { name: 'Stellar Pitch', requiredFlag: 'harvestedStellarEarly', desc: 'Volatile, cold-burning violet distillate. High-output kinetic propellant; provides explosive shockwaves.', img: 'Ruined Dome 9x16.png' },
-      { name: 'Verdant Flux', requiredFlag: 'metFlux', desc: 'Emerald stabilizing solvent. Stabilizes drilling rigs; cures into pliant, impact-resistant membranes.', img: 'The Upper Refinery Gallery & Control Outposts 9x16.png' },
-      { name: 'Solar Marrow', requiredFlag: 'metTitan', desc: 'Hyper-compressed white-violet radiance. Supercritical energy capable of firing devastating purge beams.', img: 'The Obsidian Patriarch.png' },
-      { name: 'Umbral Edge', requiredFlag: 'hasUmbralEdge', desc: 'Superheated blade spine capable of slicing through reinforced silica and hydraulic locks.', img: 'The Upper Refinery Gallery & Control Outposts 9x16.png' },
-      { name: 'Lumic Emitter', requiredFlag: 'hasLumicEmitter', desc: 'Self-sustaining light source that replaces the lantern\'s marrow reservoir.', img: 'The Upper Refinery Gallery & Control Outposts 9x16.png' },
-      { name: 'Stalker\'s Bow', requiredFlag: 'hasBow', desc: 'Composite blackened spring-steel and whalebone bow, firing fluted bodkin arrows.', img: 'The Basalt Causeway & Mining Gantry 9x16.png' },
-      { name: 'Shadow-Silk Rig', requiredFlag: 'hasShadowSilk', desc: 'Belt-mounted pneumatic winches firing tungsten prongs spooled with high-tensile shadow-silk.', img: 'The Upper Refinery Gallery & Control Outposts 9x16.png' },
-      { name: 'Dynamo Core', requiredFlag: 'hasDynamoCore', desc: 'A sealed, heavy gyroscopic flywheel storing kinetic rotation to power field mechanisms.', img: 'The Upper Refinery Gallery & Control Outposts 9x16.png' }
+      { name: 'Amber Marrow', requiredFlag: 'harvestedAmber', desc: 'Dense, molten-gold honey syrup. Radiates intense hearth-heat; powers industrial forge engines.', img: ASSET_DIR + 'Amber Flue 9x16.png' },
+      { name: 'Stellar Pitch', requiredFlag: 'harvestedStellarEarly', desc: 'Volatile, cold-burning violet distillate. High-output kinetic propellant; provides explosive shockwaves.', img: ASSET_DIR + 'Ruined Dome 9x16.png' },
+      { name: 'Verdant Flux', requiredFlag: 'metFlux', desc: 'Emerald stabilizing solvent. Stabilizes drilling rigs; cures into pliant, impact-resistant membranes.', img: ASSET_DIR + 'The Upper Refinery Gallery & Control Outposts 9x16.png' },
+      { name: 'Solar Marrow', requiredFlag: 'metTitan', desc: 'Hyper-compressed white-violet radiance. Supercritical energy capable of firing devastating purge beams.', img: ASSET_DIR + 'The Obsidian Patriarch.png' },
+      { name: 'Umbral Edge', requiredFlag: 'hasUmbralEdge', desc: 'Superheated blade spine capable of slicing through reinforced silica and hydraulic locks.', img: ASSET_DIR + 'The Upper Refinery Gallery & Control Outposts 9x16.png' },
+      { name: 'Lumic Emitter', requiredFlag: 'hasLumicEmitter', desc: 'Self-sustaining light source that replaces the lantern\'s marrow reservoir.', img: ASSET_DIR + 'The Upper Refinery Gallery & Control Outposts 9x16.png' },
+      { name: 'Stalker\'s Bow', requiredFlag: 'hasBow', desc: 'Composite blackened spring-steel and whalebone bow, firing fluted bodkin arrows.', img: ASSET_DIR + 'The Basalt Causeway & Mining Gantry 9x16.png' },
+      { name: 'Shadow-Silk Rig', requiredFlag: 'hasShadowSilk', desc: 'Belt-mounted pneumatic winches firing tungsten prongs spooled with high-tensile shadow-silk.', img: ASSET_DIR + 'The Upper Refinery Gallery & Control Outposts 9x16.png' },
+      { name: 'Dynamo Core', requiredFlag: 'hasDynamoCore', desc: 'A sealed, heavy gyroscopic flywheel storing kinetic rotation to power field mechanisms.', img: ASSET_DIR + 'The Upper Refinery Gallery & Control Outposts 9x16.png' }
     ]
   },
   lore: {
@@ -3197,7 +3206,7 @@ function renderCodexPopup(category){
         <button class="popup-close" onclick="closeCodexDetail()" style="left:16px; right:auto;">&larr;</button>
         <div class="popup-title" style="margin-top:20px;">${item.name}</div>
         <div class="popup-sub">${data.title}</div>
-        ${item.img ? `<img src="${item.img}" class="codex-detail-img" alt="${item.name}">` : ''}
+        ${item.img ? `<img src="${getAsset(item.img)}" class="codex-detail-img" alt="${item.name}">` : ''}
         <div class="popup-item-desc" style="font-size:16px;">${item.desc}</div>
       `;
   }
@@ -3361,7 +3370,7 @@ function render(){
   const fullBg = document.getElementById('fullscreen-bg');
 
   if(state.node === 'character_selection'){
-      fullBg.style.backgroundImage = "url('Background 9x16.png')";
+      fullBg.style.backgroundImage = `url('${getAsset('Background 9x16.png')}')`;
       app.innerHTML = `
         <div class="title-screen creation-screen">
           <div class="glyphline">Identity</div>
@@ -3369,11 +3378,11 @@ function render(){
           <div class="creation-sub">Choose the face that will brave the dark.</div>
           <div class="char-select-wrap">
             <div class="char-card" onclick="chooseCharacter('male')">
-              <img src="Male Character.png" alt="Male">
+              <img src="${getAsset('Male Character.png')}" alt="Male">
               <div class="name">Male</div>
             </div>
             <div class="char-card" onclick="chooseCharacter('female')">
-              <img src="Female Character.png" alt="Female">
+              <img src="${getAsset('Female Character.png')}" alt="Female">
               <div class="name">Female</div>
             </div>
           </div>
@@ -3384,7 +3393,7 @@ function render(){
   }
 
   if(state.node === 'slot_selection'){
-    fullBg.style.backgroundImage = "url('Background 9x16.png')";
+    fullBg.style.backgroundImage = `url('${getAsset('Background 9x16.png')}')`;
     const slots = [1,2,3].map(slot => {
       const summary = getSlotSummary(slot);
       return `
@@ -3415,7 +3424,7 @@ function render(){
   }
 
   if(state.node === 'title'){
-    fullBg.style.backgroundImage = "url('Background 9x16.png')";
+    fullBg.style.backgroundImage = `url('${getAsset('Background 9x16.png')}')`;
     app.innerHTML = `
     <div class="title-screen">
       <svg class="title-backdrop" viewBox="0 0 520 340" xmlns="http://www.w3.org/2000/svg">
@@ -3473,7 +3482,7 @@ function render(){
   }
 
   if(state.node === 'creation'){
-    fullBg.style.backgroundImage = "url('Background 9x16.png')";
+    fullBg.style.backgroundImage = `url('${getAsset('Background 9x16.png')}')`;
     const s = state.skills;
     const remaining = state.skillPoints;
     const rows = ['STR','INT','CHA','AGI'].map(k=>{
@@ -3505,7 +3514,7 @@ function render(){
   markVisited(state.node);
 
   if (node.bg) {
-    fullBg.style.backgroundImage = `url('${node.bg}')`;
+    fullBg.style.backgroundImage = `url('${getAsset(node.bg)}')`;
   }
 
   if(node.ending){
