@@ -296,13 +296,22 @@
     transition: width 0.3s ease;
   }
 
+  .stat-mini-icon {
+    width: 14px;
+    height: 14px;
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+  }
+
   .status-glints {
     color: var(--amber);
     font-weight: 600;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 6px;
     font-size: 14px;
+    line-height: 1;
   }
 
   .status-inventory-row {
@@ -314,13 +323,84 @@
   }
 
   .status-ampoule-group {
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 8px;
     padding: 4px 10px;
-    background: rgba(0,0,0,0.2);
+    background: rgba(0,0,0,0.25);
     border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.06);
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .status-marrow-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--violet);
+    line-height: 1;
+  }
+
+  .ampoules {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+  }
+
+  .ampoule {
+    width: 6px;
+    height: 12px;
+    border-radius: 2px;
+    border: 1px solid rgba(139, 122, 209, 0.4);
+    background: rgba(255,255,255,0.04);
+    box-sizing: border-box;
+    transition: all 0.2s ease;
+  }
+
+  .ampoule.stellar {
+    background: var(--violet);
+    border-color: var(--violet);
+    box-shadow: 0 0 6px var(--violet);
+  }
+
+  .ampoule.amber {
+    background: var(--amber);
+    border-color: var(--amber);
+    box-shadow: 0 0 6px var(--amber);
+  }
+
+  .ampoule.solar {
+    background: #ffffff;
+    border-color: #ffffff;
+    box-shadow: 0 0 8px #ffffff;
+  }
+
+  .ampoule.locked {
+    opacity: 0.2;
+    border-style: dashed;
+    border-color: var(--stone);
+  }
+
+  .status-health-pill {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    color: var(--danger);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 12px;
+    background: rgba(0,0,0,0.25);
+    padding: 3px 8px;
+    border-radius: 10px;
     border: 1px solid rgba(255,255,255,0.05);
+    line-height: 1;
+    white-space: nowrap;
   }
 
   .inv-summary {
@@ -2922,8 +3002,8 @@ function renderStatusBar(){
     <!-- Vital Gauges -->
     <div class="status-vitals">
         <div class="gauge">${lanternSVG(state.charge)}<div class="gauge-label">Lantern</div></div>
-        <div style="font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--danger); display:flex; align-items:center; gap:6px; margin-top:12px; background:rgba(0,0,0,0.2); padding:2px 8px; border-radius:10px;">
-            ${heartIcon} ${state.health}%
+        <div class="status-health-pill">
+            ${heartIcon} <span>${state.health}%</span>
         </div>
     </div>
 
@@ -2938,14 +3018,14 @@ function renderStatusBar(){
                 </div>
             </div>
             <div class="status-glints">
-                ${glintIcon} ${state.glints}
+                ${glintIcon} <span>${state.glints}</span>
             </div>
         </div>
 
         <!-- Row 2: Capacity & Inventory -->
         <div class="status-row">
             <div class="status-ampoule-group">
-                <span style="font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--violet);">${dropletIcon} ${state.marrow.length}/${state.marrowCap}</span>
+                <span class="status-marrow-count">${dropletIcon} <span>${state.marrow.length}/${state.marrowCap}</span></span>
                 <div class="ampoules">${ampoules}</div>
             </div>
             <div class="inv-summary">
