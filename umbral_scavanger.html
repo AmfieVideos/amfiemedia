@@ -6,6 +6,7 @@
 <title>Umbral Scavenger — The Sunken Scriptorium</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230a0c10'/%3E%3Ccircle cx='32' cy='32' r='24' fill='none' stroke='%23a9793a' stroke-width='1.5' opacity='0.6'/%3E%3Ccircle cx='32' cy='32' r='15' fill='%2314171f' stroke='%23a9793a' stroke-width='2'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23e8a94a' opacity='0.3'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23e8a94a'/%3E%3C/svg%3E">
 <meta name="theme-color" content="#0a0c10">
+<link rel="manifest" href="Umbral_Scavanger_assets/manifest.json">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Spectral:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
@@ -296,22 +297,13 @@
     transition: width 0.3s ease;
   }
 
-  .stat-mini-icon {
-    width: 14px;
-    height: 14px;
-    display: inline-block;
-    vertical-align: middle;
-    flex-shrink: 0;
-  }
-
   .status-glints {
     color: var(--amber);
     font-weight: 600;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 6px;
     font-size: 14px;
-    line-height: 1;
   }
 
   .status-inventory-row {
@@ -323,84 +315,40 @@
   }
 
   .status-ampoule-group {
-    display: inline-flex;
+    display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 8px;
-    padding: 4px 10px;
-    background: rgba(0,0,0,0.25);
-    border-radius: 20px;
-    border: 1px solid rgba(255,255,255,0.06);
-    line-height: 1;
-    white-space: nowrap;
-  }
-
-  .status-marrow-count {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--violet);
-    line-height: 1;
+    gap: 12px;
+    padding: 6px 14px;
+    background: rgba(18, 21, 29, 0.75);
+    border-radius: 30px;
+    border: 1.5px solid rgba(255,255,255,0.08);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
   }
 
   .ampoules {
-    display: inline-flex;
+    display: flex;
+    gap: 4px;
     align-items: center;
-    gap: 3px;
   }
 
   .ampoule {
     width: 6px;
-    height: 12px;
+    height: 16px;
     border-radius: 2px;
-    border: 1px solid rgba(139, 122, 209, 0.4);
-    background: rgba(255,255,255,0.04);
-    box-sizing: border-box;
-    transition: all 0.2s ease;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    transition: all 0.3s ease;
   }
+  .ampoule.stellar { background: var(--violet); border-color: var(--violet-dim); box-shadow: 0 0 10px var(--violet-dim); }
+  .ampoule.amber { background: var(--amber); border-color: var(--amber-dim); box-shadow: 0 0 10px var(--amber-dim); }
+  .ampoule.solar { background: #fff; border-color: var(--violet); box-shadow: 0 0 15px #fff; }
+  .ampoule.locked { opacity: 0.15; border-style: dashed; background: transparent; }
 
-  .ampoule.stellar {
-    background: var(--violet);
-    border-color: var(--violet);
-    box-shadow: 0 0 6px var(--violet);
-  }
-
-  .ampoule.amber {
-    background: var(--amber);
-    border-color: var(--amber);
-    box-shadow: 0 0 6px var(--amber);
-  }
-
-  .ampoule.solar {
-    background: #ffffff;
-    border-color: #ffffff;
-    box-shadow: 0 0 8px #ffffff;
-  }
-
-  .ampoule.locked {
-    opacity: 0.2;
-    border-style: dashed;
-    border-color: var(--stone);
-  }
-
-  .status-health-pill {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--danger);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    margin-top: 12px;
-    background: rgba(0,0,0,0.25);
-    padding: 3px 8px;
-    border-radius: 10px;
-    border: 1px solid rgba(255,255,255,0.05);
-    line-height: 1;
-    white-space: nowrap;
+  .stat-mini-icon {
+    width: 14px;
+    height: 14px;
+    stroke-width: 2.5;
+    display: block;
   }
 
   .inv-summary {
@@ -978,45 +926,41 @@
 <div class="wrap" id="app"></div>
 
 <script>
-/* ============================= CONTENT REFERENCE DATA ============================= */
-
-const ASSET_DIR = 'Umbral_Scavanger_assets/';
-function getAsset(path) {
-  if (!path) return '';
-  if (path.startsWith('http://') || path.startsWith('https://') || path.startsWith('data:') || path.startsWith(ASSET_DIR)) {
-    return path;
-  }
-  return ASSET_DIR + path;
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('Umbral_Scavanger_assets/sw.js');
+  });
 }
+/* ============================= CONTENT REFERENCE DATA ============================= */
 
 const CODEX_DATA = {
   beasts: {
     title: 'Codex: Bestiary',
     items: [
-      { name: 'Glass Crawler', requiredFlag: 'metCrawler', desc: 'Hostile silica arachnids with razor forelegs; aggressively drawn to leaking violet Stellar Pitch.', img: ASSET_DIR + 'Glass Crawler.png' },
-      { name: 'Chime Drake', requiredFlag: 'metDrake', desc: 'A rare subterranean predator that can be bonded through warmth and harmony. Bonded Chime Drakes act as acoustic scouts.', img: ASSET_DIR + 'Chime Drake.png' },
-      { name: 'Gloom Wyrm', requiredFlag: 'metWyrm', desc: 'Hostile apex predator; eyeless and light-absorbing, hunting via sensitive thermal pits.', img: ASSET_DIR + 'Gloom Wyrm.png' },
-      { name: 'Sentry Golem', requiredFlag: 'metGolem', desc: 'Hostile clockwork automata; nine-foot bipedal bronze sentries with cyclopean searchlights.', img: ASSET_DIR + 'Clockwork Sentry Golems.png' },
-      { name: 'Obsidian Patriarch', requiredFlag: 'metTitan', desc: 'Titan-class bio-mechanical colossus; commanding sentry legions and firing solar purge beams.', img: ASSET_DIR + 'The Obsidian Patriarch.png' },
-      { name: 'Frost-Stalkers', requiredFlag: 'visitedIceShelf', desc: 'Hostile quadruped shadow beasts hunting via thermal drafts across the Black Ice Shelf.', img: ASSET_DIR + 'Frost-Stalkers.png' },
-      { name: 'Frost-Strider Elk', requiredFlag: 'metElk', desc: 'A majestic alpha cervid of the high plateaus. While territorial and dangerous if provoked, it can be tamed as a mountain mount.', img: ASSET_DIR + 'The Frost-Strider Elk.png' },
-      { name: 'Burrowing Drake', requiredFlag: 'metBurrower', desc: 'A territorial predator of the quarries that can be bonded as a kinetic defender. Features armored scales and spade-shaped claws.', img: ASSET_DIR + 'The Iron-Scale Burrowing Drake.png' },
-      { name: 'Gloom-Stalkers', requiredFlag: 'metGloomStalker', desc: 'Hostile pack hunters; blind quadruped shadow beasts tracking footsteps via thermal drafts.', img: ASSET_DIR + 'Gloom-Stalkers.png' },
-      { name: 'Tempest-Vane Falcon', requiredFlag: 'metFalcon', desc: 'Colossal avian predator (26ft wingspan). Roosts atop lightning rods, riding thermal updrafts. Plumage resists rime; wing-buffets can generate shockwaves to disperse gas or swarms. Synchronizes with Chime Drakes for echolocation in blizzards.', img: ASSET_DIR + 'The Tempest-Vane Falcon.png' }
+      { name: 'Glass Crawler', requiredFlag: 'metCrawler', desc: 'Hostile silica arachnids with razor forelegs; aggressively drawn to leaking violet Stellar Pitch.', img: 'Umbral_Scavanger_assets/Glass Crawler.png' },
+      { name: 'Chime Drake', requiredFlag: 'metDrake', desc: 'A rare subterranean predator that can be bonded through warmth and harmony. Bonded Chime Drakes act as acoustic scouts.', img: 'Umbral_Scavanger_assets/Chime Drake.png' },
+      { name: 'Gloom Wyrm', requiredFlag: 'metWyrm', desc: 'Hostile apex predator; eyeless and light-absorbing, hunting via sensitive thermal pits.', img: 'Umbral_Scavanger_assets/Gloom Wyrm.png' },
+      { name: 'Sentry Golem', requiredFlag: 'metGolem', desc: 'Hostile clockwork automata; nine-foot bipedal bronze sentries with cyclopean searchlights.', img: 'Umbral_Scavanger_assets/Clockwork Sentry Golems.png' },
+      { name: 'Obsidian Patriarch', requiredFlag: 'metTitan', desc: 'Titan-class bio-mechanical colossus; commanding sentry legions and firing solar purge beams.', img: 'Umbral_Scavanger_assets/The Obsidian Patriarch.png' },
+      { name: 'Frost-Stalkers', requiredFlag: 'visitedIceShelf', desc: 'Hostile quadruped shadow beasts hunting via thermal drafts across the Black Ice Shelf.', img: 'Umbral_Scavanger_assets/Frost-Stalkers.png' },
+      { name: 'Frost-Strider Elk', requiredFlag: 'metElk', desc: 'A majestic alpha cervid of the high plateaus. While territorial and dangerous if provoked, it can be tamed as a mountain mount.', img: 'Umbral_Scavanger_assets/The Frost-Strider Elk.png' },
+      { name: 'Burrowing Drake', requiredFlag: 'metBurrower', desc: 'A territorial predator of the quarries that can be bonded as a kinetic defender. Features armored scales and spade-shaped claws.', img: 'Umbral_Scavanger_assets/The Iron-Scale Burrowing Drake.png' },
+      { name: 'Gloom-Stalkers', requiredFlag: 'metGloomStalker', desc: 'Hostile pack hunters; blind quadruped shadow beasts tracking footsteps via thermal drafts.', img: 'Umbral_Scavanger_assets/Gloom-Stalkers.png' },
+      { name: 'Tempest-Vane Falcon', requiredFlag: 'metFalcon', desc: 'Colossal avian predator (26ft wingspan). Roosts atop lightning rods, riding thermal updrafts. Plumage resists rime; wing-buffets can generate shockwaves to disperse gas or swarms. Synchronizes with Chime Drakes for echolocation in blizzards.', img: 'Umbral_Scavanger_assets/The Tempest-Vane Falcon.png' }
     ]
   },
   items: {
     title: 'Codex: Gear & Alchemy',
     items: [
-      { name: 'Amber Marrow', requiredFlag: 'harvestedAmber', desc: 'Dense, molten-gold honey syrup. Radiates intense hearth-heat; powers industrial forge engines.', img: ASSET_DIR + 'Amber Flue 9x16.png' },
-      { name: 'Stellar Pitch', requiredFlag: 'harvestedStellarEarly', desc: 'Volatile, cold-burning violet distillate. High-output kinetic propellant; provides explosive shockwaves.', img: ASSET_DIR + 'Ruined Dome 9x16.png' },
-      { name: 'Verdant Flux', requiredFlag: 'metFlux', desc: 'Emerald stabilizing solvent. Stabilizes drilling rigs; cures into pliant, impact-resistant membranes.', img: ASSET_DIR + 'The Upper Refinery Gallery & Control Outposts 9x16.png' },
-      { name: 'Solar Marrow', requiredFlag: 'metTitan', desc: 'Hyper-compressed white-violet radiance. Supercritical energy capable of firing devastating purge beams.', img: ASSET_DIR + 'The Obsidian Patriarch.png' },
-      { name: 'Umbral Edge', requiredFlag: 'hasUmbralEdge', desc: 'Superheated blade spine capable of slicing through reinforced silica and hydraulic locks.', img: ASSET_DIR + 'The Upper Refinery Gallery & Control Outposts 9x16.png' },
-      { name: 'Lumic Emitter', requiredFlag: 'hasLumicEmitter', desc: 'Self-sustaining light source that replaces the lantern\'s marrow reservoir.', img: ASSET_DIR + 'The Upper Refinery Gallery & Control Outposts 9x16.png' },
-      { name: 'Stalker\'s Bow', requiredFlag: 'hasBow', desc: 'Composite blackened spring-steel and whalebone bow, firing fluted bodkin arrows.', img: ASSET_DIR + 'The Basalt Causeway & Mining Gantry 9x16.png' },
-      { name: 'Shadow-Silk Rig', requiredFlag: 'hasShadowSilk', desc: 'Belt-mounted pneumatic winches firing tungsten prongs spooled with high-tensile shadow-silk.', img: ASSET_DIR + 'The Upper Refinery Gallery & Control Outposts 9x16.png' },
-      { name: 'Dynamo Core', requiredFlag: 'hasDynamoCore', desc: 'A sealed, heavy gyroscopic flywheel storing kinetic rotation to power field mechanisms.', img: ASSET_DIR + 'The Upper Refinery Gallery & Control Outposts 9x16.png' }
+      { name: 'Amber Marrow', requiredFlag: 'harvestedAmber', desc: 'Dense, molten-gold honey syrup. Radiates intense hearth-heat; powers industrial forge engines.', img: 'Umbral_Scavanger_assets/Amber Flue 9x16.png' },
+      { name: 'Stellar Pitch', requiredFlag: 'harvestedStellarEarly', desc: 'Volatile, cold-burning violet distillate. High-output kinetic propellant; provides explosive shockwaves.', img: 'Umbral_Scavanger_assets/Ruined Dome 9x16.png' },
+      { name: 'Verdant Flux', requiredFlag: 'metFlux', desc: 'Emerald stabilizing solvent. Stabilizes drilling rigs; cures into pliant, impact-resistant membranes.', img: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png' },
+      { name: 'Solar Marrow', requiredFlag: 'metTitan', desc: 'Hyper-compressed white-violet radiance. Supercritical energy capable of firing devastating purge beams.', img: 'Umbral_Scavanger_assets/The Obsidian Patriarch.png' },
+      { name: 'Umbral Edge', requiredFlag: 'hasUmbralEdge', desc: 'Superheated blade spine capable of slicing through reinforced silica and hydraulic locks.', img: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png' },
+      { name: 'Lumic Emitter', requiredFlag: 'hasLumicEmitter', desc: 'Self-sustaining light source that replaces the lantern\'s marrow reservoir.', img: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png' },
+      { name: 'Stalker\'s Bow', requiredFlag: 'hasBow', desc: 'Composite blackened spring-steel and whalebone bow, firing fluted bodkin arrows.', img: 'Umbral_Scavanger_assets/The Basalt Causeway & Mining Gantry 9x16.png' },
+      { name: 'Shadow-Silk Rig', requiredFlag: 'hasShadowSilk', desc: 'Belt-mounted pneumatic winches firing tungsten prongs spooled with high-tensile shadow-silk.', img: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png' },
+      { name: 'Dynamo Core', requiredFlag: 'hasDynamoCore', desc: 'A sealed, heavy gyroscopic flywheel storing kinetic rotation to power field mechanisms.', img: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png' }
     ]
   },
   lore: {
@@ -1063,6 +1007,9 @@ const MAP_LOCATIONS = [
   { flag:'visitedRefinery', name:'Ancient Refinery', target:'refinery_infiltration' },
   { flag:'visitedThrone', name:'Obsidian Throne', target:'titan_descent' },
   { flag:'visitedMarshes', name:'Lowland Marshes', target:'lowland_marshes' },
+  { flag:'visitedCathedral', name:'Solar Cathedral', target:'aethelgard_cathedral' },
+  { flag:'visitedGardens', name:'Crystal Gardens', target:'aethelgard_gardens' },
+  { flag:'visitedDeepMines', name:'The Deep Mines', target:'deep_mines_entry' },
 ];
 
 /* ============================= STATE & PERSISTENCE ============================= */
@@ -1105,6 +1052,7 @@ const initialState = () => ({
     saltPork: 2,
     rawMeat: 0,
     herbs: 0,
+    verdantHerbs: 0,
     salt: 0,
     scrapMetal: 0,
     solarMarrow: 0
@@ -1221,7 +1169,7 @@ const STORY = {
 
   start: {
     eyebrow: 'Scriptorium Threshold',
-    bg: 'Sriptorium 9x16.png',
+    bg: 'Umbral_Scavanger_assets/Sriptorium 9x16.png',
     text: [
       `The damp chill of the lower subterranean vault clings to your wool coat as you strike a brass match against the stone.`,
       `You are an <strong>Umbral Scavenger</strong>, a keeper who harvests physical light in the deep crust beneath the Ashfang Ridge. In this world, true sunlight vanished three generations ago. Raw illumination now runs like a viscous luminescent mercury through mineral veins deep within the bedrock.`,
@@ -1242,7 +1190,7 @@ const STORY = {
 
   high_gallery: {
     eyebrow: 'Scriptorium High Gallery',
-    bg: 'Sriptorium 9x16.png',
+    bg: 'Umbral_Scavanger_assets/Sriptorium 9x16.png',
     text: [
       `You fire a grappling bolt into the dark rafters and haul yourself up. The air is thinner here, but the shelves are untouched by the damp.`,
       `You find a cache of <strong>Preserved Marrow</strong> and some <strong>Frost Herbs</strong> tucked away in a scholar's nook.`
@@ -1255,7 +1203,7 @@ const STORY = {
 
   desk: {
     eyebrow: 'The Desk',
-    bg: 'Desk 9x16.png',
+    bg: 'Umbral_Scavanger_assets/Desk 9x16.png',
     text: state => {
       const base = [
         `You step forward, your boots crunching against layers of brittle, calcified parchment. A faint rhythmic clicking echoes from the ceiling above.`,
@@ -1291,7 +1239,7 @@ const STORY = {
 
   desk_force: {
     eyebrow: 'The Desk — Forced',
-    bg: 'Desk 9x16.png',
+    bg: 'Umbral_Scavanger_assets/Desk 9x16.png',
     text: [
       `You wedge your knife into the seam. Old wood shrieks. Inside the drawer, you find a water-stained ledger and a small brass key shaped like a <strong>split wedge</strong>.`,
       `The ledger's final line reads: <em>"...took more than the vault would forgive. If you're reading this, don't."</em>`
@@ -1303,7 +1251,7 @@ const STORY = {
 
   flue_scout_early: {
     eyebrow: 'The Drainage Flue',
-    bg: 'Amber Flue 9x16.png',
+    bg: 'Umbral_Scavanger_assets/Amber Flue 9x16.png',
     text: [
       `A thin trickle of liquid amber glow leaks along the carved gutter, pooling around a partially submerged brass door sealed with four counterweight pulleys.`,
       `There is no way to open it from here. It seems connected to a mechanism elsewhere in the Scriptorium.`
@@ -1315,7 +1263,7 @@ const STORY = {
 
   dome_intro: {
     eyebrow: 'Observatory Stairs',
-    bg: 'Sriptorium 9x16.png',
+    bg: 'Umbral_Scavanger_assets/Sriptorium 9x16.png',
     text: [
       `The stairs are bone-dry, but the air smells sharply of ozone. Thirty steps up, the stairs terminate at the edge of the Observatory Platform.`,
       `Half of the heavy leaded-iron dome has caved inward. At the center, a volatile stream of violet <strong>Stellar Pitch</strong> drips from a snapped telescope mount onto a brass astrolabe.`,
@@ -1329,7 +1277,7 @@ const STORY = {
 
   dome_approach: {
     eyebrow: 'The Ruined Dome',
-    bg: 'Ruined Dome 9x16.png',
+    bg: 'Umbral_Scavanger_assets/Ruined Dome 9x16.png',
     text: [
       `You skirt the perimeter, using shadows to mask your advance. You reach the rim of the central astrolabe.`,
       `A heavy brass armature sits pinned under a counterweight lever, engraved with a split-circle insignia. A recessed socket nearby sits empty, matching your silver cylinder.`
@@ -1352,7 +1300,7 @@ const STORY = {
 
   dome_outer_ring: {
       eyebrow: 'Observatory Outer Ring',
-      bg: 'Ruined Dome 9x16.png',
+      bg: 'Umbral_Scavanger_assets/Ruined Dome 9x16.png',
       text: [
           `From this height, you can see the crawler's patrol patterns clearly. You also spot a glint of metal in a jammed telescope gear.`,
           `You salvage some <strong>Scrap Metal</strong> and get a clear acoustic ping of the area.`
@@ -1364,7 +1312,7 @@ const STORY = {
 
   dome_harvest_early: {
       eyebrow: 'The Ruined Dome',
-      bg: 'Ruined Dome 9x16.png',
+      bg: 'Umbral_Scavanger_assets/Ruined Dome 9x16.png',
       text: [
           `You uncap an ampoule and catch a bead of Stellar Pitch. It sizzles faintly. One Glass Crawler's joints twitch as it notices the movement.`
       ],
@@ -1376,7 +1324,7 @@ const STORY = {
 
   dome_activate: {
     eyebrow: 'The Ruined Dome — Unsealing',
-    bg: 'Ruined Dome 9x16.png',
+    bg: 'Umbral_Scavanger_assets/Ruined Dome 9x16.png',
     text: [
       `You twist the cylinder's base, clicking it onto the split circle. You press it into the socket.`,
       `A mechanical chime resonates throuugh the floor. The astrolabe begins to rotate. Hidden valves open to catch the Stellar Pitch in a glass collection chamber.`,
@@ -1393,7 +1341,7 @@ const STORY = {
 
   dome_combat_1: {
     eyebrow: 'The Ruined Dome — Combat',
-    bg: 'Ruined Dome 9x16.png',
+    bg: 'Umbral_Scavanger_assets/Ruined Dome 9x16.png',
     text: [
       `The lead crawler drops from the central pillar. You closure the distance and drive your blade into the mineral joint beneath its eye cluster. It shatters into shards of frosted quartz.`,
       `You quickly twist the release spigot on the glass collection chamber. A dense bead of violet Stellar Pitch glides into your ampoule.`,
@@ -1417,7 +1365,7 @@ const STORY = {
 
   dome_combat_2: {
     eyebrow: 'The Ruined Dome — Escape',
-    bg: 'Ruined Dome 9x16.png',
+    bg: 'Umbral_Scavanger_assets/Ruined Dome 9x16.png',
     text: [
       `You dispatch the second crawler with a pommel strike and a steel point to its nerve cluster.`,
       `As the final beast lunges, you slam your heel onto a section of brittle skylight tiles. The floor caves inward with a deafening crash. The crawler plunges twenty feet down into the scriptorium below.`,
@@ -1430,7 +1378,7 @@ const STORY = {
 
   scriptorium_salvage: {
     eyebrow: 'Scriptorium Floor',
-    bg: 'Sriptorium 9x16.png',
+    bg: 'Umbral_Scavanger_assets/Sriptorium 9x16.png',
     text: state => {
         if (state.flags.hasSilicaCore) {
             return [`The crawler's remains are scattered and hollow. You've already taken what was valuable.`];
@@ -1456,7 +1404,7 @@ const STORY = {
 
   scriptorium_kaelen_1: {
       eyebrow: 'A Shadow in the Stacks',
-      bg: 'Sriptorium 9x16.png',
+      bg: 'Umbral_Scavanger_assets/Sriptorium 9x16.png',
       text: [
           `As you reach for a calcified scroll, a boot-heel clicks against the stone behind you. You spin, knife drawn.`,
           `Leaning against a basalt pillar is another scavenger. He wears a cowl of Gloom-Worm hide and carries a twin-barreled harpoon caster.`,
@@ -1471,7 +1419,7 @@ const STORY = {
 
   forbidden_archive: {
     eyebrow: 'The Forbidden Archive',
-    bg: 'Sriptorium 9x16.png',
+    bg: 'Umbral_Scavanger_assets/Sriptorium 9x16.png',
     text: [
       `The seal shears apart like wet parchment. Beyond lies a chamber untouched by the Living Gloom. High-density amber glass tubes pulse with a rhythmic, golden light.`,
       `At the center sits a <strong>Zenith Astrolabe</strong>—not one for looking at stars, but one for controlling them.`,
@@ -1486,7 +1434,7 @@ const STORY = {
 
   amber_flue_entry: {
     eyebrow: 'The Amber Flue',
-    bg: 'Amber Flue 9x16.png',
+    bg: 'Umbral_Scavanger_assets/Amber Flue 9x16.png',
     text: state => {
         const lines = [`Radiant warmth spills through the cracked door.`];
         if (!state.flags.harvestedAmber) {
@@ -1508,7 +1456,7 @@ const STORY = {
 
   furnace_core: {
     eyebrow: 'The Furnace Core',
-    bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png',
     text: [
       `The chamber opens into a domed iron forge. At the center sits the <strong>Spherical Containment Engine</strong>—a colossal bronze orb suspended by hydraulic stanchions.`,
       `A brass needle on the pressure gauge is dropping into the red zone. The engine needs a kinetic catalyst.`
@@ -1525,7 +1473,7 @@ const STORY = {
 
   furnace_ignite: {
       eyebrow: 'The Furnace Core — Powered',
-      bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png',
       text: [
           `The Stellar Pitch contacts the amber marrow. A blinding flash of white-violet fire arcs behind the glass. The engine surges into a resonant drone.`,
           `Mechanical dials on the Control Plinth spring to life.`
@@ -1537,7 +1485,7 @@ const STORY = {
 
   furnace_plinth: {
     eyebrow: 'Control Plinth',
-    bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png',
     text: [
       `The stone pedestal has two interface sockets: a teardrop-shaped one and a narrow hexagonal slit.`,
       `A pressure valve indicates that slotting both will route plasma to the Master Forge below.`
@@ -1554,7 +1502,7 @@ const STORY = {
 
   furnace_forge: {
     eyebrow: 'The Master Forge',
-    bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png',
     text: [
       `A needle of plasma lances down. Your knife is infused with a deep charcoal-black edge—the <strong>Umbral Edge Inlay</strong>.`,
       `Residual crystal slag forms a self-sustaining <strong>Lumic Core-Emitter</strong> for your lantern. It now provides a daylight-grade beam without consuming fuel.`,
@@ -1568,7 +1516,7 @@ const STORY = {
 
   high_vent_ascent: {
     eyebrow: 'The High Vent',
-    bg: 'The High Vent & Root Choke 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The High Vent & Root Choke 9x16.png',
     text: [
         `The narrow shaft rises at a steep angle. Heavy iron climbing rungs are anchored into the granite. A draft of mountain air whistles from above.`,
         `Thirty feet up, a rusted lockbox sits wedged on a ledge. Fifty feet up, petrified mountain roots block the way.`
@@ -1588,7 +1536,7 @@ const STORY = {
 
   high_vent_cache: {
       eyebrow: 'Perched Cache',
-      bg: 'The High Vent & Root Choke 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The High Vent & Root Choke 9x16.png',
       text: [
           `You reach the granite ledge. The lockbox is sealed by a corroded iron padlock.`
       ],
@@ -1604,7 +1552,7 @@ const STORY = {
 
   high_vent_cache_open: {
       eyebrow: 'Surveyor\'s Gear',
-      bg: 'The High Vent & Root Choke 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The High Vent & Root Choke 9x16.png',
       text: [
           `The blade shears throuugh the iron like warm tallow. Inside, you find a <strong>Topographical Cartridge</strong>, a <strong>Surveyor\'s Monocular</strong>, and three <strong>Brass Flare Cartridges</strong>.`,
           `Using the enhanced optics, you detect a thermal signature coiled in the roots above: a Chime Drake.`
@@ -1616,7 +1564,7 @@ const STORY = {
 
   drake_tame_intro: {
       eyebrow: 'The Root Choke',
-      bg: 'The High Vent & Root Choke 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The High Vent & Root Choke 9x16.png',
       text: [
           `The Chime Drake is hound-sized, its spine lined with crystal quills. It is currently in a deep torpor, guarding a clutch of geodes.`,
           `Startling it will cause a sonic pulse that could collapse the shaft. You need to coax it gently.`,
@@ -1642,7 +1590,7 @@ const STORY = {
 
   drake_tame_fail: {
       eyebrow: 'Sonic Rejection',
-      bg: 'The High Vent & Root Choke 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The High Vent & Root Choke 9x16.png',
       text: [
           `You hold out the offering, but your presence lacks the harmonic weight the drake respects.`,
           `The creature's quills flare and emit a low-frequency pulse that rattles your teeth and leaves you disoriented. It will not be swayed by one with such a discordant spirit.`
@@ -1655,7 +1603,7 @@ const STORY = {
 
   drake_bond: {
       eyebrow: 'A Harmonic Trust',
-      bg: 'The High Vent & Root Choke 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The High Vent & Root Choke 9x16.png',
       text: [
           `The creature uncoils and eats the pork. It presses its snout against the warm amber ampoule, absorbing the thermal hum.`,
           `The <strong>Chime Drake</strong> clambers onto your shoulder, wrapping its tail securely across your chest. It is now your companion.`
@@ -1669,7 +1617,7 @@ const STORY = {
 
   mountain_surface: {
     eyebrow: 'Ashfang Ridge — Surface',
-    bg: 'The High Vent & Root Choke 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The High Vent & Root Choke 9x16.png',
     text: [
       `You pull yourself through the breach, planting your boots on solid, frost-dusted rock. You stand upon a high, jagged ridge under a vast, indigo twilight sky.`,
       `A biting alpine wind sweeps over your face. Ahead, a faint mountain goat trail winds along the cliff edge toward an abandoned surveyor's watchtower nestled in the crags.`,
@@ -1684,7 +1632,7 @@ const STORY = {
 
   watchtower_exterior: {
     eyebrow: 'Surveyor\'s Watchtower',
-    bg: 'The High Vent & Root Choke 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The High Vent & Root Choke 9x16.png',
     text: [
       `The structure is built from dry-stacked slate and heavy timber. The lower door hangs slightly ajar on frozen iron hinges, groaning in the wind.`,
       `Your drake taps an ultra-short warning ping against your collarbone. Someone or something is inside.`
@@ -1698,7 +1646,7 @@ const STORY = {
 
   watchtower_interior: {
     eyebrow: 'Tower Shelter',
-    bg: 'The High Vent & Root Choke 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The High Vent & Root Choke 9x16.png',
     text: state => {
       const lines = [
         `The ground floor is shielded from the alpine wind, smelling of cured cedar and mineral oil.`,
@@ -1720,7 +1668,7 @@ const STORY = {
 
   watchtower_lore: {
     eyebrow: 'The Glacial Spire Lore',
-    bg: 'The High Vent & Root Choke 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The High Vent & Root Choke 9x16.png',
     text: [
       `"Those northern peaks aren't just sprouting rock," Vane mutters. "Three nights ago, the Glacial Spire cracked wide open. Massive spires of pure violet silica have been pushing up through the ice."`,
       `"It's vibrating at a pitch that's driving the mountain beasts mad—and drawing scavenger packs up from the lowlands like moths to an open furnace."`
@@ -1733,7 +1681,7 @@ const STORY = {
 
   watchtower_trade: {
     eyebrow: 'Trading with Vane',
-    bg: 'The High Vent & Root Choke 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The High Vent & Root Choke 9x16.png',
     text: [
       `Vane eyes your gear. He's willing to trade his ridge-line maps and ice cleats for some of your deep-crust salvage or warm rations.`
     ],
@@ -1750,7 +1698,7 @@ const STORY = {
 
   black_ice_shelf: {
     eyebrow: 'The Black Ice Shelf',
-    bg: 'The Black Ice Shelf 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Black Ice Shelf 9x16.png',
     text: [
       `A vast, wind-scoured expanse of mirror-smooth black glacial ice stretches across the high mountain saddle.`,
       `Unstable crevasses cut deep into the shelf, venting supercooled violet mist. Through your monocular, you spot a pack of pale, blind <strong>Frost-Stalkers</strong> prowling the lower levels.`
@@ -1767,7 +1715,7 @@ const STORY = {
 
   black_ice_shelf_kaelen: {
       eyebrow: 'Race Across the Ice',
-      bg: 'The Black Ice Shelf 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Black Ice Shelf 9x16.png',
       text: [
           `You spot a flare in the distance. It's Kaelen. He's already halfway to the Glacial Spire, his elk mount leaving deep tracks in the frost.`,
           `"Too slow, keeper!" he shouts over the wind. "The Spire is hatching, and I'm first in line for the harvest!"`
@@ -1780,7 +1728,7 @@ const STORY = {
 
   glacial_spire: {
     eyebrow: 'Threshold of the Glacial Spire',
-    bg: 'The Glacial Spire Caverns 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Glacial Spire Caverns 9x16.png',
     text: [
       `The full majesty of the Glacial Spire looms ahead. Towering monoliths of deep-violet Stellar Pitch crystal jut three hundred feet out of the glacier, pulsing with a hypnotic bass vibration.`,
       `An old, frozen expedition sled lies half-buried in the snowpack nearby. Heavy clawed tracks lead directly into a glowing ice cavern archway.`,
@@ -1796,7 +1744,7 @@ const STORY = {
 
   sled_salvage: {
       eyebrow: 'Expedition Sled',
-      bg: 'The Glacial Spire Caverns 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Glacial Spire Caverns 9x16.png',
       text: [
           `You slice through the calcified ice. Inside, you find a surveyor's log. A final entry reads: "The monoliths aren't growing—they're hatching."`,
           `You also find two <strong>Insulated Cryo-Flares</strong> and a spool of <strong>High-Grade Tungsten Cable</strong>.`
@@ -1809,7 +1757,7 @@ const STORY = {
 
   spire_heart: {
       eyebrow: 'The Resonance Heart',
-      bg: 'The Glacial Spire Caverns 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Glacial Spire Caverns 9x16.png',
       text: [
           `Inside the cavern, a massive Resonance Heart is suspended in pressurized ice. The clawed tracks belong to a creature that has already sensed your warmth.`,
           `A low, guttural roar echoes out against the frozen crags. The way forward leads down the mountain toward the warmer plateaus.`
@@ -1823,7 +1771,7 @@ const STORY = {
 
   southern_pine_plateaus: {
     eyebrow: 'The Southern Pine Plateaus',
-    bg: 'The Southern Pine Plateaus 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Southern Pine Plateaus 9x16.png',
     text: state => {
         const lines = [
           `The biting cold of the peak gives way to the relative warmth of the alpine forests. Massive, ancient pines blanket the rolling plateaus.`,
@@ -1876,7 +1824,7 @@ const STORY = {
 
   glacial_overlook: {
     eyebrow: 'Glacial Overlook',
-    bg: 'The Glacial Spire Caverns 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Glacial Spire Caverns 9x16.png',
     text: state => {
         const lines = [
           `You ascend above the timberline to the razor-sharp wind-carved pinnacles. The wind here is a physical weight, shearing over sheer spires and ancient surveyor lightning rods.`,
@@ -1906,7 +1854,7 @@ const STORY = {
 
   elk_tame_fail: {
       eyebrow: 'Rejected by the Elk',
-      bg: 'The Southern Pine Plateaus 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Southern Pine Plateaus 9x16.png',
       text: [
           `You hold out the offering, but your presence lacks the calm authority the alpha cervid demands.`,
           `The Elk snorts, its massive antlers dipping low in a clear warning. It does not accept you. You are lucky it does not charge.`
@@ -1919,7 +1867,7 @@ const STORY = {
 
   falcon_tame_fail: {
       eyebrow: 'Wind-Swept Rejection',
-      bg: 'The Glacial Spire Caverns 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Glacial Spire Caverns 9x16.png',
       text: [
           `The Falcon watches you through the gale, its amber eyes piercing. Your harmonic resonance is too weak, too erratic.`,
           `It lets out a deafening screech that sends a wing-buffet shockwave through the spires, nearly throwing you off the ledge. It will not be tamed by one with such a faint spirit.`
@@ -1931,7 +1879,7 @@ const STORY = {
 
   falcon_bond: {
     eyebrow: 'Aviator\'s Cradle',
-    bg: 'The Glacial Spire Caverns 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Glacial Spire Caverns 9x16.png',
     text: [
       `You stand firm against the gale, matching its frequency with your Chime Drake's pulses. The Falcon recognizes the harmonic trust and descends, its massive talons gripping the basalt.`,
       `You secure the Aviator's Cradle to its back. With its high-altitude flight and wing-buffet shockwaves, the rift becomes your domain.`
@@ -1943,7 +1891,7 @@ const STORY = {
 
   southern_pine_plateaus_elk: {
       eyebrow: 'The Frost-Strider',
-      bg: 'The Southern Pine Plateaus 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Southern Pine Plateaus 9x16.png',
       text: [
           `The Elk considers you with ancient, calm eyes. It accepts your offering and allows you to rest near its massive flank.`,
           `It seems to know the mountain better than any map. With its guidance, the path to the lowlands becomes clear.`
@@ -1955,7 +1903,7 @@ const STORY = {
 
   pine_perch: {
       eyebrow: 'Surveyor\'s Perch',
-      bg: 'The Southern Pine Plateaus 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Southern Pine Plateaus 9x16.png',
       text: [
           `You sit perched on a platform built high into a thousand-year-old pine. From here, the gloom feels distant.`,
           `You find a leather satchel containing <strong>Dried Rations</strong> and a <strong>Silver-Spool</strong> of shadow-silk.`
@@ -1967,7 +1915,7 @@ const STORY = {
 
   lowland_pass: {
     eyebrow: 'The Eastern Lowland Pass',
-    bg: 'The Eastern Lowland Pass & Timberlines 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Eastern Lowland Pass & Timberlines 9x16.png',
     text: state => {
         const lines = [
           `The pass opens into a broad valley. The air is thick and heavy, and the timberlines give way to the lowland marshes.`,
@@ -2008,7 +1956,7 @@ const STORY = {
 
   outrider_fort: {
       eyebrow: 'Fort Ironhead',
-      bg: 'The Eastern Lowland Pass & Timberlines 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Eastern Lowland Pass & Timberlines 9x16.png',
       text: [
           `The fort is a grim structure of reinforced granite and steam-pipes. Outriders in heavy plate armor patrol the ramparts.`,
           `"Halt, scavenger. Fort Ironhead is for those who serve the Ridge. What's your business?"`
@@ -2022,7 +1970,7 @@ const STORY = {
 
   outrider_armory: {
       eyebrow: 'Ironhead Armory',
-      bg: 'The Eastern Lowland Pass & Timberlines 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Eastern Lowland Pass & Timberlines 9x16.png',
       text: [
           `The Quartermaster grunts. "Reputation isn't free. Earn our trust, and I'll give you the heavy gear."`
       ],
@@ -2040,7 +1988,7 @@ const STORY = {
 
   outrider_scout_quest: {
       eyebrow: 'Scouting the Black Water',
-      bg: 'The Eastern Lowland Pass & Timberlines 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Eastern Lowland Pass & Timberlines 9x16.png',
       text: [
           `You spend hours mapping the corrosive channels of the marshes. The mist is thick, but your Topograph records every shift.`,
           `You return with valuable data on Gloom-Stalker nesting sites.`
@@ -2052,7 +2000,7 @@ const STORY = {
 
   lowland_marshes: {
     eyebrow: 'The Lowland Marshes',
-    bg: 'The Eastern Lowland Pass & Timberlines 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Eastern Lowland Pass & Timberlines 9x16.png',
     text: [
       `A vast, misty wetland where the Living Gloom settles like heavy fog. Bioluminescent lilies provide the only light, their roots tangled in the iron-rich silt.`,
       `Strange humming sounds drift through the mist—the calls of <strong>Marsh-Skimmers</strong>.`,
@@ -2072,7 +2020,7 @@ const STORY = {
 
   marsh_haven: {
       eyebrow: 'Marsh-Haven Trade Town',
-      bg: 'The Eastern Lowland Pass & Timberlines 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Eastern Lowland Pass & Timberlines 9x16.png',
       text: [
           `Marsh-Haven is built on stilts above the black water. It is a rough town of trappers, skimmer-pilots, and herbalists.`,
           `The smell of salt and drying herbs is everywhere.`
@@ -2086,7 +2034,7 @@ const STORY = {
 
   marsh_haven_shop: {
       eyebrow: 'The Herbalist\'s Nook',
-      bg: 'The Eastern Lowland Pass & Timberlines 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Eastern Lowland Pass & Timberlines 9x16.png',
       text: [
           `An old woman with skin like cracked parchment eyes your lantern. "A scavenger, eh? Need something to keep the gloom-rot away?"`
       ],
@@ -2100,7 +2048,7 @@ const STORY = {
 
   marsh_haven_rumors: {
       eyebrow: 'The Salty Skimmer',
-      bg: 'The Eastern Lowland Pass & Timberlines 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Eastern Lowland Pass & Timberlines 9x16.png',
       text: [
           `"They say the Zenith City—Aethelgard—is still lit by the old sun," a pilot whispers. "But you need a sky-license to enter. Or a lot of Glints to bribe the guards."`
       ],
@@ -2111,7 +2059,7 @@ const STORY = {
 
   glimmer_forest: {
     eyebrow: 'The Glimmer Forest',
-    bg: 'The Southern Pine Plateaus 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Southern Pine Plateaus 9x16.png',
     text: [
       `Trees here don't have leaves, but translucent crystal needles that trap the indigo twilight. The ground is a carpet of soft, glowing moss.`,
       `Beyond the trees, the sprawling towers of <strong>Aethelgard</strong>, the City of Eternal Light, reach for the stars.`
@@ -2126,7 +2074,7 @@ const STORY = {
 
   aethelgard_gates: {
       eyebrow: 'Aethelgard Gates',
-      bg: 'Background 9x16.png',
+      bg: 'Umbral_Scavanger_assets/Background 9x16.png',
       text: [
           `Massive gates of white-gold iron block the way. Sentry golems with polished brass armor stand guard.`,
           `"State your business, scavenger. No one enters Aethelgard without a license... or a significant contribution to the city's maintenance."`
@@ -2140,21 +2088,93 @@ const STORY = {
 
   aethelgard_plaza: {
       eyebrow: 'Aethelgard — Sky Plaza',
-      bg: 'Background 9x16.png',
+      bg: 'Umbral_Scavanger_assets/Background 9x16.png',
       text: [
           `Aethelgard is a marvel of the old world. Buildings of crystal and light float above the ground. The streets are clean, and the air feels warm—almost like real sunlight.`,
           `This is the last true bastion of civilization.`
       ],
       choices: [
           { label: 'Visit the Zenith Emporium.', next:'aethelgard_shop', effect:{} },
+          { label: 'Enter the Solar Cathedral.', next:'aethelgard_cathedral', setFlags:['visitedCathedral'], effect: s=>agiE(s,5) },
+          { label: 'Walk through the Crystal Gardens.', next:'aethelgard_gardens', setFlags:['visitedGardens'], effect: s=>agiE(s,5) },
           { label: 'Go to the Central Spire.', next:'ending_rebirth', effect:{} },
           { label: 'Return to the Gates.', next:'aethelgard_gates', effect:{} }
       ]
   },
 
+  aethelgard_cathedral: {
+      eyebrow: 'Solar Cathedral',
+      bg: 'Umbral_Scavanger_assets/Background 9x16.png',
+      text: [
+          `The cathedral's nave is a soaring vault of white silica and gold-leaf. Sunlight—real or perfectly simulated—pours through the high windows.`,
+          `At the altar stands a <strong>Zenith High-Priest</strong>, his robes woven from spun light. He is chanting a harmonic sequence that resonates with the planetary core.`
+      ],
+      choices: [
+          { label: 'Approach the High-Priest.', next:'aethelgard_priest', effect: s=>chaE(s,10) },
+          { label: 'Sneak into the Side Chapels.', next:'aethelgard_chapels', effect: s=>agiE(s,10) },
+          { label: 'Return to the Plaza.', next:'aethelgard_plaza', effect: {} }
+      ]
+  },
+
+  aethelgard_priest: {
+      eyebrow: 'The Light-Bearer',
+      bg: 'Umbral_Scavanger_assets/Background 9x16.png',
+      text: [
+          `The Priest turns. His eyes are glowing orbs of amber. "You carry the scent of the deep, scavenger. The Scriptorium has long been silent."`,
+          `"If you seek to understand the rebirth, you must consult the <strong>Zenith Archives</strong>. But first, prove your devotion to the Light."`
+      ],
+      choices: [
+          { label: 'Offer an Amber Marrow as a donation.', next:'aethelgard_archives', setFlags:['priestDevoted'], condition: s=>s.marrow.includes('amber'), effect: {consumeMarrow:'amber', rep:{zenith:20}, xp:100} },
+          { label: 'Ask about the archives directly.', next:'aethelgard_priest', effect: s=>chaE(s,15) },
+          { label: 'Leave the Priest to his chanting.', next:'aethelgard_cathedral', effect: {} }
+      ]
+  },
+
+  aethelgard_chapels: {
+      eyebrow: 'Cathedral Side Chapels',
+      bg: 'Umbral_Scavanger_assets/Background 9x16.png',
+      text: [
+          `The chapels are quiet, filled with the scent of ozone and ancient incense. In a locked reliquary, you spot a <strong>Zenith Capacitor</strong>.`,
+          `Guards patrol the corridors at regular intervals.`
+      ],
+      choices: [
+          { label: 'Try to pick the lock on the reliquary.', next:'aethelgard_cathedral', setFlags:['hasZenithCapacitor'], condition: s=>!s.flags.hasZenithCapacitor, effect: s=>intE(s,15) },
+          { label: 'Search for hidden scrolls.', next:'aethelgard_chapels', setFlags:['log:Found a scroll mentioning "The Deep Mines" beneath the quarries. It was the source of the raw Solar Marrow.'], effect: s=>intE(s,8), condition: s=>!s.flags.readScroll },
+          { label: 'Retreat back to the Nave.', next:'aethelgard_cathedral', effect: {} }
+      ]
+  },
+
+  aethelgard_archives: {
+      eyebrow: 'The Zenith Archives',
+      bg: 'Umbral_Scavanger_assets/Background 9x16.png',
+      text: [
+          `Rows of floating glass tablets contain the collective knowledge of the Zenith Order. The air is hums with the sound of a thousand cooling fans.`,
+          `You find detailed maps of the <strong>Deep Mines</strong> and the structural blueprints of the Obsidian Patriarch.`
+      ],
+      choices: [
+          { label: 'Download the Deep Mine Coordinates.', next:'aethelgard_plaza', setFlags:['hasMineCoords','visitedArchives'], effect: s=>intE(s,10) },
+          { label: 'Study the Titan Blueprints.', next:'aethelgard_archives', setFlags:['hasTitanBlueprints'], effect: s=>intE(s,12), condition: s=>!s.flags.hasTitanBlueprints },
+          { label: 'Return to the Plaza.', next:'aethelgard_plaza', effect: {} }
+      ]
+  },
+
+  aethelgard_gardens: {
+      eyebrow: 'Crystal Gardens',
+      bg: 'Umbral_Scavanger_assets/Background 9x16.png',
+      text: [
+          `Paths of crushed quartz wind through groves of bio-luminescent trees. Flowers shaped like glass bells chime in the breeze.`,
+          `You spot a patch of rare <strong>Verdant Herbs</strong> growing near a cooling fountain.`
+      ],
+      choices: [
+          { label: 'Harvest the Verdant Herbs.', next:'aethelgard_gardens', setFlags:['harvestedVerdant'], effect: {addInv:{verdantHerbs:3}}, condition: s=>!s.flags.harvestedVerdant },
+          { label: 'Rest by the cooling fountain.', next:'aethelgard_gardens', effect: {health:20, charge:10}, condition: s=>!s.flags.restedInGardens },
+          { label: 'Return to the Plaza.', next:'aethelgard_plaza', effect: {} }
+      ]
+  },
+
   aethelgard_shop: {
       eyebrow: 'Zenith Emporium',
-      bg: 'Background 9x16.png',
+      bg: 'Umbral_Scavanger_assets/Background 9x16.png',
       text: [
           `A merchant in silk robes bows. "Welcome, honored guest. We have only the finest distillates and gear."`
       ],
@@ -2174,7 +2194,7 @@ const STORY = {
   ending_rebirth: {
       ending:true, good:true,
       title:'Dawn of the Rebirth',
-      bg: 'Background 9x16.png',
+      bg: 'Umbral_Scavanger_assets/Background 9x16.png',
       text: [
           `From the top of the white glass spire, you use the Solar Schematics to pulse a command through the planetary network.`,
           `The Titan below responds. A pillar of pure sunlight erupts from the mountain, piercing the indigo sky and shattering the veil of the Cataclysm.`,
@@ -2184,7 +2204,7 @@ const STORY = {
 
   lowland_pass_salvage: {
       eyebrow: 'Valley Riches',
-      bg: 'The Eastern Lowland Pass & Timberlines 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Eastern Lowland Pass & Timberlines 9x16.png',
       text: [
           `By keeping to the ground on your Elk, you discover a half-buried surveyor's cache overgrown with glowing vines.`,
           `Inside, you find refined marrow distillates and a high-altitude optics upgrade.`
@@ -2198,7 +2218,7 @@ const STORY = {
   ending_lowlands: {
       ending:true, good:true,
       title:'The Lowland Pioneer',
-      bg: 'The Eastern Lowland Pass & Timberlines 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Eastern Lowland Pass & Timberlines 9x16.png',
       text: [
           `You descend into the Eastern Lowlands, carrying the tools and knowledge salvaged from the Sunken Scriptorium.`,
           `The settlement welcomes the new source of light you bring. You become a bridge between the deep and the sky, a scavenger who returned from the edge of the world.`
@@ -2208,7 +2228,7 @@ const STORY = {
   ending_keeper: {
       ending:true, good:true,
       title:'Keeper of the Pass',
-      bg: 'The Eastern Lowland Pass & Timberlines 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Eastern Lowland Pass & Timberlines 9x16.png',
       text: [
           `You choose to stay at the timberline, maintaining the watchtower and mapping the shifting Spire.`,
           `With your Chime Drake by your side, you ensure that the path remains open for those who follow. You are no longer just a scavenger; you are a guardian of the Umbral frontier.`
@@ -2217,7 +2237,7 @@ const STORY = {
 
   caldera_entry: {
     eyebrow: 'The Sunken Caldera',
-    bg: 'The Sunken Caldera & Abyssal Throne 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Sunken Caldera & Abyssal Throne 9x16.png',
     text: [
       `Stepping throuugh the blast doors, the dry heat of the forge gives way to a vast volcanic rift. A sea of black obsidian flows is cleaved by rivers of luminescent marrow.`,
       `Your topographical overlay highlights four major sectors: the Basalt Causeway, the <strong>River of Smoldering Glass</strong>, the <strong>Obsidian Spire</strong>, and the <strong>Sunken Slate Quarries</strong>.`
@@ -2234,7 +2254,7 @@ const STORY = {
 
   foundry_city: {
     eyebrow: 'Foundry City — Vat Seven',
-    bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png',
     text: [
       `A sprawling industrial settlement built into the walls of a massive brass vat. The air is thick with the scent of ozone, hot metal, and roasting meat.`,
       `Bridges of scrap-iron span the marrow-rivers below. This is the heart of the <strong>Crust-Strider Guilds</strong>.`
@@ -2249,7 +2269,7 @@ const STORY = {
 
   foundry_guild_hall: {
       eyebrow: 'Crust-Strider Guild Hall',
-      bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png',
       text: [
           `The hall is crowded with scavengers sharing maps and stories. A Guild Warden approaches you.`,
           `"You look like you've seen the deep vaults, scavenger. We have a <strong>Marrow-Leak</strong> in the lower plumbing. Clear it, and we'll reward you with star-fall steel."`
@@ -2266,7 +2286,7 @@ const STORY = {
 
   foundry_quest_leak: {
       eyebrow: 'The Marrow-Leak',
-      bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png',
       text: [
           `You descend into the steaming crawlspaces. A high-pressure pipe of violet Stellar Pitch has burst, attracting a swarm of Glass Crawlers.`,
           `The air is toxic and the crawlers are aggressive.`
@@ -2283,7 +2303,7 @@ const STORY = {
 
   foundry_forge: {
       eyebrow: 'The Master Forge',
-      bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png',
       text: [
           `A massive hydraulic hammer strikes a white-hot ingot. The Master Smith eyes your gear.`,
           `"I can reinforce your belt for more pockets, or forge you a better bow if you have the materials."`
@@ -2303,7 +2323,7 @@ const STORY = {
 
   foundry_market: {
       eyebrow: 'Market Bazaar',
-      bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png',
       text: [
           `Vendors sell everything from preserved salt-pork to illegal Zenith maps. The air is loud with the clatter of <strong>Glints</strong>—the standard currency of the deep.`,
           `A shady dealer in the corner whispers: "Missing a <strong>Silica Core</strong>? I've got one salvaged from a high-vent drone. Costs a pretty penny, though."`
@@ -2320,7 +2340,7 @@ const STORY = {
 
   river_of_glass: {
     eyebrow: 'River of Smoldering Glass',
-    bg: 'The Sunken Caldera & Abyssal Throne 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Sunken Caldera & Abyssal Throne 9x16.png',
     text: [
       `A rushing tributary of pure liquid amber flows here, shrouded in blinding steam. The air is thick with raw crystal deposits.`,
       `The heat is intense, but the marrow is rich and high-grade.`
@@ -2334,7 +2354,7 @@ const STORY = {
 
   obsidian_spire_exterior: {
     eyebrow: 'Obsidian Spire — Base',
-    bg: 'The Sunken Caldera & Abyssal Throne 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Sunken Caldera & Abyssal Throne 9x16.png',
     text: [
       `A jagged pinnacle rises from the center of the rift. Rhythmic seismic tremors echo from deep below.`,
       `Your map marks an ancient refinery outpost built into its apex, but the climb is guarded by shifting tectonic plates.`
@@ -2348,7 +2368,7 @@ const STORY = {
 
   slate_quarries: {
     eyebrow: 'Sunken Slate Quarries',
-    bg: 'The Sunken Slate Quarries 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Sunken Slate Quarries 9x16.png',
     text: [
       `The air is thick with mineral dust. Ancient excavation rigs stand frozen among mountains of raw slate.`,
       `You encounter an <strong>Iron-Scale Burrowing Drake</strong>—an armored quadruped churning the stone with spade-shaped claws. It stops its work, turning its gunmetal-scaled head toward you with a low growl.`,
@@ -2369,15 +2389,85 @@ const STORY = {
               eff.xp = 40;
               return eff;
           } },
+          { label: 'Descend into the Deep Mines.', next:'deep_mines_entry', setFlags:['visitedDeepMines'], condition: s=>s.flags.hasMineCoords || s.flags.readScroll, effect: s=>agiE(s,10) },
           { label: 'Return to the Caldera entrance.', next:'caldera_entry', effect:{} }
         ];
         return c;
     }
   },
 
+  deep_mines_entry: {
+      eyebrow: 'Deep Mines — Entry',
+      bg: 'Umbral_Scavanger_assets/The Sunken Slate Quarries 9x16.png',
+      text: [
+          `A vertical shaft drops into absolute darkness. The Living Gloom is thick here, a physical pressure against your lungs.`,
+          `An ancient freight elevator sits at the rim, its brass controls covered in thick dust. It requires a significant power source to operate.`
+      ],
+      choices: [
+          { label: 'Use a Stellar Pitch to power the elevator.', next:'deep_mines_elevator', condition: s=>s.marrow.includes('stellar'), effect: {consumeMarrow:'stellar', charge: -10} },
+          { label: 'Rappel down the cable shaft.', next:'deep_mines_elevator', effect: s=>agiE(s,25) },
+          { label: 'Return to the Quarries.', next:'slate_quarries', effect: {} }
+      ]
+  },
+
+  deep_mines_elevator: {
+      eyebrow: 'Deep Mines — Descent',
+      bg: 'Umbral_Scavanger_assets/The Sunken Slate Quarries 9x16.png',
+      text: [
+          `The elevator groans as it descends. Sparks fly from the rusted guide-rails. Halfway down, the platform jolts and stops.`,
+          `Two <strong>Gloom-Stalkers</strong> have climbed onto the roof, their claws scraping against the metal.`
+      ],
+      choices: [
+          { label: 'Fight them off with your bow.', next:'deep_mines_bottom', effect: s=> {
+              return { health: -combatScale(20, s.skills.STR), xp: 50 };
+          } },
+          { label: 'Use a Magnesium Flare to blind them.', next:'deep_mines_bottom', condition: s=>s.inventory.flares > 0, effect: {addInv:{flares:-1}, xp: 30} },
+          { label: 'Leap to a maintenance ledge.', next:'deep_mines_cache', effect: s=>agiE(s,15) }
+      ]
+  },
+
+  deep_mines_bottom: {
+      eyebrow: 'Deep Mines — Floor',
+      bg: 'Umbral_Scavanger_assets/The Sunken Slate Quarries 9x16.png',
+      text: [
+          `The elevator reaches the bottom. You are in a vast cavern of raw Solar Marrow veins. The ground itself glows with a dangerous intensity.`,
+          `A <strong>Titan-Class Driller</strong> stands dormant in the center, its massive drill-head aimed at the core.`
+      ],
+      choices: [
+          { label: 'Harvest Pure Solar Marrow.', next:'deep_mines_bottom', setFlags:['harvestedSolarDeep'], effect: {addInv:{solarMarrow:1}, health:-20}, condition: s=>!s.flags.harvestedSolarDeep },
+          { label: 'Investigate the Driller\'s controls.', next:'deep_mines_bottom', setFlags:['log:The Driller was designed to bypass the Titan and extract light directly from the core. It is a world-breaker.'], effect: s=>intE(s,10), condition: s=>!s.flags.inspectedDriller },
+          { label: 'Search for the overseer\'s cache.', next:'deep_mines_cache', effect: s=>agiE(s,10) },
+          { label: 'Return to the elevator.', next:'deep_mines_entry', effect: {} }
+      ]
+  },
+
+  deep_mines_cache: {
+      eyebrow: 'Overseer\'s Cache',
+      bg: 'Umbral_Scavanger_assets/The Sunken Slate Quarries 9x16.png',
+      text: [
+          `A reinforced steel bunker tucked into a side tunnel. The door is sealed by a complex Zenith biometric lock.`
+      ],
+      choices: [
+          { label: 'Use the Zenith Capacitor to override the lock.', next:'deep_mines_cache_looted', condition: s=>s.flags.hasZenithCapacitor, effect: {xp: 150} },
+          { label: 'Attempt to bypass the circuitry.', next:'deep_mines_cache_looted', effect: s=>intE(s,20) },
+          { label: 'Return to the main shaft.', next:'deep_mines_bottom', effect: {} }
+      ]
+  },
+
+  deep_mines_cache_looted: {
+      eyebrow: 'Overseer\'s Riches',
+      bg: 'Umbral_Scavanger_assets/The Sunken Slate Quarries 9x16.png',
+      text: [
+          `Inside, you find a trove of old-world technology: two <strong>Zenith Lenses</strong>, a <strong>Refined Marrow-Filter</strong>, and a crate of <strong>Star-Fall Steel</strong>.`
+      ],
+      choices: [
+          { label: 'Take the gear and return to the floor.', next:'deep_mines_bottom', setFlags:['lootedDeepCache'], effect: {addInv:{scrapMetal:10, kineticArrows:10}, glints:200} }
+      ]
+  },
+
   slate_quarries_bond_fail: {
       eyebrow: 'Churning Earth',
-      bg: 'The Sunken Slate Quarries 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Sunken Slate Quarries 9x16.png',
       text: [
           `The Burrowing Drake ignores your attempt at connection. Your authority is insufficient to calm its territorial instincts.`,
           `It slams its spade-shaped claws into the ground, causing the stone beneath you to buckle and heave. You are forced to scramble back to avoid being crushed.`
@@ -2390,7 +2480,7 @@ const STORY = {
 
   slate_quarries_bond: {
       eyebrow: 'Stone-Kin Bond',
-      bg: 'The Sunken Slate Quarries 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Sunken Slate Quarries 9x16.png',
       text: [
           `The Burrowing Drake senses your intent. It stops its churning and nudges a heavy, metal-flecked stone toward you.`,
           `It values your presence and the heat of your gear. You have formed a bond with the kinetic defender of the quarries.`
@@ -2402,7 +2492,7 @@ const STORY = {
 
   slate_quarries_ore: {
       eyebrow: 'Rare Deposits',
-      bg: 'The Sunken Slate Quarries 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Sunken Slate Quarries 9x16.png',
       text: [
           `The Chime Drake\'s ping reveals a dense vein of star-fall steel beneath a frozen rig. You harvest a significant amount of high-grade ore.`
       ],
@@ -2413,7 +2503,7 @@ const STORY = {
 
   basalt_causeway: {
     eyebrow: 'Western Ridge',
-    bg: 'The Basalt Causeway & Mining Gantry 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Basalt Causeway & Mining Gantry 9x16.png',
     text: [
       `Towering hexagonal basalt pillars fit together like giant pavers. Eighty paces out, a rusted iron gantry holds three mining cages suspended over a magma fissure.`,
       `In the central cage, your monocular catches the silhouette of a <strong>Stalker\'s Recurve Bow</strong> and a quiver tube.`
@@ -2425,7 +2515,7 @@ const STORY = {
 
   mining_cage_scout: {
       eyebrow: 'The Perched Stalker',
-      bg: 'The Basalt Causeway & Mining Gantry 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Basalt Causeway & Mining Gantry 9x16.png',
       text: [
           `A <strong>Gloom Wyrm</strong> is crouched on the anchoring crossbeam above the cage. It is sensitive to heat and light.`,
           `There is a ten-foot gap of empty air between the ridge and the cage.`
@@ -2442,7 +2532,7 @@ const STORY = {
 
   mining_cage_get_bow: {
       eyebrow: 'Mining Cache',
-      bg: 'The Basalt Causeway & Mining Gantry 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Basalt Causeway & Mining Gantry 9x16.png',
       text: state => {
           if (state.flags.hasBow) {
               return [`The central cage is empty now, the recurve bow and its quiver safely in your possession.`];
@@ -2466,7 +2556,7 @@ const STORY = {
 
   refinery_infiltration: {
     eyebrow: 'Upper Refinery Gallery',
-    bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png',
     text: [
       `The tunnel opens into a gallery where massive brass distillation vats hang over magma.`,
       `Two clockwork <strong>Sentry Golems</strong> pace the catwalks, their searchlights scanning for light sources. One golem is guarding the central control room hatch.`
@@ -2479,7 +2569,7 @@ const STORY = {
 
   refinery_sneak: {
       eyebrow: 'Refinery Maintenance',
-      bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png',
       text: [
           `The drake\'s ping locates an unmonitored maintenance channel beneath the floorboards. You move hand-over-hand along the copper piping, suspended above the magma.`,
           `You reach the far side, but the second golem is covering the exit hatch with a 360-degree sweep.`
@@ -2491,7 +2581,7 @@ const STORY = {
 
   golem_ambush: {
       eyebrow: 'The Ambush',
-      bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png',
       text: [
           `You draw a <strong>Kinetic Disruptor Arrow</strong> primed with Stellar Pitch. You fire. The arrow strikes the golem\'s pressure-regulator.`,
           `A cloud of white steam vents violently as the automaton colapses silently. The path to the hatch is clear.`
@@ -2503,7 +2593,7 @@ const STORY = {
 
   refinery_control_room: {
     eyebrow: 'Refinery Control Room',
-    bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png',
     text: [
       `Hundreds of glowing glass columns are filled with emerald <strong>Verdant Flux</strong>, violet Stellar Pitch, and molten-gold marrow.`,
       `At the center stands a massive brass navigational console projecting a 3D light-map of the subterranean world. It needs a power boost to show the deeper layers.`
@@ -2525,7 +2615,7 @@ const STORY = {
 
   refinery_salvage: {
       eyebrow: 'Refinery Cache',
-      bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png',
       text: [
           `You find two <strong>Pneumatic Grappling Bolts</strong> and a spool of <strong>Shadow-Silk Line</strong>.`
       ],
@@ -2536,7 +2626,7 @@ const STORY = {
 
   refinery_supercharge: {
     eyebrow: 'The World Rendered',
-    bg: 'The Upper Refinery Gallery & Control Outposts 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Upper Refinery Gallery & Control Outposts 9x16.png',
     text: [
       `The projection explodes into a room-spanning holographic map. It reveals:`,
       `1. The <strong>Obsidian Patriarch\'s Throne</strong>: a dormant titan deep in the northern abyss.`,
@@ -2550,7 +2640,7 @@ const STORY = {
 
   sun_well_observatory: {
       eyebrow: 'Sun-Well Observatory',
-      bg: 'The Sunken Caldera & Abyssal Throne 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Sunken Caldera & Abyssal Throne 9x16.png',
       text: [
           `You stand on a gantry perched over the northern rim.`,
           `Above is the sealed Iris Gate of the Sun-Well. Below is the sheer 800-foot drop to the Obsidian Patriarch\'s Throne.`
@@ -2562,7 +2652,7 @@ const STORY = {
 
   titan_descent: {
     eyebrow: 'The Abyss Throne',
-    bg: 'The Sunken Caldera & Abyssal Throne 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Sunken Caldera & Abyssal Throne 9x16.png',
     text: [
       `You hang suspended upside-down on a shadow-silk filament directly over the titan\'s colossal brow.`,
       `The <strong>Obsidian Patriarch</strong> pulses with violet Stellar Pitch. On its forehead is a mechanical iris—an extraction portal radiating pure white-violet Solar Marrow.`
@@ -2574,7 +2664,7 @@ const STORY = {
 
   titan_brow: {
       eyebrow: 'The Titan\'s Brow',
-      bg: 'The Sunken Caldera & Abyssal Throne 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Sunken Caldera & Abyssal Throne 9x16.png',
       text: [
           `The surface is warm and vibrates with a tectonic pulse. The iris portal contains the <strong>Apex Marrow Crucible</strong>.`,
           `Suddenly, a harpoon bolt thuds into the obsidian inches from your hand. Kaelen is here, perched on the titan's ear-plate.`,
@@ -2595,7 +2685,7 @@ const STORY = {
 
   kaelen_fight: {
       eyebrow: 'Duel of the Scavengers',
-      bg: 'The Sunken Caldera & Abyssal Throne 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Sunken Caldera & Abyssal Throne 9x16.png',
       text: [
           `Steel clashes against hide. Kaelen is fast, but your time in the deep has made you relentless. You drive him to the edge of the brow.`,
           `"Fine!" he spits, blood on his lip. "Take the light. The gloom will have you soon enough." He grapples away into the darkness.`
@@ -2608,7 +2698,7 @@ const STORY = {
 
   kaelen_ally: {
       eyebrow: 'An Unlikely Pact',
-      bg: 'The Sunken Caldera & Abyssal Throne 9x16.png',
+      bg: 'Umbral_Scavanger_assets/The Sunken Caldera & Abyssal Throne 9x16.png',
       text: [
           `Kaelen lowers his weapon. "A cage? So the Zenith bastards lied to us all. Fine. We do this together. You take the cables, I'll guard the perimeter."`,
           `With Kaelen's help, the titan awakens with a roar that shakes the planet's core.`
@@ -2620,7 +2710,7 @@ const STORY = {
 
   final_command: {
     eyebrow: 'Command of the Deep',
-    bg: 'The Sunken Caldera & Abyssal Throne 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Sunken Caldera & Abyssal Throne 9x16.png',
     text: [
       `Your vision splits as you take control of the titan. You feel the tectonic pulse of the entire crust.`,
       `The titan rises to its feet, lifting you 800 feet into the air. The sentry armies salute their new master.`,
@@ -2636,7 +2726,7 @@ const STORY = {
 
   titan_surface_ascent: {
     eyebrow: 'The Surface Breach',
-    bg: 'The Southern Pine Plateaus 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Southern Pine Plateaus 9x16.png',
     text: [
       `The titan fires a blinding lance of solar energy. The massive steel Iris Gate three miles above tears open.`,
       `For the first time in centuries, brilliant daylight cascades down into the caldera.`,
@@ -2652,7 +2742,7 @@ const STORY = {
   ending_surface: {
     ending:true, good:true,
     title:'The Surface Breach',
-    bg: 'The Southern Pine Plateaus 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Southern Pine Plateaus 9x16.png',
     text: [
       `The expedition beneath the caldera is complete. You have returned to the surface, bringing light and the power of the deep with you.`,
       `The future of the surface world is now in your hands.`
@@ -2662,7 +2752,7 @@ const STORY = {
   dark_ending: {
     ending:true, good:false, forced:true,
     title:'Swallowed by the Dark',
-    bg: 'The Black Ice Shelf 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Black Ice Shelf 9x16.png',
     text: [
       `The Lucid Lantern gives one last, apologetic flicker and goes out. The living gloom closes in, patient and absolute.`,
       `Somewhere above, another scavenger will find your cold gear and try to finish what you started.`
@@ -2672,7 +2762,7 @@ const STORY = {
   blood_ending: {
     ending:true, good:false, forced:true,
     title:'Claimed by the Deep',
-    bg: 'The Black Ice Shelf 9x16.png',
+    bg: 'Umbral_Scavanger_assets/The Black Ice Shelf 9x16.png',
     text: [
       `The cold and the wounds become too much to bear. Your strength fails, and your vision blurs into the indigo twilight.`,
       `You have given everything to the deep, and the deep has finally claimed you.`
@@ -2981,19 +3071,13 @@ function renderStatusBar(){
   }).join('');
 
   const invSummary = [];
-  if(state.inventory.arrows) invSummary.push(`🏹 ${state.inventory.arrows}`);
-  if(state.inventory.kineticArrows) invSummary.push(`🟣 ${state.inventory.kineticArrows}`);
-  if(state.inventory.thermalArrows) invSummary.push(`🟠 ${state.inventory.thermalArrows}`);
-  if(state.inventory.grappleBolts) invSummary.push(`⚓ ${state.inventory.grappleBolts}`);
-  if(state.inventory.flares) invSummary.push(`✨ ${state.inventory.flares}`);
+  if(state.inventory.arrows) invSummary.push(`<span style="display:flex; align-items:center; gap:6px;">🏹 ${state.inventory.arrows}</span>`);
+  if(state.inventory.grappleBolts) invSummary.push(`<span style="display:flex; align-items:center; gap:6px;">⚓ ${state.inventory.grappleBolts}</span>`);
+  if(state.inventory.flares) invSummary.push(`<span style="display:flex; align-items:center; gap:6px;">✨ ${state.inventory.flares}</span>`);
 
-  const dropletIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stat-mini-icon"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>`;
-  const pawIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stat-mini-icon"><path d="M12 15.5l-3.2 1.9 1-3.6-2.8-2.4 3.7-.3 1.3-3.4 1.3 3.4 3.7.3-2.8 2.4 1 3.6z"/></svg>`;
-  const mountIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stat-mini-icon"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>`;
-  const heartIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stat-mini-icon" style="color:var(--danger);"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
-  const glintIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stat-mini-icon" style="color:var(--amber);"><circle cx="12" cy="12" r="8"/><path d="M12 16V8M8 12h8"/></svg>`;
-  const beltIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stat-mini-icon" style="color:var(--bronze);"><rect x="3" y="10" width="18" height="4"/><path d="M8 10v4M16 10v4"/></svg>`;
-  const xpIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="stat-mini-icon" style="color:var(--violet);"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>`;
+  const dropletIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="stat-mini-icon" style="color:var(--violet);"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>`;
+  const heartIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="stat-mini-icon" style="color:var(--danger);"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+  const glintIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="stat-mini-icon" style="color:var(--amber);"><circle cx="12" cy="12" r="8"/><path d="M12 16V8M8 12h8"/></svg>`;
 
   const xpPct = (state.xp / state.xpToNext) * 100;
 
@@ -3002,39 +3086,42 @@ function renderStatusBar(){
     <!-- Vital Gauges -->
     <div class="status-vitals">
         <div class="gauge">${lanternSVG(state.charge)}<div class="gauge-label">Lantern</div></div>
-        <div class="status-health-pill">
-            ${heartIcon} <span>${state.health}%</span>
+        <div style="font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--danger); display:flex; align-items:center; gap:6px; margin-top:12px; background:rgba(0,0,0,0.3); padding:2px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.05);">
+            ${heartIcon} ${state.health}%
         </div>
     </div>
 
     <!-- Main Data -->
     <div class="status-main">
         <!-- Row 1: Progression -->
-        <div class="status-row">
+        <div class="status-row" style="gap:24px;">
             <div class="status-progression">
-                <span style="color:var(--violet); font-weight:600;">LVL ${state.level}</span>
-                <div class="xp-bar-wrap" title="${state.xp}/${state.xpToNext} XP">
-                    <div class="xp-bar-fill" style="width:${xpPct}%"></div>
+                <span style="color:var(--violet); font-weight:700; font-size:12px; letter-spacing:0.05em;">LVL ${state.level}</span>
+                <div class="xp-bar-wrap" title="${state.xp}/${state.xpToNext} XP" style="height:6px; width:100px; background:rgba(139,122,209,0.1); border-radius:3px;">
+                    <div class="xp-bar-fill" style="width:${xpPct}%; height:100%; background:var(--violet); box-shadow:0 0 10px var(--violet);"></div>
                 </div>
             </div>
-            <div class="status-glints">
-                ${glintIcon} <span>${state.glints}</span>
+            <div class="status-glints" style="font-size:16px; color:var(--amber); font-weight:700;">
+                ${glintIcon} ${state.glints}
             </div>
         </div>
 
         <!-- Row 2: Capacity & Inventory -->
-        <div class="status-row">
+        <div class="status-row" style="gap:24px;">
             <div class="status-ampoule-group">
-                <span class="status-marrow-count">${dropletIcon} <span>${state.marrow.length}/${state.marrowCap}</span></span>
+                <div style="display:flex; align-items:center; gap:8px; font-family:'IBM Plex Mono', monospace; font-size:13px; color:var(--violet); font-weight:600;">
+                    ${dropletIcon}
+                    <span>${state.marrow.length}/${state.marrowCap}</span>
+                </div>
                 <div class="ampoules">${ampoules}</div>
             </div>
-            <div class="inv-summary">
-                ${invSummary.join('<span style="color:rgba(255,255,255,0.1);">|</span>')}
+            <div class="inv-summary" style="font-family:'IBM Plex Mono', monospace; font-size:13px; font-weight:600; color:var(--parchment); display:flex; gap:16px;">
+                ${invSummary.join('<span style="color:rgba(255,255,255,0.15);">|</span>')}
             </div>
         </div>
 
         <!-- Row 3: Quest Tags -->
-        ${tags.length ? `<div class="inv-tags">${tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>` : ''}
+        ${tags.length ? `<div class="inv-tags">${tags.map(t=>`<span class="tag" ${t === 'Lumic Emitter' || t === 'Umbral Edge' ? 'style="border-color:var(--amber); box-shadow: 0 0 8px var(--amber-dim);"' : ''}>${t}</span>`).join('')}</div>` : ''}
     </div>
 
     <!-- Side Actions -->
@@ -3098,11 +3185,13 @@ function renderItemsPopup(){
   if(state.flags.hasMandibles) items.push({ name:'Mandibles', desc:'Silica pincers from a Glass Crawler.' });
   if(state.flags.hasDynamoCore) items.push({ name:'Dynamo Core', desc:'A pressurized gyroscopic flywheel.' });
   if(state.flags.hasValveCap) items.push({ name:'Valve Cap', desc:'A concentrated plug of high-density Amber Glass.' });
+  if(state.flags.hasZenithCapacitor) items.push({ name:'Zenith Capacitor', desc:'A high-capacity energy storage unit from the Aethelgard Cathedral.' });
 
   // Consumables & Materials
   if(state.inventory.saltPork) items.push({ name:`Salt-pork (${state.inventory.saltPork})`, desc:'Preserved meat. Used for taming beasts and emergency recovery.' });
   if(state.inventory.rawMeat) items.push({ name:`Raw Game (${state.inventory.rawMeat})`, desc:'Tough mountain meat. Needs fire or salt.' });
   if(state.inventory.herbs) items.push({ name:`Frost Herbs (${state.inventory.herbs})`, desc:'Resilient alpine flora. Smells of pine and mint.' });
+  if(state.inventory.verdantHerbs) items.push({ name:`Verdant Herbs (${state.inventory.verdantHerbs})`, desc:'Bio-luminescent flora from Aethelgard. Pulses with life.' });
   if(state.inventory.salt) items.push({ name:`Rock Salt (${state.inventory.salt})`, desc:'Mineral deposits from the deep veins.' });
   if(state.inventory.scrapMetal) items.push({ name:`Scrap Metal (${state.inventory.scrapMetal})`, desc:'Oxidized iron and bronze from the refinery.' });
 
@@ -3286,7 +3375,7 @@ function renderCodexPopup(category){
         <button class="popup-close" onclick="closeCodexDetail()" style="left:16px; right:auto;">&larr;</button>
         <div class="popup-title" style="margin-top:20px;">${item.name}</div>
         <div class="popup-sub">${data.title}</div>
-        ${item.img ? `<img src="${getAsset(item.img)}" class="codex-detail-img" alt="${item.name}">` : ''}
+        ${item.img ? `<img src="Umbral_Scavanger_assets/${item.img}" class="codex-detail-img" alt="${item.name}">` : ''}
         <div class="popup-item-desc" style="font-size:16px;">${item.desc}</div>
       `;
   }
@@ -3369,6 +3458,13 @@ function craftItem(recipeId) {
             s.flags.hasProtectionBalm = true;
             xpGain = 40;
         }
+    } else if (recipeId === 'gloom_shield') {
+        if (s.inventory.verdantHerbs >= 2 && s.inventory.salt >= 1) {
+            s.inventory.verdantHerbs -= 2;
+            s.inventory.salt--;
+            s.flags.hasGloomShield = true;
+            xpGain = 60;
+        }
     }
     applyEffect({xp: xpGain}, s);
     saveGame();
@@ -3385,6 +3481,7 @@ function renderCraftingPopup() {
         { id: 'grapple_bolt', name: 'Grapple Bolt', req: '1 Scrap Metal, 20 Shadow-Silk', result: '1 Grappling Bolt', can: s.inventory.scrapMetal >= 1 && s.inventory.shadowSilk >= 20 },
         { id: 'glass_ampoule', name: 'Glass Ampoule', req: '1 Scrap Metal (Requires Silica Core)', result: '+1 Ampoule Slot', can: s.inventory.scrapMetal >= 1 && s.flags.hasSilicaCore && s.marrowCap < s.beltLimit },
         { id: 'protection_balm', name: 'Protection Balm', req: '1 Herb, 1 Salt', result: 'Prevents Gloom-Rot', can: s.inventory.herbs >= 1 && s.inventory.salt >= 1 && !s.flags.hasProtectionBalm },
+        { id: 'gloom_shield', name: 'Gloom-Shield Potion', req: '2 Verdant Herbs, 1 Salt', result: 'Resist Heavy Gloom', can: s.inventory.verdantHerbs >= 2 && s.inventory.salt >= 1 && !s.flags.hasGloomShield },
         { id: 'marrow_infusion', name: 'Marrow Infusion', req: '1 Amber Marrow', result: '+10 Charge', can: s.marrow.includes('amber') },
     ];
 
@@ -3450,7 +3547,7 @@ function render(){
   const fullBg = document.getElementById('fullscreen-bg');
 
   if(state.node === 'character_selection'){
-      fullBg.style.backgroundImage = `url('${getAsset('Background 9x16.png')}')`;
+      fullBg.style.backgroundImage = "url('Umbral_Scavanger_assets/Background 9x16.png')";
       app.innerHTML = `
         <div class="title-screen creation-screen">
           <div class="glyphline">Identity</div>
@@ -3458,11 +3555,11 @@ function render(){
           <div class="creation-sub">Choose the face that will brave the dark.</div>
           <div class="char-select-wrap">
             <div class="char-card" onclick="chooseCharacter('male')">
-              <img src="${getAsset('Male Character.png')}" alt="Male">
+              <img src="Umbral_Scavanger_assets/Male Character.png" alt="Male">
               <div class="name">Male</div>
             </div>
             <div class="char-card" onclick="chooseCharacter('female')">
-              <img src="${getAsset('Female Character.png')}" alt="Female">
+              <img src="Umbral_Scavanger_assets/Female Character.png" alt="Female">
               <div class="name">Female</div>
             </div>
           </div>
@@ -3473,7 +3570,7 @@ function render(){
   }
 
   if(state.node === 'slot_selection'){
-    fullBg.style.backgroundImage = `url('${getAsset('Background 9x16.png')}')`;
+    fullBg.style.backgroundImage = "url('Umbral_Scavanger_assets/Background 9x16.png')";
     const slots = [1,2,3].map(slot => {
       const summary = getSlotSummary(slot);
       return `
@@ -3504,7 +3601,7 @@ function render(){
   }
 
   if(state.node === 'title'){
-    fullBg.style.backgroundImage = `url('${getAsset('Background 9x16.png')}')`;
+    fullBg.style.backgroundImage = "url('Umbral_Scavanger_assets/Background 9x16.png')";
     app.innerHTML = `
     <div class="title-screen">
       <svg class="title-backdrop" viewBox="0 0 520 340" xmlns="http://www.w3.org/2000/svg">
@@ -3562,7 +3659,7 @@ function render(){
   }
 
   if(state.node === 'creation'){
-    fullBg.style.backgroundImage = `url('${getAsset('Background 9x16.png')}')`;
+    fullBg.style.backgroundImage = "url('Umbral_Scavanger_assets/Background 9x16.png')";
     const s = state.skills;
     const remaining = state.skillPoints;
     const rows = ['STR','INT','CHA','AGI'].map(k=>{
@@ -3594,7 +3691,7 @@ function render(){
   markVisited(state.node);
 
   if (node.bg) {
-    fullBg.style.backgroundImage = `url('${getAsset(node.bg)}')`;
+    fullBg.style.backgroundImage = `url('${node.bg}')`;
   }
 
   if(node.ending){
