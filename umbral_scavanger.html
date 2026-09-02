@@ -3837,14 +3837,15 @@ function selectSlot(slot) {
     if (loadGame(slot)) {
       render();
       window.scrollTo({top:0, behavior:'smooth'});
+      return;
     }
-  } else {
-    activeSlot = slot;
-    clearSave(slot);
-    state = initialState();
-    state.node = 'character_selection';
-    render();
+    slotSelectMode = 'new';
   }
+  activeSlot = slot;
+  clearSave(slot);
+  state = initialState();
+  state.node = 'character_selection';
+  render();
 }
 
 function chooseCharacter(gender) {
@@ -3905,7 +3906,10 @@ function adjustSkill(key, delta){
               }
           });
           const beginBtn = document.querySelector('.begin-btn');
-          if (beginBtn) beginBtn.disabled = remaining > 0;
+          if (beginBtn) {
+              beginBtn.disabled = remaining > 0;
+              beginBtn.textContent = remaining > 0 ? `Allocate ${remaining} Point${remaining===1?'':'s'} to Proceed` : 'Begin the Descent';
+          }
           saveGame();
           return;
       }
@@ -4825,26 +4829,7 @@ function renderCraftingPopup() {
     `;
 }
 
-function renderChroniclePopup() {
-    const list = state.chronicle.map(e => {
-        return `<div class="popup-item">
-            <div class="popup-item-desc" style="font-family:'Cinzel', serif; color:var(--parchment); font-style:italic; font-size:15px; border-left: 2px solid var(--amber); padding-left: 12px; margin-bottom: 5px;">
-                "${e.text}"
-            </div>
-            <div class="slot-info-line" style="font-size:10px; color:var(--stone); text-transform: uppercase; letter-spacing: 1px;">
-                ${STORY[e.node] ? STORY[e.node].eyebrow : 'In the Deep'}
-            </div>
-        </div>`;
-    }).reverse().join('');
 
-    return `
-      <div class="popup-title">The Chronicle</div>
-      <div class="popup-sub">A narrative record of your journey</div>
-      ${state.chronicle.length === 0 ? `
-        <div class="companion-empty" style="margin-top:20px;">The pages are blank. Your story is yet to be written.</div>
-      ` : `<div style="max-height: 400px; overflow-y: auto; padding-top: 10px;">${list}</div>`}
-    `;
-}
 
 function renderLogPopup() {
     const fieldNotes = state.log.filter(l => !l.includes('Zenith'));
@@ -4865,26 +4850,7 @@ function renderLogPopup() {
     `;
 }
 
-function renderChroniclePopup() {
-    const list = state.chronicle.map(e => {
-        return `<div class="popup-item">
-            <div class="popup-item-desc" style="font-family:'Cinzel', serif; color:var(--parchment); font-style:italic; font-size:15px; border-left: 2px solid var(--amber); padding-left: 12px; margin-bottom: 5px;">
-                "${e.text}"
-            </div>
-            <div class="slot-info-line" style="font-size:10px; color:var(--stone); text-transform: uppercase; letter-spacing: 1px;">
-                ${STORY[e.node] ? STORY[e.node].eyebrow : 'In the Deep'}
-            </div>
-        </div>`;
-    }).reverse().join('');
 
-    return `
-      <div class="popup-title">The Chronicle</div>
-      <div class="popup-sub">A narrative record of your journey</div>
-      ${state.chronicle.length === 0 ? `
-        <div class="companion-empty" style="margin-top:20px;">The pages are blank. Your story is yet to be written.</div>
-      ` : `<div style="max-height: 400px; overflow-y: auto; padding-top: 10px;">${list}</div>`}
-    `;
-}
 
 function renderPopup(){
   if (state.activeMinigame) {
@@ -5213,7 +5179,7 @@ function render(){
       <div class="creation-sub">Distribute your points. Every scavenger survives differently — there's no wrong build, only a different way to run out of light.</div>
       <div class="points-remaining">${remaining} POINT${remaining===1?'':'S'} REMAINING</div>
       <div class="stat-list">${rows}</div>
-      <button class="begin-btn" onclick="confirmCreation()" ${remaining>0?'disabled':''}>Begin the Descent</button>
+      <button class="begin-btn" onclick="confirmCreation()" ${remaining>0?'disabled':''}>${remaining > 0 ? `Allocate ${remaining} Point${remaining===1?'':'s'} to Proceed` : 'Begin the Descent'}</button>
     </div>`;
     return;
   }
@@ -5283,6 +5249,12 @@ function wireUp(choices){
 render();
 initParticles();
 updateParticles();
+
+if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('Umbral_Scavanger_assets/sw.js').catch(e => console.log('SW reg:', e));
+  });
+}
 </script>
 </body>
 </html>
