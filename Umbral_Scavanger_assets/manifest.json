@@ -1,10 +1,11 @@
 {
-  "name": "Umbral Scavenger",
+  "name": "Umbral Scavenger — The Sunken Scriptorium",
   "short_name": "Scavenger",
   "description": "Harvest light in the deep crust beneath Ashfang Ridge.",
   "start_url": "../umbral_scavanger.html",
   "scope": "../",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#0a0c10",
   "theme_color": "#0a0c10",
   "icons": [
