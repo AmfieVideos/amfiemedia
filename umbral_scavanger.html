@@ -1516,6 +1516,31 @@ const MAP_LOCATIONS = [
 
 /* ============================= STATE & PERSISTENCE ============================= */
 
+const SafeStorage = {
+  _mem: {},
+  getItem(key) {
+    try {
+      return localStorage.getItem(key);
+    } catch (e) {
+      return this._mem[key] || null;
+    }
+  },
+  setItem(key, val) {
+    try {
+      localStorage.setItem(key, val);
+    } catch (e) {
+      this._mem[key] = val;
+    }
+  },
+  removeItem(key) {
+    try {
+      localStorage.removeItem(key);
+    } catch (e) {
+      delete this._mem[key];
+    }
+  }
+};
+
 const initialMetaState = () => ({
   beasts: { crawler: 0, drake: 0, wyrm: 0, golem: 0, titan: 0, elk: 0, burrower: 0, stalker: 0 },
   discoveries: 0,
@@ -1524,10 +1549,16 @@ const initialMetaState = () => ({
 
 let metaState = initialMetaState();
 
-function saveMeta() { localStorage.setItem('umbral_scavenger_meta', JSON.stringify(metaState)); }
+function saveMeta() {
+  SafeStorage.setItem('umbral_scavenger_meta', JSON.stringify(metaState));
+}
 function loadMeta() {
-  const saved = localStorage.getItem('umbral_scavenger_meta');
-  if (saved) metaState = JSON.parse(saved);
+  try {
+    const saved = SafeStorage.getItem('umbral_scavenger_meta');
+    if (saved) metaState = Object.assign(initialMetaState(), JSON.parse(saved));
+  } catch (e) {
+    metaState = initialMetaState();
+  }
 }
 loadMeta();
 
@@ -1603,7 +1634,7 @@ let state = initialState();
 function saveGame() {
   if (activeSlot === null) return;
   try {
-    localStorage.setItem(getSaveKey(activeSlot), JSON.stringify(state));
+    SafeStorage.setItem(getSaveKey(activeSlot), JSON.stringify(state));
   } catch (e) {
     console.error("Failed to save game:", e);
   }
@@ -1611,7 +1642,7 @@ function saveGame() {
 
 function loadGame(slot) {
   try {
-    const saved = localStorage.getItem(getSaveKey(slot));
+    const saved = SafeStorage.getItem(getSaveKey(slot));
     if (saved) {
       state = JSON.parse(saved);
       state.activePopup = null;
@@ -1625,17 +1656,21 @@ function loadGame(slot) {
 }
 
 function hasSave(slot) {
-  if (slot === undefined) {
-    return !!(localStorage.getItem(getSaveKey(1)) ||
-              localStorage.getItem(getSaveKey(2)) ||
-              localStorage.getItem(getSaveKey(3)));
+  try {
+    if (slot === undefined) {
+      return !!(SafeStorage.getItem(getSaveKey(1)) ||
+                SafeStorage.getItem(getSaveKey(2)) ||
+                SafeStorage.getItem(getSaveKey(3)));
+    }
+    return !!SafeStorage.getItem(getSaveKey(slot));
+  } catch (e) {
+    return false;
   }
-  return !!localStorage.getItem(getSaveKey(slot));
 }
 
 function getSlotSummary(slot) {
   try {
-    const saved = localStorage.getItem(getSaveKey(slot));
+    const saved = SafeStorage.getItem(getSaveKey(slot));
     if (saved) {
       const s = JSON.parse(saved);
       return {
@@ -1650,7 +1685,9 @@ function getSlotSummary(slot) {
 }
 
 function clearSave(slot) {
-  localStorage.removeItem(getSaveKey(slot || activeSlot));
+  try {
+    SafeStorage.removeItem(getSaveKey(slot || activeSlot));
+  } catch (e) {}
 }
 
 /* ============================= SCALING HELPERS ============================= */
