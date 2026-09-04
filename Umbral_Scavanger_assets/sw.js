@@ -1,4 +1,4 @@
-const CACHE_NAME = 'umbral-scavenger-v2';
+const CACHE_NAME = 'umbral-scavenger-v3';
 
 // Core app shell pre-cached on install
 const PRECACHE_ASSETS = [
